@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0f172a">
-<title>قلم‌یار — دستیار حقوقی و نوشتاری</title>
+<title>قلم‌یار حقوقی — دستیار نوشتاری</title>
 <style>
 :root{--bg:#0f172a;--card:#1e293b;--card2:#273449;--txt:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--rec:#ef4444;--law:#f59e0b}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -22,7 +22,7 @@ button.rec{background:var(--rec);color:#fff;font-weight:bold;width:100%;padding:
 button.rec.on{background:#7f1d1d;animation:pulse 1.4s infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.6)}50%{box-shadow:0 0 0 14px rgba(239,68,68,0)}}
 .status{font-size:13px;color:var(--muted);text-align:center;margin-top:8px;min-height:18px}
-textarea{width:100%;min-height:240px;background:var(--card);color:var(--txt);border:1px solid #334155;border-radius:16px;padding:14px;font-size:17px;line-height:2;font-family:inherit;resize:vertical}
+textarea{width:100%;min-height:220px;background:var(--card);color:var(--txt);border:1px solid #334155;border-radius:16px;padding:14px;font-size:17px;line-height:2;font-family:inherit;resize:vertical}
 textarea:focus{outline:2px solid var(--accent)}
 .interim{color:var(--muted);font-style:italic;font-size:15px;min-height:22px;padding:4px 8px}
 .tools{display:grid;gap:8px;margin-bottom:8px}
@@ -31,11 +31,16 @@ textarea:focus{outline:2px solid var(--accent)}
 .note .t{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .note button{padding:8px 10px;font-size:13px}
 .hint{font-size:12px;color:var(--muted);line-height:1.9;margin-top:10px}
+/* بخش اصطلاحات حقوقی */
+#legalBox{display:none; background:#2d1b1b; border:1px solid #7f1d1d; border-radius:12px; padding:12px; margin-top:10px;}
+#legalBox h3{margin:0 0 8px 0; font-size:14px; color:#fca5a5;}
+.legal-tag{display:inline-block; background:#7f1d1d; color:#fff; padding:4px 8px; border-radius:8px; font-size:13px; margin:4px; cursor:pointer;}
+.legal-def{font-size:13px; color:#fca5a5; margin-top:6px; display:none; background:#450a0a; padding:8px; border-radius:8px;}
 </style>
 </head>
 <body>
 
-<h1>قلم‌یار <span>⚖️✍️</span></h1>
+<h1>قلم‌یار حقوقی <span>⚖️✍️</span></h1>
 
 <div class="card">
   <div class="row">
@@ -64,31 +69,36 @@ textarea:focus{outline:2px solid var(--accent)}
   <span id="timer">۰۰:۰۰</span>
 </div>
 
-<textarea id="editor" spellcheck="true" placeholder="متن خود را اینجا بنویسید یا بگویید... (برای غلط‌یابی، دکمه هوش مصنوعی را بزنید)"></textarea>
+<textarea id="editor" spellcheck="true" placeholder="متن خود را اینجا بنویسید یا بگویید..."></textarea>
+
+<div id="legalBox">
+  <h3>⚖️ اصطلاحات حقوقی شناسایی شده در متن:</h3>
+  <div id="legalTags"></div>
+  <div id="legalDef" class="legal-def"></div>
+</div>
 
 <div class="card" style="margin-top:12px">
   <div class="tools" style="grid-template-columns: 1fr 1fr;">
-    <button id="saveBtn" class="primary">💾 ذخیره</button>
+    <button id="saveBtn" class="primary">💾 ذخیره یادداشت</button>
     <button id="copyBtn">📋 کپی متن</button>
   </div>
   <div class="tools" style="grid-template-columns: 1fr 1fr;">
     <button id="dictBtn" style="background: #8b5cf6; color: white;">📖 معنی کلمه</button>
-    <button id="aiBtn" style="background: #10b981; color: white; font-weight: bold;">✨ غلط‌یابی و اصلاح حقوقی</button>
+    <button id="aiBtn" style="background: #10b981; color: white; font-weight: bold;">✨ تحلیل و اصلاح حقوقی</button>
   </div>
   <div class="tools" style="grid-template-columns: 1fr 1fr;">
     <button id="wordBtn">📄 خروجی Word</button>
     <button id="pdfBtn">🖨 خروجی PDF</button>
   </div>
   <div class="hint">
-    - کلمات غلط املایی در کروم با <b>خط قرمز</b> مشخص می‌شوند.<br>
-    - دکمه <b>✨</b> متن را کپی کرده و در هوش مصنوعی باز می‌کند تا غلط‌ها و لحن حقوقی را اصلاح کند.<br>
+    - دکمه <b>✨ تحلیل و اصلاح</b> غلط‌های املایی و نگارشی را با هوش مصنوعی اصلاح می‌کند.<br>
     - برای PDF، گزینه «Save as PDF» را بزنید.
   </div>
 </div>
 
 <div class="card">
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px">
-    <div style="font-size:14px;color:var(--muted)">یادداشت‌های ذخیره‌شده</div>
+    <div style="font-size:14px;color:var(--muted)">یادداشت‌ها</div>
     <button id="clearBtn" style="padding:6px 10px; font-size:12px;">🗑 پاک کردن کل متن</button>
   </div>
   <div id="notes"></div>
@@ -99,30 +109,77 @@ const $ = id => document.getElementById(id);
 const editor=$('editor'), recBtn=$('recBtn'), statusEl=$('status'), interimEl=$('interim');
 const langSel=$('lang'), countEl=$('count'), timerEl=$('timer'), notesEl=$('notes');
 const templateSelect=$('templateSelect');
+const legalBox=$('legalBox'), legalTags=$('legalTags'), legalDef=$('legalDef');
 
-const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-let recog=null, listening=false, restart=false, startTime=0, timerInt=null;
+/* ---------- دیکشنری اصطلاحات حقوقی ---------- */
+const legalDictionary = {
+  'دادخواست': 'برگه‌ای که خواهان برای شروع دادرسی حقوقی به دادگاه تسلیم می‌کند.',
+  'اظهارنامه': 'سندی رسمی برای اطلاع دادن موضوعی به دیگری (معمولاً از طریق دفتر خدمات قضایی).',
+  'شکواییه': 'گزارشی که شاکی برای شروع تعقیب کیفری به دادسرا ارائه می‌دهد.',
+  'وکالت‌نامه': 'سند رسمی یا عادی که به موجب آن شخصی دیگری را نایب خود در انجام امری می‌کند.',
+  'قرار': 'تصمیمی که دادگاه در حین رسیدگی یا قبل از صدور حکم اتخاذ می‌کند.',
+  'حکم': 'رأی نهایی دادگاه که ماهیت دعوا را مشخص می‌کند.',
+  'تجدیدنظر': 'درخواست بازبینی رأی دادگاه بدوی توسط دادگاه بالاتر.',
+  'فرجام‌خواهی': 'درخواست رسیدگی مجدد به رأی قطعی از دیوان عالی کشور.',
+  'اعاده دادرسی': 'درخواست رسیدگی مجدد به حکم قطعی به دلیل وجود عیب در دادرسی.',
+  'دادنامه': 'سند رسمی حاوی متن رأی دادگاه.',
+  'مستندات': 'مدارک و اسنادی که برای اثبات ادعا به دادگاه ارائه می‌شود.',
+  'خواهان': 'شخصی که دعوای حقوقی را آغاز می‌کند.',
+  'خوانده': 'شخصی که دعوای حقوقی علیه او مطرح شده است.',
+  'شاکی': 'شخصی که از وقوع جرم شکایت می‌کند.',
+  'متهم': 'شخصی که ارتکاب جرم به او نسبت داده شده است.',
+  'صلاحیت': 'اختیار قانونی یک مرجع قضایی برای رسیدگی به یک دعوا.',
+  'تعرفه': 'هزینه‌های قانونی دادرسی یا حق‌الوکاله.',
+  'سند رسمی': 'سندی که در دفتر اسناد رسمی یا توسط مأمور رسمی تنظیم شده است.'
+};
 
-const faDigits='۰۱۲۳۴۵۶۷۸۹';
-const toFa = s => String(s).replace(/\d/g, d => faDigits[d]);
+/* ---------- شناسایی اصطلاحات حقوقی در متن ---------- */
+function scanLegalTerms(){
+  const text = editor.value;
+  let found = [];
+  
+  for(let term in legalDictionary){
+    if(text.includes(term)){
+      found.push(term);
+    }
+  }
+  
+  if(found.length > 0){
+    legalBox.style.display = 'block';
+    legalTags.innerHTML = '';
+    found.forEach(term => {
+      const span = document.createElement('span');
+      span.className = 'legal-tag';
+      span.textContent = term;
+      span.onclick = () => {
+        legalDef.style.display = 'block';
+        legalDef.innerHTML = `<b>${term}:</b> ${legalDictionary[term]}`;
+      };
+      legalTags.appendChild(span);
+    });
+  } else {
+    legalBox.style.display = 'none';
+    legalDef.style.display = 'none';
+  }
+}
 
 /* ---------- قالب‌های حقوقی ---------- */
 const templates = {
-  wakalat: `ریاست محترم دفتر اسناد رسمی شماره ..........\nموضوع: وکالت‌نامه\n\nاینجانب .............................. فرزند .............................. به شماره ملی .............................. ساکن .............................. به موجب این سند، آقای/خانم .............................. فرزند .............................. به شماره ملی .............................. ساکن .............................. را به عنوان وکیل خود تعیین و معرفی می‌نمایم تا ایشان بتوانند در تمامی امور مربوط به .............................. از قبیل مراجعه به ادارات، امضای اوراق، دریافت و پرداخت وجوه، و هرگونه اقدام قانونی لازم را انجام دهند.\n\nاینجانب صحت تمامی اقدامات وکیل موصوف را قبول داشته و حق عزل وکیل را برای خود محفوظ می‌دارم.\n\nامضا و اثر انگشت موکل\nتاریخ:`,
-  shekayat: `ریاست محترم دادگاه عمومی و انقلاب شهرستان ..............................\nموضوع: شکواییه\n\nشاکی: .............................. فرزند .............................. به شماره ملی .............................. ساکن ..............................\nمتشاکی: .............................. فرزند ..............................\n\nبا سلام و احترام،\nبدینوسیله به استحضار می‌رسانم که متشاکی موصوف در تاریخ .............................. مرتکب .............................. (شرح ماوقع) گردیده است. مراتب با توجه به مدارک و مستندات پیوست قابل اثبات است.\n\nلذا از آن مقام محترم تقاضا دارم دستور فرمایید نسبت به رسیدگی و مجازات متشاکی مطابق با قانون اقدام لازم صورت پذیرد.\n\nبا تشکر و تجدید احترام\nشاکی: ..............................\nتاریخ:`,
-  ezharname: `مدیریت محترم دفتر خدمات قضایی ..............................\nموضوع: اظهارنامه\n\nاظهارکننده: .............................. فرزند .............................. به شماره ملی ..............................\nمخاطب: ..............................\n\nبدینوسیله اظهار می‌دارم که مخاطب موصوف به موجب .............................. مبلغ/تعهد .............................. را به اینجانب بدهکار می‌باشد و با وجود گذشت زمان و مطالبه مکرر، از انجام تعهدات خود خودداری می‌نماید.\n\nلذا به موجب این اظهارنامه به ایشان اخطار می‌نمایم که ظرف مدت ۱۰ روز از تاریخ دریافت این اظهارنامه نسبت به پرداخت بدهی خود اقدام نمایند، در غیر این صورت جهت احقاق حق خود به مراجع قضایی مراجعه خواهم نمود.\n\nاظهارکننده: ..............................\nتاریخ:`,
-  tamas: `بسمه تعالی\n\nشماره: ..............................\nتاریخ: ..............................\nپیوست: ..............................\n\nجناب آقای/سرکار خانم ..............................\nمدیریت محترم ..............................\n\nموضوع: ..............................\n\nبا سلام و احترام،\nبدینوسیله به استحضار می‌رساند، .............................. (شرح کامل مطلب). خواهشمند است دستور فرمایید اقدامات لازم در این خصوص صورت پذیرد.\n\nپیشاپیش از بذل توجه حضرتعالی کمال تشکر را دارم.\n\nبا تجدید احترام\nنام و نام خانوادگی: ..............................\nسمت: ..............................\nامضا:`
+  wakalat: `ریاست محترم دفتر اسناد رسمی شماره ..........\nموضوع: وکالت‌نامه\n\nاینجانب .............................. فرزند .............................. به شماره ملی .............................. ساکن .............................. به موجب این سند، آقای/خانم .............................. را به عنوان وکیل خود تعیین می‌نمایم تا ایشان در تمامی امور مربوط به .............................. از قبیل مراجعه به ادارات، امضای اوراق، دریافت و پرداخت وجوه، و هرگونه اقدام قانونی لازم را انجام دهند.\n\nامضا و اثر انگشت موکل\nتاریخ:`,
+  shekayat: `ریاست محترم دادگاه عمومی و انقلاب شهرستان ..............................\nموضوع: شکواییه\n\nشاکی: .............................. فرزند ..............................\nمتشاکی: ..............................\n\nبا سلام و احترام،\nبدینوسیله به استحضار می‌رسانم که متشاکی موصوف در تاریخ .............................. مرتکب .............................. گردیده است. مراتب با توجه به مدارک و مستندات پیوست قابل اثبات است.\n\nلذا از آن مقام محترم تقاضا دارم دستور فرمایید نسبت به رسیدگی و مجازات متشاکی مطابق با قانون اقدام لازم صورت پذیرد.\n\nشاکی: ..............................\nتاریخ:`,
+  ezharname: `مدیریت محترم دفتر خدمات قضایی ..............................\nموضوع: اظهارنامه\n\nاظهارکننده: ..............................\nمخاطب: ..............................\n\nبدینوسیله اظهار می‌دارم که مخاطب موصوف به موجب .............................. مبلغ/تعهد .............................. را به اینجانب بدهکار می‌باشد و از انجام تعهدات خود خودداری می‌نماید.\n\nلذا به موجب این اظهارنامه به ایشان اخطار می‌نمایم که ظرف ۱۰ روز نسبت به پرداخت بدهی اقدام نمایند، در غیر این صورت به مراجع قضایی مراجعه خواهم نمود.\n\nاظهارکننده: ..............................\nتاریخ:`,
+  tamas: `بسمه تعالی\n\nشماره: ..............................\nتاریخ: ..............................\nپیوست: ..............................\n\nجناب آقای/سرکار خانم ..............................\nمدیریت محترم ..............................\n\nموضوع: ..............................\n\nبا سلام و احترام،\nبدینوسیله به استحضار می‌رساند، .............................. (شرح کامل مطلب). خواهشمند است دستور فرمایید اقدامات لازم در این خصوص صورت پذیرد.\n\nبا تجدید احترام\nنام و نام خانوادگی: ..............................\nسمت: ..............................`
 };
 
 templateSelect.onchange = (e) => {
   const val = e.target.value;
   if(val && templates[val]){
-    if(editor.value.trim() !== "" && !confirm("متن فعلی پاک شود و قالب جدید جایگزین گردد؟")){
+    if(editor.value.trim() !== "" && !confirm("متن فعلی پاک شود و قالب جایگزین گردد؟")){
       templateSelect.value = ""; return;
     }
     editor.value = templates[val];
-    updateCount(); autosave();
-    templateSelect.value = ""; // ریست کردن منو
+    updateCount(); autosave(); scanLegalTerms();
+    templateSelect.value = ""; 
   }
 };
 
@@ -138,7 +195,7 @@ function insertText(t){
   const np = (before+ins).length;
   editor.selectionStart = editor.selectionEnd = np;
   editor.scrollTop = editor.scrollHeight;
-  updateCount(); autosave();
+  updateCount(); autosave(); scanLegalTerms();
 }
 
 function updateCount(){
@@ -147,6 +204,11 @@ function updateCount(){
 }
 
 /* ---------- تشخیص گفتار ---------- */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let recog=null, listening=false, restart=false, startTime=0, timerInt=null;
+const faDigits='۰۱۲۳۴۵۶۷۸۹';
+const toFa = s => String(s).replace(/\d/g, d => faDigits[d]);
+
 function buildRecog(){
   const r = new SR();
   r.lang = langSel.value;
@@ -155,7 +217,6 @@ function buildRecog(){
   r.maxAlternatives = 1;
 
   r.onstart = () => { statusEl.textContent = '🔴 در حال شنیدن...'; };
-
   r.onresult = (e) => {
     let interim='';
     for(let i=e.resultIndex; i<e.results.length; i++){
@@ -165,57 +226,34 @@ function buildRecog(){
     }
     interimEl.textContent = interim;
   };
-
   r.onerror = (e) => {
-    if(e.error==='not-allowed' || e.error==='service-not-allowed'){
-      statusEl.textContent='❌ دسترسی میکروفون داده نشد';
-      hardStop();
-    } else if(e.error==='no-speech'){
-      statusEl.textContent='سکوت بود، ادامه بده...';
-    } else if(e.error==='network'){
-      statusEl.textContent='❌ اینترنت قطع است';
-    } else {
-      statusEl.textContent='خطا: '+e.error;
-    }
+    if(e.error==='not-allowed' || e.error==='service-not-allowed'){ statusEl.textContent='❌ دسترسی میکروفون داده نشد'; hardStop(); }
+    else if(e.error==='no-speech'){ statusEl.textContent='سکوت بود، ادامه بده...'; }
+    else { statusEl.textContent='خطا: '+e.error; }
   };
-
-  r.onend = () => {
-    if(listening && restart){
-      setTimeout(()=>{ try{ r.start(); }catch(_){} }, 250);
-    }
-  };
+  r.onend = () => { if(listening && restart){ setTimeout(()=>{ try{ r.start(); }catch(_){} }, 250); } };
   return r;
 }
 
 function startRec(){
-  if(!SR){ statusEl.textContent='❌ این مرورگر پشتیبانی نمی‌کند؛ Chrome را باز کن.'; return; }
+  if(!SR){ statusEl.textContent='❌ این مرورگر پشتیبانی نمی‌کند.'; return; }
   if(!recog) recog = buildRecog();
   recog.lang = langSel.value;
   listening = true; restart = true;
   try{ recog.start(); }catch(_){}
-  recBtn.textContent='⏹ توقف';
-  recBtn.classList.add('on');
-  startTimer();
+  recBtn.textContent='⏹ توقف'; recBtn.classList.add('on'); startTimer();
 }
 
 function stopRec(){
   listening = false; restart = false;
   if(recog){ try{ recog.stop(); }catch(_){} }
-  recBtn.textContent='🎤 شروع گفتار';
-  recBtn.classList.remove('on');
-  stopTimer();
-  interimEl.textContent='';
-  statusEl.textContent='متوقف شد — متن ذخیره شد';
-  autosave();
+  recBtn.textContent='🎤 شروع گفتار'; recBtn.classList.remove('on');
+  stopTimer(); interimEl.textContent=''; statusEl.textContent='متوقف شد — متن ذخیره شد'; autosave();
 }
 
 function hardStop(){ listening=false; restart=false; recBtn.textContent='🎤 شروع گفتار'; recBtn.classList.remove('on'); stopTimer(); }
-
 recBtn.onclick = () => listening ? stopRec() : startRec();
-
-langSel.onchange = () => {
-  if(listening){ stopRec(); setTimeout(startRec, 400); }
-};
+langSel.onchange = () => { if(listening){ stopRec(); setTimeout(startRec, 400); } };
 
 /* ---------- زمان‌سنج ---------- */
 function startTimer(){
@@ -223,9 +261,7 @@ function startTimer(){
   startTime = Date.now();
   timerInt = setInterval(()=>{
     const s = Math.floor((Date.now()-startTime)/1000);
-    const m = String(Math.floor(s/60)).padStart(2,'0');
-    const ss = String(s%60).padStart(2,'0');
-    timerEl.textContent = toFa(m+':'+ss);
+    timerEl.textContent = toFa(String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'));
   }, 500);
 }
 function stopTimer(){ clearInterval(timerInt); timerInt=null; }
@@ -248,8 +284,7 @@ function saveNote(){
   const notes = getNotes();
   if(notes.length && notes[0].text === text){ statusEl.textContent='قبلاً ذخیره شده'; return; }
   notes.unshift({ title: text.slice(0,45).replace(/\n/g,' '), text, date: Date.now() });
-  setNotes(notes);
-  statusEl.textContent='💾 ذخیره شد';
+  setNotes(notes); statusEl.textContent='💾 ذخیره شد';
 }
 
 function renderNotes(){
@@ -260,46 +295,33 @@ function renderNotes(){
     const d=document.createElement('div'); d.className='note';
     const t=document.createElement('div'); t.className='t'; t.textContent=n.title||'بدون عنوان';
     const open=document.createElement('button'); open.textContent='باز کردن';
-    open.onclick=()=>{ editor.value=n.text; updateCount(); autosave(); window.scrollTo({top:0,behavior:'smooth'}); };
+    open.onclick=()=>{ editor.value=n.text; updateCount(); autosave(); scanLegalTerms(); window.scrollTo({top:0,behavior:'smooth'}); };
     const del=document.createElement('button'); del.textContent='🗑';
     del.onclick=()=>{ if(confirm('حذف شود؟')){ const a=getNotes(); a.splice(i,1); setNotes(a);} };
-    d.append(t,open,del);
-    notesEl.appendChild(d);
+    d.append(t,open,del); notesEl.appendChild(d);
   });
 }
 
 /* ---------- خروجی‌ها ---------- */
 const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-
 function exportPDF(){
-  const text = editor.value.trim();
-  if(!text){ alert('متنی نیست!'); return; }
-  const w = window.open('', '_blank');
-  if(!w){ alert('پنجره باز نشد؛ اجازه پاپ‌آپ بده.'); return; }
-  w.document.open();
-  w.document.write('<!DOCTYPE html><html dir="rtl" lang="fa"><head><meta charset="utf-8"><title>قلم‌یار</title><style>body{font-family:Tahoma,Arial,sans-serif;font-size:15pt;line-height:2;padding:24px;color:#000;white-space:pre-wrap;word-wrap:break-word}@page{size:A4;margin:2cm}</style></head><body>'+esc(text)+'</body></html>');
-  w.document.close();
-  w.focus();
-  setTimeout(()=>{ try{ w.print(); }catch(_){}} , 700);
+  const text = editor.value.trim(); if(!text){ alert('متنی نیست!'); return; }
+  const w = window.open('', '_blank'); if(!w){ alert('اجازه پاپ‌آپ بده.'); return; }
+  w.document.open(); w.document.write('<!DOCTYPE html><html dir="rtl" lang="fa"><head><meta charset="utf-8"><title>قلم‌یار</title><style>body{font-family:Tahoma,Arial,sans-serif;font-size:15pt;line-height:2;padding:24px;color:#000;white-space:pre-wrap;word-wrap:break-word}@page{size:A4;margin:2cm}</style></head><body>'+esc(text)+'</body></html>');
+  w.document.close(); w.focus(); setTimeout(()=>{ try{ w.print(); }catch(_){}} , 700);
 }
 
 function exportWord(){
-  const text = editor.value.trim();
-  if(!text){ alert('متنی نیست!'); return; }
+  const text = editor.value.trim(); if(!text){ alert('متنی نیست!'); return; }
   const html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><style>body{font-family:Tahoma;font-size:14pt;line-height:1.9}</style></head><body dir="rtl">'+esc(text).replace(/\n/g,'<br>')+'</body></html>';
-  const blob=new Blob(['\ufeff',html],{type:'application/msword'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download='ghalamyar-'+Date.now()+'.doc';
-  a.click();
-  setTimeout(()=>URL.revokeObjectURL(a.href),3000);
-  statusEl.textContent='📄 فایل Word ساخته شد';
+  const blob=new Blob(['\ufeff',html],{type:'application/msword'}); const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download='ghalamyar-'+Date.now()+'.doc'; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),3000); statusEl.textContent='📄 فایل Word ساخته شد';
 }
 
 async function copyText(){
   if(!editor.value) return;
-  try{ await navigator.clipboard.writeText(editor.value); }
-  catch(_){ editor.select(); document.execCommand('copy'); }
+  try{ await navigator.clipboard.writeText(editor.value); } catch(_){ editor.select(); document.execCommand('copy'); }
   statusEl.textContent='📋 کپی شد';
 }
 
@@ -309,25 +331,30 @@ function openDictionary(){
   if(editor.selectionStart !== editor.selectionEnd){
     selectedText = editor.value.substring(editor.selectionStart, editor.selectionEnd).trim();
   }
-  if(!selectedText){ alert('لطفاً ابتدا یک کلمه را با انگشت انتخاب کنید.'); return; }
+  if(!selectedText){ alert('ابتدا یک کلمه را انتخاب کنید.'); return; }
   window.open("https://vajehyab.com/?q=" + encodeURIComponent(selectedText), "_blank");
 }
 
-/* ---------- دستیار هوش مصنوعی (غلط‌یابی و حقوقی) ---------- */
+/* ---------- دستیار هوش مصنوعی حقوقی ---------- */
 async function openAI(){
   const text = editor.value.trim();
-  if(!text){ alert('متنی برای بررسی وجود ندارد.'); return; }
+  if(!text){ alert('متنی برای تحلیل وجود ندارد.'); return; }
   
-  // ۱. کپی کردن متن همراه با دستور به کلیپ‌بورد
-  const prompt = "لطفاً متن زیر را از نظر غلط املایی، نگارشی و همچنین لحن حقوقی و اداری بررسی و اصلاح کن، سپس نسخه نهایی را بنویس:\n\n" + text;
+  // پرامپت تخصصی برای هوش مصنوعی
+  const prompt = `به عنوان یک حقوقدان، ویراستار متون حقوقی و یک متخصص زبان فارسی، متن زیر را بررسی کن:
+۱. غلط‌های املایی و نگارشی را اصلاح کن.
+۲. اصطلاحات حقوقی و قضایی به کار رفته را شناسایی و تحلیل کن.
+۳. لحن متن را کاملاً رسمی، اداری و حقوقی کن.
+متن نهایی و اصلاح شده را به همراه توضیحات کوتاه بنویس:
+
+متن من:
+${text}`;
+  
   try{ 
     await navigator.clipboard.writeText(prompt); 
-    alert('متن شما کپی شد! در صفحه‌ای که باز می‌شود، آن را در چت پیست (Paste) کنید تا هوش مصنوعی آن را اصلاح کند.');
-  } catch(_){
-    alert('لطفاً متن را دستی کپی کنید.');
-  }
+    alert('متن شما همراه با دستور تحلیل حقوقی کپی شد! در صفحه باز شده، آن را پیست (Paste) کنید تا هوش مصنوعی آن را بررسی کند.');
+  } catch(_){ alert('لطفاً متن را دستی کپی کنید.'); }
   
-  // ۲. باز کردن هوش مصنوعی
   window.open("https://gemini.google.com/app", "_blank");
 }
 
@@ -338,14 +365,15 @@ $('wordBtn').onclick = exportWord;
 $('pdfBtn').onclick = exportPDF;
 $('dictBtn').onclick = openDictionary;
 $('aiBtn').onclick = openAI;
-$('clearBtn').onclick = ()=>{ if(editor.value && !confirm('متن پاک شود؟')) return; editor.value=''; updateCount(); autosave(); interimEl.textContent=''; };
+$('clearBtn').onclick = ()=>{ if(editor.value && !confirm('متن پاک شود؟')) return; editor.value=''; updateCount(); autosave(); legalBox.style.display='none'; interimEl.textContent=''; };
 
-editor.addEventListener('input', ()=>{ updateCount(); autosave(); });
+editor.addEventListener('input', ()=>{ updateCount(); autosave(); scanLegalTerms(); });
 
 /* ---------- راه‌اندازی ---------- */
 try{ const d=localStorage.getItem('ghalamyar_draft'); if(d) editor.value=d; }catch(_){}
 updateCount();
 renderNotes();
+scanLegalTerms();
 
 if(!SR){
   statusEl.textContent='⚠️ این مرورگر تشخیص گفتار ندارد. Chrome را باز کن.';
