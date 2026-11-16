@@ -63,13 +63,16 @@ textarea:focus{outline:2px solid var(--accent)}
 <textarea id="editor" placeholder="هر چه می‌گویی اینجا نوشته می‌شود... با دست هم می‌توانی ویرایش کنی."></textarea>
 
 <div class="card" style="margin-top:12px">
-  <div class="tools">
-    <button id="saveBtn" class="primary">💾 ذخیره یادداشت</button>
-    <button id="copyBtn">📋 کپی متن</button>
+  <div class="tools" style="grid-template-columns: 1fr 1fr 1fr;">
+    <button id="saveBtn" class="primary">💾 ذخیره</button>
+    <button id="copyBtn">📋 کپی</button>
+    <button id="dictBtn" style="background: #8b5cf6; color: white;">📖 معنی کلمه</button>
+  </div>
+  <div class="tools" style="margin-top:8px; grid-template-columns: 1fr 1fr;">
     <button id="wordBtn">📄 خروجی Word</button>
     <button id="pdfBtn">🖨 خروجی PDF</button>
   </div>
-  <div class="hint">برای PDF، پنجره چاپ باز می‌شود؛ گزینه «Save as PDF / ذخیره به‌صورت PDF» را بزن.</div>
+  <div class="hint">برای دیدن معنی، یک کلمه را با انگشت انتخاب (هایلایت) کنید و دکمه بنفش را بزنید.<br>برای PDF، گزینه «Save as PDF» را بزنید.</div>
 </div>
 
 <div class="card">
@@ -135,7 +138,7 @@ function buildRecog(){
     } else if(e.error==='no-speech'){
       statusEl.textContent='سکوت بود، ادامه بده...';
     } else if(e.error==='network'){
-      statusEl.textContent='❌ اینترنت قطع است (تشخیص گفتار به اینترنت نیاز دارد)';
+      statusEl.textContent='❌ اینترنت قطع است';
     } else {
       statusEl.textContent='خطا: '+e.error;
     }
@@ -192,7 +195,7 @@ function startTimer(){
 }
 function stopTimer(){ clearInterval(timerInt); timerInt=null; }
 
-/* ---------- ذخیره خودکار پیش‌نویس ---------- */
+/* ---------- ذخیره خودکار ---------- */
 let saveT;
 function autosave(){
   clearTimeout(saveT);
@@ -265,11 +268,30 @@ async function copyText(){
   statusEl.textContent='📋 کپی شد';
 }
 
+/* ---------- لغت‌نامه ---------- */
+function openDictionary(){
+  let selectedText = "";
+  // اگر متنی با انگشت انتخاب شده باشد
+  if(editor.selectionStart !== editor.selectionEnd){
+    selectedText = editor.value.substring(editor.selectionStart, editor.selectionEnd).trim();
+  }
+  
+  if(!selectedText){
+    alert('لطفاً ابتدا یک کلمه را در متن با انگشت انتخاب (هایلایت) کنید، سپس این دکمه را بزنید.');
+    return;
+  }
+  
+  // باز کردن سایت واژه‌یاب
+  const url = "https://vajehyab.com/?q=" + encodeURIComponent(selectedText);
+  window.open(url, "_blank");
+}
+
 /* ---------- اتصال دکمه‌ها ---------- */
 $('saveBtn').onclick = saveNote;
 $('copyBtn').onclick = copyText;
 $('wordBtn').onclick = exportWord;
 $('pdfBtn').onclick = exportPDF;
+$('dictBtn').onclick = openDictionary;
 $('clearBtn').onclick = ()=>{ if(editor.value && !confirm('متن پاک شود؟')) return; editor.value=''; updateCount(); autosave(); interimEl.textContent=''; };
 
 editor.addEventListener('input', ()=>{ updateCount(); autosave(); });
