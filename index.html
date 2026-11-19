@@ -150,6 +150,10 @@
       border: 2px solid var(--gold-bright); color: var(--gold-bright);
       font-size: 24px; cursor: pointer; box-shadow: 0 0 18px rgba(212,175,55,0.55);
     }
+    .fab-mic.recording {
+      border-color: #ef4444; color: #ef4444;
+      box-shadow: 0 0 28px rgba(239, 68, 68, 0.85);
+    }
     dialog {
       width: 92%; max-width: 440px; border-radius: 20px; padding: 18px;
       background: var(--bg-surface); color: var(--text-main);
@@ -401,6 +405,7 @@
 
     let isRecording = false, recognition = null, mediaRecorder = null, audioChunks = [];
     let audioCtx = null, analyser = null, finalTranscript = '', gotSpokenText = false, lastFeeText = '', lastDeadlineText = '';
+    let micStream = null, manualStop = false, restartAttempts = 0;
 
     function goSlide(idx) {
       document.getElementById('carouselTrack').style.transform = `translateX(${idx * 100}%)`;
@@ -456,28 +461,59 @@
       return toFa(drafts[mode] || drafts.brief);
     }
 
+    function setMicVisualState(active) {
+      document.getElementById('mainMicBtn').classList.toggle('recording', active);
+      document.getElementById('fabMicBtn').classList.toggle('recording', active);
+    }
+
+    const SPEECH_ERROR_MESSAGES = {
+      'not-allowed': 'دسترسی به میکروفون رد شده است. روی آیکون قفل/میکروفون کنار آدرس سایت بزنید و دسترسی میکروفون را فعال کنید.',
+      'service-not-allowed': 'مرورگر اجازه استفاده از سرویس تشخیص گفتار را نداد. اگر این فایل را مستقیماً (file://) باز کرده‌اید، آن را از طریق https یا http://localhost اجرا کنید.',
+      'audio-capture': 'میکروفونی پیدا نشد یا توسط برنامه دیگری در حال استفاده است.',
+      'no-speech': 'صدایی دریافت نشد؛ کمی بلندتر و نزدیک‌تر به میکروفون صحبت کنید.',
+      'network': 'خطای شبکه در ارتباط با سرویس تشخیص گفتار گوگل. اتصال اینترنت را بررسی کنید (در برخی مناطق به فیلترشکن نیاز است).',
+      'aborted': 'ضبط گفتار متوقف شد.',
+      'language-not-supported': 'زبان فارسی (fa-IR) در این مرورگر توسط سرویس تشخیص گفتار پشتیبانی نمی‌شود.',
+      'bad-grammar': 'خطای داخلی سرویس تشخیص گفتار.'
+    };
+
+    function checkVoiceEnvironment() {
+      const issues = [];
+      const isSecure = location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+      if (!isSecure) issues.push('میکروفون نیاز به بارگذاری این صفحه از طریق HTTPS یا localhost دارد؛ آدرس فعلی امن نیست (مثلاً به‌جای باز کردن مستقیم فایل، از نسخه منتشرشده در GitHub Pages استفاده کنید).');
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) issues.push('این مرورگر از دسترسی به میکروفون پشتیبانی نمی‌کند.');
+      if (!(window.SpeechRecognition || window.webkitSpeechRecognition)) issues.push('این مرورگر از تبدیل گفتار به نوشتار پشتیبانی نمی‌کند (گوگل کروم دسکتاپ یا اندروید را امتحان کنید).');
+      return issues;
+    }
+
     async function toggleRecording() {
       if (isRecording) return stopRecording();
+
+      const envIssues = checkVoiceEnvironment();
+      if (envIssues.length) showToast(envIssues[0]);
+
       isRecording = true;
+      manualStop = false;
+      restartAttempts = 0;
       finalTranscript = '';
       gotSpokenText = false;
       audioChunks = [];
-      document.getElementById('mainMicBtn').classList.add('recording');
+      setMicVisualState(true);
       document.getElementById('recStatus').textContent = 'در حال ضبط صدا... صحبت کنید';
+      if (!envIssues.length) showToast('🎙️ ضبط شروع شد؛ صحبت کنید');
 
       const editor = document.getElementById('editorArea');
       const startPrefix = editor.value.trim();
 
-      let stream = null;
       try {
-        stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const src = audioCtx.createMediaStreamSource(stream);
+        const src = audioCtx.createMediaStreamSource(micStream);
         analyser = audioCtx.createAnalyser(); analyser.fftSize = 128;
         src.connect(analyser);
 
         if (window.MediaRecorder) {
-          mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder = new MediaRecorder(micStream);
           mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
           mediaRecorder.onstop = () => {
             if (audioChunks.length) {
@@ -490,58 +526,90 @@
           mediaRecorder.start();
         }
       } catch (err) {
-        showToast('دسترسی میکروفون داده نشد؛ پیش‌نویس متنی آماده شد.');
+        showToast('دسترسی میکروفون برای ضبط صدا داده نشد (' + (err && err.name ? err.name : 'خطا') + ')؛ تلاش برای تشخیص گفتار جداگانه ادامه می‌یابد.');
       }
 
+      startSpeechRecognition(editor, startPrefix);
+    }
+
+    function startSpeechRecognition(editor, startPrefix) {
       const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (SR) {
-        try {
-          recognition = new SR();
-          recognition.lang = 'fa-IR';
-          recognition.continuous = true;
-          recognition.interimResults = true;
+      if (!SR) {
+        document.getElementById('recStatus').textContent = 'این مرورگر از تبدیل گفتار به نوشتار پشتیبانی نمی‌کند؛ پس از توقف، پیش‌نویس حقوقی درج می‌شود.';
+        return;
+      }
 
-          recognition.onresult = (event) => {
-            let interim = '';
-            for (let i = event.resultIndex; i < event.results.length; i++) {
-              const txt = event.results[i][0].transcript;
-              if (event.results[i].isFinal) finalTranscript += txt + ' ';
-              else interim += txt;
-            }
-            const combined = (finalTranscript + interim).trim();
-            if (combined) {
-              gotSpokenText = true;
-              editor.value = (startPrefix ? startPrefix + '\n' : '') + toFa(combined);
-              document.getElementById('recStatus').textContent = 'در حال ثبت گفتار به متن...';
-            }
-          };
+      try {
+        recognition = new SR();
+        recognition.lang = 'fa-IR';
+        recognition.continuous = true;
+        recognition.interimResults = true;
 
-          recognition.onerror = () => {
-            document.getElementById('recStatus').textContent = 'تشخیص صوت مرورگر محدود است؛ پس از توقف، پیش‌نویس درج می‌شود.';
-          };
+        recognition.onstart = () => {
+          restartAttempts = 0;
+          document.getElementById('recStatus').textContent = 'در حال گوش دادن... صحبت کنید';
+        };
 
-          recognition.start();
-        } catch (e) {
-          document.getElementById('recStatus').textContent = 'ضبط صوت فعال است؛ پس از توقف، متن درج می‌شود.';
-        }
-      } else {
-        document.getElementById('recStatus').textContent = 'ضبط صوت فعال است؛ پس از توقف، متن درج می‌شود.';
+        recognition.onresult = (event) => {
+          let interim = '';
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            const txt = event.results[i][0].transcript;
+            if (event.results[i].isFinal) finalTranscript += txt + ' ';
+            else interim += txt;
+          }
+          const combined = (finalTranscript + interim).trim();
+          if (combined) {
+            gotSpokenText = true;
+            editor.value = (startPrefix ? startPrefix + '\n' : '') + toFa(combined);
+            document.getElementById('recStatus').textContent = 'در حال ثبت گفتار به متن...';
+          }
+        };
+
+        recognition.onerror = (event) => {
+          const msg = SPEECH_ERROR_MESSAGES[event.error] || ('خطای تشخیص گفتار: ' + event.error);
+          document.getElementById('recStatus').textContent = msg;
+          showToast(msg);
+          if (event.error === 'not-allowed' || event.error === 'service-not-allowed' || event.error === 'language-not-supported') {
+            manualStop = true;
+          }
+        };
+
+        recognition.onend = () => {
+          if (isRecording && !manualStop && restartAttempts < 4) {
+            restartAttempts++;
+            setTimeout(() => {
+              if (isRecording && !manualStop) {
+                try { recognition.start(); } catch (e) { /* session already running or unavailable */ }
+              }
+            }, 300);
+          }
+        };
+
+        recognition.start();
+      } catch (e) {
+        document.getElementById('recStatus').textContent = 'امکان شروع تشخیص گفتار نبود: ' + (e && e.message ? e.message : e);
       }
     }
 
     function stopRecording() {
       isRecording = false;
-      document.getElementById('mainMicBtn').classList.remove('recording');
+      manualStop = true;
+      setMicVisualState(false);
       document.getElementById('recStatus').textContent = 'ضبط متوقف شد';
       if (recognition) { try { recognition.stop(); } catch(e){} recognition = null; }
       if (mediaRecorder && mediaRecorder.state !== 'inactive') { try { mediaRecorder.stop(); } catch(e){} }
+      if (micStream) { try { micStream.getTracks().forEach(t => t.stop()); } catch(e){} micStream = null; }
       if (audioCtx) { try { audioCtx.close(); } catch(e){} audioCtx = null; analyser = null; }
 
       const editor = document.getElementById('editorArea');
-      if (!gotSpokenText && !editor.value.trim()) {
+      if (gotSpokenText) {
+        showToast('گفتار شما به متن تبدیل و در ویرایشگر قرار گرفت.');
+      } else if (!editor.value.trim()) {
         const mode = document.getElementById('proModeSelect').value;
         editor.value = fallbackDraftByMode(mode);
         showToast('متن گفتار در مرورگر برنگشت؛ پیش‌نویس حقوقی در کادر قرار گرفت.');
+      } else {
+        showToast('ضبط متوقف شد.');
       }
     }
 
