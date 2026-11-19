@@ -10,7 +10,391 @@
 <style>
     :root {
         --bg-main: #081426;
-        --bg-sec: #101E33;
-        --card-bg: #1C2B42;
         --gold: #D6AD63;
-        --gold-light: #
+        --gold-light: #F4CB82;
+        --text-main: #F2F3F7;
+        --text-muted: #AAB4C5;
+        --red: #EF4444;
+        --green: #16B981;
+    }
+
+    * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+
+    body {
+        margin: 0; padding: 0;
+        background-color: var(--bg-main);
+        color: var(--text-main);
+        font-family: 'Vazirmatn', sans-serif;
+        overflow-x: hidden;
+        padding-bottom: 100px;
+        /* پس‌زمینه شبیه تصویر شما (کتابخانه/عدالت) */
+        background-image: linear-gradient(to bottom, rgba(8, 20, 38, 0.85), rgba(8, 20, 38, 0.98)), url('https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=1000&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    /* هدر */
+    header {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 20px; padding-top: 30px;
+    }
+    .header-title h1 { margin: 0; font-size: 22px; color: var(--gold); font-weight: 800; text-shadow: 0 2px 10px rgba(214,173,99,0.3); }
+    .header-title p { margin: 4px 0 0; font-size: 12px; color: var(--text-muted); }
+    .icon-btn { background: rgba(28, 43, 66, 0.6); border: 1px solid rgba(214, 173, 99, 0.2); color: var(--gold); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; backdrop-filter: blur(10px); }
+
+    /* پیام خوش‌آمد */
+    .welcome { text-align: center; font-size: 14px; color: var(--gold-light); margin: 15px 20px 25px; line-height: 1.8; }
+
+    /* دکمه میکروفون اصلی داشبورد */
+    .hero-mic-section { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; }
+    .mic-container { position: relative; width: 180px; height: 180px; display: flex; align-items: center; justify-content: center; }
+    .mic-btn {
+        width: 90px; height: 90px; border-radius: 50%;
+        background: linear-gradient(135deg, var(--gold), var(--gold-light));
+        border: 4px solid var(--bg-main); color: var(--bg-main); font-size: 32px;
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 0 40px rgba(214, 173, 99, 0.4); z-index: 2; cursor: pointer; transition: 0.3s;
+    }
+    .mic-btn.recording { background: linear-gradient(135deg, var(--red), #b91c1c); color: white; box-shadow: 0 0 50px rgba(239, 68, 68, 0.6); animation: pulseRed 1.5s infinite; }
+    .ring { position: absolute; width: 130px; height: 130px; border-radius: 50%; border: 2px solid var(--gold); opacity: 0.3; }
+    .ring:nth-child(2) { width: 160px; height: 160px; opacity: 0.1; }
+    .mic-btn.recording ~ .ring { border-color: var(--red); animation: ping 1.5s infinite; }
+    @keyframes pulseRed { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    @keyframes ping { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(1.3); opacity: 0; } }
+
+    /* کارت‌های منو (شش‌گانه) */
+    .grid-menu { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 20px; }
+    .menu-card {
+        border-radius: 16px; padding: 15px; display: flex; flex-direction: column;
+        align-items: flex-start; justify-content: center; gap: 10px;
+        border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(10px); cursor: pointer; transition: transform 0.2s;
+    }
+    .menu-card:active { transform: scale(0.96); }
+    .menu-card i { font-size: 24px; }
+    .menu-card h3 { margin: 0; font-size: 14px; font-weight: 700; color: white; }
+    .menu-card p { margin: 0; font-size: 11px; color: rgba(255,255,255,0.7); }
+    
+    /* رنگ‌های گرادیانت دقیقاً مشابه تصویر */
+    .card-purple { background: linear-gradient(135deg, #2b1b4d, #191033); border-color: #4a2c8a; }
+    .card-green { background: linear-gradient(135deg, #12382b, #091f17); border-color: #1d6e52; }
+    .card-blue { background: linear-gradient(135deg, #2d1b36, #1a0f20); border-color: #5c2f6e; }
+    .card-gold { background: linear-gradient(135deg, #4a3a1e, #2c2211); border-color: #8a6b34; }
+    .card-teal { background: linear-gradient(135deg, #143b4a, #0b2029); border-color: #216a82; }
+    .card-dark { background: linear-gradient(135deg, #11302d, #081a18); border-color: #1b514b; }
+
+    /* بخش آخرین متون */
+    .recent-section { padding: 25px 20px; }
+    .section-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 15px; font-weight: bold; color: var(--text-main); }
+    .doc-item { display: flex; justify-content: space-between; align-items: center; background: rgba(28, 43, 66, 0.7); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 12px 15px; margin-bottom: 10px; backdrop-filter: blur(10px); }
+    .doc-info { display: flex; align-items: center; gap: 12px; }
+    .doc-icon { width: 35px; height: 35px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; color: white; }
+    .bg-word { background: #2B579A; }
+    .bg-pdf { background: #D93025; }
+    .doc-meta h4 { margin: 0; font-size: 13px; font-weight: 600; }
+    .doc-meta span { font-size: 10px; color: var(--text-muted); }
+
+    /* نویگیشن پایین */
+    .bottom-nav {
+        position: fixed; bottom: 0; left: 0; width: 100%; height: 75px;
+        background: rgba(12, 26, 46, 0.95); backdrop-filter: blur(15px);
+        display: flex; justify-content: space-around; align-items: center;
+        border-top: 1px solid rgba(214, 173, 99, 0.2); z-index: 100;
+    }
+    .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 10px; gap: 4px; background: none; border: none; font-family: inherit; cursor: pointer; }
+    .nav-item.active { color: var(--gold); }
+    .nav-item i { font-size: 20px; }
+    .nav-center-mic { width: 65px; height: 65px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--bg-main); display: flex; align-items: center; justify-content: center; font-size: 26px; margin-top: -35px; border: 4px solid var(--bg-main); box-shadow: 0 -5px 20px rgba(214, 173, 99, 0.3); }
+
+    /* ویرایشگر و سایر صفحات */
+    .view { display: none; animation: fadeIn 0.3s ease; }
+    .view.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    
+    .editor-container { padding: 20px; }
+    textarea { width: 100%; min-height: 400px; background: rgba(28, 43, 66, 0.8); color: var(--text-main); border: 1px solid rgba(214, 173, 99, 0.3); border-radius: 16px; padding: 20px; font-family: inherit; font-size: 16px; line-height: 2; resize: vertical; backdrop-filter: blur(10px); }
+    
+    .toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: var(--green); color: white; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: bold; z-index: 300; opacity: 0; transition: 0.3s; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(-10px); }
+</style>
+</head>
+<body>
+
+<!-- صفحه اصلی (داشبورد) -->
+<div id="view-dashboard" class="view active">
+    <header>
+        <button class="icon-btn"><i class="fa-solid fa-bars"></i></button>
+        <div class="header-title" style="text-align: center;">
+            <h1>قلم‌یار حقوقی</h1>
+            <p>دستیار هوشمند نگارش حقوقی</p>
+        </div>
+        <button class="icon-btn" onclick="toggleSettings()"><i class="fa-solid fa-gear"></i></button>
+    </header>
+
+    <p class="welcome">«سخن بگویید؛ ما آن را به متنی دقیق، منظم و حرفه‌ای تبدیل می‌کنیم.»</p>
+
+    <!-- دکمه میکروفون وسط -->
+    <div class="hero-mic-section">
+        <div class="mic-container">
+            <button class="mic-btn" id="mainMicBtn" onclick="toggleRecording('main')"><i class="fa-solid fa-microphone" id="mainMicIcon"></i></button>
+            <div class="ring"></div>
+            <div class="ring"></div>
+        </div>
+        <div id="recStatus" style="font-size: 14px; color: var(--gold); margin-top: 10px;">آماده ضبط صدا</div>
+    </div>
+
+    <!-- کارت‌های منو -->
+    <div class="grid-menu">
+        <div class="menu-card card-purple" onclick="switchView('editor')">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <h3>ویرایش هوشمند</h3>
+            <p>اصلاح و بهبود متن</p>
+        </div>
+        <div class="menu-card card-green" onclick="switchView('editor'); showToast('برای خروجی به داخل ویرایشگر بروید', 'var(--green)')">
+            <i class="fa-solid fa-file-export"></i>
+            <h3>خروجی حرفه‌ای</h3>
+            <p>Word / PDF</p>
+        </div>
+        <div class="menu-card card-blue" onclick="switchView('history')">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <h3>تاریخچه متون</h3>
+            <p>مشاهده و مدیریت</p>
+        </div>
+        <div class="menu-card card-gold" onclick="openTemplates()">
+            <i class="fa-solid fa-file-lines"></i>
+            <h3>قالب‌های آماده</h3>
+            <p>نامه، دادخواست و...</p>
+        </div>
+        <div class="menu-card card-teal" onclick="openDictionary()">
+            <i class="fa-solid fa-book-open"></i>
+            <h3>اصطلاحات حقوقی</h3>
+            <p>راهنمای سریع</p>
+        </div>
+        <div class="menu-card card-dark" onclick="toggleSettings()">
+            <i class="fa-solid fa-gear"></i>
+            <h3>تنظیمات</h3>
+            <p>سفارشی‌سازی برنامه</p>
+        </div>
+    </div>
+
+    <!-- آخرین متون -->
+    <div class="recent-section">
+        <div class="section-title">
+            <span><i class="fa-solid fa-clock-rotate-left" style="color:var(--gold);"></i> آخرین متون شما</span>
+            <span style="font-size: 12px; color: var(--text-muted); cursor: pointer;" onclick="switchView('history')">مشاهده همه <i class="fa-solid fa-chevron-left" style="font-size:10px;"></i></span>
+        </div>
+        
+        <!-- نمونه سند ۱ -->
+        <div class="doc-item">
+            <div class="doc-info">
+                <div class="doc-icon bg-word"><i class="fa-solid fa-file-word"></i></div>
+                <div class="doc-meta">
+                    <h4>وکالت‌نامه رسمی</h4>
+                    <span>۱۴۰۴/۰۹/۲۶ - ۱۵:۳۰</span>
+                </div>
+            </div>
+            <i class="fa-solid fa-ellipsis-vertical" style="color: var(--text-muted);"></i>
+        </div>
+
+        <!-- نمونه سند ۲ -->
+        <div class="doc-item">
+            <div class="doc-info">
+                <div class="doc-icon bg-pdf"><i class="fa-solid fa-file-pdf"></i></div>
+                <div class="doc-meta">
+                    <h4>دادخواست حقوقی</h4>
+                    <span>۱۴۰۴/۰۹/۲۵ - ۱۱:۲۰</span>
+                </div>
+            </div>
+            <i class="fa-solid fa-ellipsis-vertical" style="color: var(--text-muted);"></i>
+        </div>
+    </div>
+</div>
+
+<!-- صفحه ویرایشگر متن -->
+<div id="view-editor" class="view">
+    <header>
+        <button class="icon-btn" onclick="switchView('dashboard')"><i class="fa-solid fa-arrow-right"></i></button>
+        <div class="header-title"><h1 style="font-size: 18px;">ویرایشگر متن</h1></div>
+        <button class="icon-btn" onclick="saveCurrentDoc()"><i class="fa-solid fa-floppy-disk"></i></button>
+    </header>
+    <div class="editor-container">
+        <textarea id="textEditor" placeholder="متن حقوقی خود را اینجا بنویسید یا از میکروفون استفاده کنید..."></textarea>
+        <div style="display:flex; gap:10px; margin-top:15px;">
+            <button class="icon-btn" style="width:auto; padding:0 15px; border-radius:10px;" onclick="applyAIFix()"><i class="fa-solid fa-wand-magic-sparkles"></i> اصلاح هوشمند</button>
+            <button class="icon-btn" style="width:auto; padding:0 15px; border-radius:10px;" onclick="exportDoc('pdf')">PDF</button>
+            <button class="icon-btn" style="width:auto; padding:0 15px; border-radius:10px;" onclick="exportDoc('word')">Word</button>
+        </div>
+    </div>
+</div>
+
+<!-- صفحه تاریخچه -->
+<div id="view-history" class="view">
+    <header>
+        <button class="icon-btn" onclick="switchView('dashboard')"><i class="fa-solid fa-arrow-right"></i></button>
+        <div class="header-title"><h1 style="font-size: 18px;">تاریخچه اسناد</h1></div>
+        <div style="width:45px;"></div>
+    </header>
+    <div style="padding: 20px;" id="historyList"></div>
+</div>
+
+<!-- نویگیشن پایین -->
+<nav class="bottom-nav">
+    <button class="nav-item" onclick="showToast('گزارشات در نسخه بعدی', 'var(--blue)')"><i class="fa-solid fa-chart-simple"></i><span>گزارش‌ها</span></button>
+    <button class="nav-item"><i class="fa-regular fa-star"></i><span>علاقه‌مندی‌ها</span></button>
+    <button class="nav-center-mic" onclick="switchView('dashboard'); setTimeout(()=>toggleRecording('main'), 300);"><i class="fa-solid fa-microphone"></i></button>
+    <button class="nav-item active" onclick="switchView('dashboard')"><i class="fa-solid fa-house"></i><span>خانه</span></button>
+    <button class="nav-item" onclick="toggleSettings()"><i class="fa-solid fa-user"></i><span>پروفایل</span></button>
+</nav>
+
+<div id="toast" class="toast">پیام</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+<script>
+    // --- State ---
+    let isRecording = false;
+    let recognition = null;
+    let autoSaveTimeout = null;
+    const editor = document.getElementById('textEditor');
+
+    // --- Navigation ---
+    function switchView(viewName) {
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        document.getElementById('view-' + viewName).classList.add('active');
+        if(viewName === 'history') renderHistory();
+    }
+
+    // --- UI Helpers ---
+    function showToast(msg, color = 'var(--green)') {
+        const toast = document.getElementById('toast');
+        toast.innerText = msg;
+        toast.style.background = color;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function toggleSettings() { showToast('تنظیمات به زودی...', 'var(--blue)'); }
+
+    // --- Speech Recognition (Fixed) ---
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    
+    if (SpeechRecognition) {
+        recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = 'fa-IR';
+
+        recognition.onstart = () => {
+            isRecording = true;
+            document.getElementById('mainMicBtn').classList.add('recording');
+            document.getElementById('mainMicIcon').className = 'fa-solid fa-stop';
+            document.getElementById('recStatus').innerText = 'در حال گوش دادن...';
+            document.getElementById('recStatus').style.color = 'var(--red)';
+        };
+
+        recognition.onresult = (event) => {
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                if (event.results[i].isFinal) {
+                    const text = event.results[i][0].transcript;
+                    editor.value += (editor.value ? ' ' : '') + text;
+                }
+            }
+        };
+
+        recognition.onerror = (e) => {
+            showToast('خطا: ' + e.error, 'var(--red)');
+            stopRecordingState();
+        };
+
+        recognition.onend = () => {
+            if(isRecording) { try { recognition.start(); } catch(_){} }
+            else stopRecordingState();
+        };
+    } else {
+        showToast('مرورگر شما از میکروفون پشتیبانی نمی‌کند', 'var(--red)');
+    }
+
+    function toggleRecording(source) {
+        if (!recognition) return;
+        if (isRecording) {
+            isRecording = false;
+            recognition.stop();
+            stopRecordingState();
+        } else {
+            try { recognition.start(); } catch(e) {}
+        }
+    }
+
+    function stopRecordingState() {
+        isRecording = false;
+        document.getElementById('mainMicBtn').classList.remove('recording');
+        document.getElementById('mainMicIcon').className = 'fa-solid fa-microphone';
+        document.getElementById('recStatus').innerText = 'آماده ضبط صدا';
+        document.getElementById('recStatus').style.color = 'var(--gold)';
+    }
+
+    // --- Data & AI Functions ---
+    editor.addEventListener('input', () => {
+        clearTimeout(autoSaveTimeout);
+        autoSaveTimeout = setTimeout(() => { localStorage.setItem('ghalamyar_draft', editor.value); }, 1000);
+    });
+
+    function saveCurrentDoc() {
+        if(!editor.value.trim()) return showToast('متن خالی است!', 'var(--red)');
+        let docs = JSON.parse(localStorage.getItem('ghalamyar_docs') || '[]');
+        docs.unshift({ id: Date.now(), title: editor.value.substring(0, 30), content: editor.value, date: new Date().toLocaleDateString('fa-IR') });
+        localStorage.setItem('ghalamyar_docs', JSON.stringify(docs));
+        showToast('ذخیره شد');
+    }
+
+    function renderHistory() {
+        const list = document.getElementById('historyList');
+        list.innerHTML = '';
+        const docs = JSON.parse(localStorage.getItem('ghalamyar_docs') || '[]');
+        if(!docs.length) { list.innerHTML = '<p style="text-align:center; color:var(--text-muted);">سندی یافت نشد.</p>'; return; }
+        docs.forEach(d => {
+            list.innerHTML += `<div class="doc-item" onclick="loadDoc(${d.id})"><div class="doc-info"><div class="doc-icon bg-word"><i class="fa-solid fa-file-lines"></i></div><div class="doc-meta"><h4>${d.title}...</h4><span>${d.date}</span></div></div></div>`;
+        });
+    }
+
+    function loadDoc(id) {
+        const doc = JSON.parse(localStorage.getItem('ghalamyar_docs')).find(d => d.id === id);
+        if(doc) { editor.value = doc.content; switchView('editor'); }
+    }
+
+    function openTemplates() {
+        showToast('قالب‌ها در نسخه بعدی...', 'var(--blue)');
+    }
+
+    function openDictionary() {
+        showToast('دیکشنری در نسخه بعدی...', 'var(--blue)');
+    }
+
+    function applyAIFix() {
+        if(!editor.value.trim()) return;
+        navigator.clipboard.writeText(`متن زیر را به لحن حقوقی ویرایش کن:\n\n${editor.value}`).then(() => {
+            showToast('متن کپی شد، در جمنای پیست کنید');
+            window.open("https://gemini.google.com/app", "_blank");
+        });
+    }
+
+    function exportDoc(type) {
+        if(!editor.value.trim()) return;
+        if(type === 'pdf') {
+            const w = window.open('', '_blank');
+            w.document.write(`<html dir="rtl"><head><style>body{font-family:Tahoma; padding:2cm; line-height:2;}</style></head><body>${editor.value.replace(/\n/g, '<br>')}</body></html>`);
+            w.document.close(); setTimeout(() => w.print(), 500);
+        } else {
+            const html = `<html dir="rtl"><body>${editor.value.replace(/\n/g, '<br>')}</body></html>`;
+            const blob = new Blob(['\ufeff', html], {type: 'application/msword'});
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'Doc.doc'; a.click();
+        }
+    }
+
+    // Load draft on start
+    window.onload = () => {
+        const saved = localStorage.getItem('ghalamyar_draft');
+        if(saved) editor.value = saved;
+    };
+</script>
+</body>
+</html>
