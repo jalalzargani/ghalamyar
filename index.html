@@ -29,7 +29,7 @@
     }
     .app-shell { max-width: 480px; margin: 0 auto; padding: 14px 16px 24px; }
     .glass {
-      background: linear-gradient(145deg, rgba(19, 29, 51, 0.85), rgba(10, 17, 32, 0.92));
+      background: linear-gradient(145deg, rgba(19, 29, 51, 0.88), rgba(10, 17, 32, 0.94));
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border: 1px solid var(--border-gold);
@@ -63,20 +63,21 @@
       transition: transform 0.2s, box-shadow 0.2s;
     }
     .mic-circle.recording {
-      box-shadow: 0 0 32px rgba(245, 208, 97, 0.85);
-      transform: scale(1.05);
+      box-shadow: 0 0 32px rgba(245, 208, 97, 0.9);
+      transform: scale(1.06);
+      border-color: #ef4444;
     }
     .rec-controls {
       display: flex; align-items: center; justify-content: space-between;
-      gap: 8px; margin-top: 10px;
+      gap: 8px; margin-top: 10px; flex-wrap: wrap;
     }
     .pill-btn {
-      background: rgba(10, 17, 32, 0.8); color: var(--text-main);
+      background: rgba(10, 17, 32, 0.85); color: var(--text-main);
       border: 1px solid rgba(255,255,255,0.2); border-radius: 20px;
       padding: 6px 12px; font-size: 11.5px; cursor: pointer;
     }
     select.pill-btn { border-color: var(--border-gold); color: var(--gold-bright); }
-    .rec-status { font-size: 12px; color: var(--gold-bright); text-align: center; flex: 1; }
+    .rec-status { font-size: 11.5px; color: var(--gold-bright); text-align: center; flex: 1; min-width: 120px; }
     .dots { display: flex; justify-content: center; gap: 6px; margin: 10px 0 16px; }
     .dot {
       width: 7px; height: 7px; border-radius: 4px;
@@ -85,9 +86,9 @@
     .dot.active { width: 18px; background: var(--gold-bright); }
     .live-box { padding: 12px; margin-bottom: 16px; }
     .live-box textarea {
-      width: 100%; min-height: 85px; background: rgba(10,17,32,0.65);
-      border: 1px solid rgba(255,255,255,0.15); border-radius: 12px;
-      color: var(--text-main); padding: 10px; font-size: 13px; resize: vertical;
+      width: 100%; min-height: 110px; background: rgba(10,17,32,0.72);
+      border: 1px solid rgba(255,255,255,0.16); border-radius: 12px;
+      color: var(--text-main); padding: 10px; font-size: 13px; line-height: 1.8; resize: vertical;
     }
     .gold-btn {
       background: linear-gradient(135deg, var(--gold-bright), var(--gold));
@@ -107,12 +108,12 @@
     .feature-card .f-icon { font-size: 24px; color: var(--gold-bright); margin-bottom: 6px; }
     .feature-card h3 { margin: 0 0 3px; font-size: 12px; }
     .feature-card p { margin: 0; font-size: 10px; color: var(--text-muted); }
-    .c-blue { background: linear-gradient(155deg, rgba(30,58,95,0.8), rgba(10,17,32,0.9)); }
-    .c-green { background: linear-gradient(155deg, rgba(20,69,61,0.8), rgba(10,17,32,0.9)); }
-    .c-purple { background: linear-gradient(155deg, rgba(59,29,94,0.8), rgba(10,17,32,0.9)); }
-    .c-amber { background: linear-gradient(155deg, rgba(92,67,24,0.8), rgba(10,17,32,0.9)); }
-    .c-teal { background: linear-gradient(155deg, rgba(18,60,77,0.8), rgba(10,17,32,0.9)); }
-    .c-cyan { background: linear-gradient(155deg, rgba(16,73,74,0.8), rgba(10,17,32,0.9)); }
+    .c-blue { background: linear-gradient(155deg, rgba(30,58,95,0.85), rgba(10,17,32,0.92)); }
+    .c-green { background: linear-gradient(155deg, rgba(20,69,61,0.85), rgba(10,17,32,0.92)); }
+    .c-purple { background: linear-gradient(155deg, rgba(59,29,94,0.85), rgba(10,17,32,0.92)); }
+    .c-amber { background: linear-gradient(155deg, rgba(92,67,24,0.85), rgba(10,17,32,0.92)); }
+    .c-teal { background: linear-gradient(155deg, rgba(18,60,77,0.85), rgba(10,17,32,0.92)); }
+    .c-cyan { background: linear-gradient(155deg, rgba(16,73,74,0.85), rgba(10,17,32,0.92)); }
     .section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
     .doc-item {
       display: flex; align-items: center; gap: 10px; padding: 10px 12px;
@@ -154,18 +155,28 @@
       background: var(--bg-surface); color: var(--text-main);
       border: 1px solid var(--border-gold);
     }
-    dialog::backdrop { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); }
-    .field { width: 100%; padding: 9px; border-radius: 10px; margin: 6px 0 10px;
-      background: var(--bg-dark); color: var(--text-main); border: 1px solid rgba(255,255,255,0.2); }
+    dialog::backdrop { background: rgba(0, 0, 0, 0.72); backdrop-filter: blur(4px); }
+    .field {
+      width: 100%; padding: 9px; border-radius: 10px; margin: 6px 0 10px;
+      background: var(--bg-dark); color: var(--text-main); border: 1px solid rgba(255,255,255,0.2);
+    }
+    .toast {
+      position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+      background: var(--gold-bright); color: var(--bg-dark); font-weight: 700;
+      padding: 8px 16px; border-radius: 12px; font-size: 12px; z-index: 99;
+      display: none; box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    }
     @media print {
       body { background: #fff !important; color: #111 !important; padding: 0; }
-      .app-shell > *:not(#printArea), .bottom-nav-wrap, dialog { display: none !important; }
+      .app-shell > *:not(#printArea), .bottom-nav-wrap, dialog, .toast { display: none !important; }
       #printArea { display: block !important; direction: rtl; font-family: 'Vazirmatn', sans-serif; }
     }
     #printArea { display: none; }
   </style>
 </head>
 <body>
+  <div class="toast" id="toastBox"></div>
+
   <div class="app-shell">
     <header>
       <button class="icon-btn" onclick="openModal('settingsModal')" title="تنظیمات">⚙️</button>
@@ -176,11 +187,11 @@
           <p>دستیار هوشمند نگارش حقوقی</p>
         </div>
       </div>
-      <button class="icon-btn" onclick="openModal('toolsModal')" title="محاسبه‌گرها">☰</button>
+      <button class="icon-btn" onclick="openModal('toolsModal')" title="ابزارهای قضایی">☰</button>
     </header>
 
     <div id="view-home">
-      <p class="hero-quote">سخن بگویید...<br>ما آن را به متن حقوقی حرفه‌ای تبدیل می‌کنیم.</p>
+      <p class="hero-quote">سخن بگویید یا بنویسید...<br>ما آن را به متن رسمی و حقوقی تبدیل می‌کنیم.</p>
 
       <div class="glass carousel-wrap">
         <div class="carousel-track" id="carouselTrack">
@@ -191,26 +202,31 @@
             </div>
             <div class="rec-controls">
               <button class="pill-btn" onclick="stopRecording()">⏹ توقف</button>
-              <span class="rec-status" id="recStatus">آماده برای ضبط...</span>
-              <select class="pill-btn" id="proModeSelect">
-                <option value="brief">حالت حرفه‌ای: لایحه دفاعیه</option>
-                <option value="petition">دادخواست حقوقی</option>
-                <option value="complaint">شکواییه کیفری</option>
-                <option value="poa">وکالت‌نامه رسمی</option>
-                <option value="declaration">اظهارنامه قضایی</option>
-                <option value="contract">قرارداد حقوقی</option>
+              <span class="rec-status" id="recStatus">برای ضبط صدا روی میکروفون بزنید</span>
+              <select class="pill-btn" id="proModeSelect" onchange="updateDocTitleByMode()">
+                <option value="brief">حالت: لایحه دفاعیه</option>
+                <option value="petition">حالت: دادخواست حقوقی</option>
+                <option value="complaint">حالت: شکواییه کیفری</option>
+                <option value="declaration">حالت: اظهارنامه رسمی</option>
+                <option value="poa">حالت: وکالت‌نامه</option>
+                <option value="contract">حالت: قرارداد حقوقی</option>
               </select>
             </div>
+            <div id="audioPlaybackWrap" style="display:none;margin-top:8px;text-align:center">
+              <audio id="audioPlayer" controls style="width:100%;height:32px"></audio>
+            </div>
           </div>
+
           <div class="slide" style="text-align:center">
             <h3 style="margin:6px 0;color:var(--gold-bright)">محاسبه‌گر هزینه دادرسی و مواعد</h3>
-            <p style="font-size:12px;color:var(--text-muted)">تعرفه‌های مالی و غیرمالی و مهلت‌های مواد ۴۴۳ تا ۴۴۶ ق.آ.د.م</p>
-            <button class="gold-btn" onclick="openModal('toolsModal')">باز کردن محاسبه‌گر قضایی</button>
+            <p style="font-size:12px;color:var(--text-muted)">محاسبه تعرفه دادرسی و مهلت‌های مواد ۴۴۴ تا ۴۴۶ ق.آ.د.م با امکان درج در متن</p>
+            <button class="gold-btn" onclick="openModal('toolsModal')">باز کردن ابزارهای قضایی</button>
           </div>
+
           <div class="slide" style="text-align:center">
-            <h3 style="margin:6px 0;color:var(--gold-bright)">آماده‌ساز سامانه ثنا و عدل ایران</h3>
-            <p style="font-size:12px;color:var(--text-muted)">حذف قالب‌بندی مزاحم Word، تولید متن پاک ثنا و خروجی استاندارد</p>
-            <button class="gold-btn" onclick="copySanaText()">کپی متن آماده سامانه ثنا</button>
+            <h3 style="margin:6px 0;color:var(--gold-bright)">تبدیل متن به قالب سامانه ثنا</h3>
+            <p style="font-size:12px;color:var(--text-muted)">حذف علائم اضافی، استانداردسازی حروف فارسی و کپی فوری برای ثنا</p>
+            <button class="gold-btn" onclick="copySanaText()">کپی متن آماده ثنا</button>
           </div>
         </div>
       </div>
@@ -222,10 +238,10 @@
       </div>
 
       <div class="glass live-box">
-        <textarea id="docTitle" style="min-height:38px;margin-bottom:8px;font-weight:700" placeholder="عنوان سند (مثلاً: لایحه دفاعیه پرونده مطالبه وجه)"></textarea>
-        <textarea id="editorArea" placeholder="متن گفتار شما یا متن حقوقی اینجا نمایش داده می‌شود..."></textarea>
-        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
-          <button class="gold-btn" style="flex:1" onclick="smartPolishText()">✨ ویرایش هوشمند حقوقی</button>
+        <input class="field" id="docTitle" style="margin-top:0" value="لایحه دفاعیه" placeholder="عنوان سند حقوقی" />
+        <textarea id="editorArea" placeholder="اینجا بنویسید یا با میکروفون صحبت کنید (مثلاً: مستأجر اجاره را نمی‌دهد و چک برگشت خورده است)..."></textarea>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+          <button class="gold-btn" style="flex:1" onclick="transformToLegalLiterature()">⚖️ تبدیل به ادبیات حقوقی</button>
           <button class="pill-btn" onclick="exportDocx()">Word (.docx)</button>
           <button class="pill-btn" onclick="exportPdf()">PDF</button>
           <button class="pill-btn" onclick="saveCurrentDoc()">💾 ذخیره</button>
@@ -233,10 +249,10 @@
       </div>
 
       <div class="grid-6">
-        <div class="feature-card c-blue" onclick="smartPolishText()">
+        <div class="feature-card c-blue" onclick="transformToLegalLiterature()">
           <div class="f-icon">📝</div>
           <h3>ویرایش هوشمند</h3>
-          <p>اصلاح و بهینه‌سازی متن</p>
+          <p>ادبیات رسمی حقوقی</p>
         </div>
         <div class="feature-card c-green" onclick="exportDocx()">
           <div class="f-icon">📄</div>
@@ -261,7 +277,7 @@
         <div class="feature-card c-cyan" onclick="openModal('settingsModal')">
           <div class="f-icon">⚙️</div>
           <h3>تنظیمات</h3>
-          <p>سفارشی‌سازی برنامه</p>
+          <p>مشخصات وکیل</p>
         </div>
       </div>
 
@@ -291,30 +307,40 @@
     </div>
   </div>
 
-  <!-- مودال محاسبه‌گر هزینه دادرسی و مواعد -->
+  <!-- ابزارهای قضایی -->
   <dialog id="toolsModal">
-    <h3 style="margin-top:0;color:var(--gold-bright)">محاسبه‌گر هزینه دادرسی و مواعد</h3>
+    <h3 style="margin-top:0;color:var(--gold-bright)">ابزارهای محاسبات قضایی</h3>
+
     <label>ارزش خواسته / محکوم‌به (ریال):</label>
-    <input class="field" id="feeAmount" type="number" value="500000000" />
+    <input class="field" id="feeAmount" type="number" value="1000000000" />
     <label>مرحله رسیدگی:</label>
     <select class="field" id="feeStage">
       <option value="first">بدوی (۲.۵٪ تا ۲۰۰ میلیون / ۳.۵٪ مازاد)</option>
       <option value="appeal">تجدیدنظر و واخواهی (۴.۵٪)</option>
       <option value="cassation">فرجام و اعاده دادرسی (۵.۵٪)</option>
     </select>
-    <button class="gold-btn" style="width:100%" onclick="calcFee()">محاسبه هزینه دادرسی</button>
-    <p id="feeResult" style="color:var(--gold-bright);font-size:13px"></p>
+    <div style="display:flex;gap:8px">
+      <button class="gold-btn" style="flex:1" onclick="calcFee()">محاسبه هزینه دادرسی</button>
+      <button class="pill-btn" onclick="insertFeeToEditor()">درج در متن</button>
+    </div>
+    <p id="feeResult" style="color:var(--gold-bright);font-size:12.5px;line-height:1.7"></p>
+
     <hr style="border-color:rgba(255,255,255,0.12)" />
-    <label>تاریخ ابلاغ (میلادی جهت محاسبه خودکار تقویم، یا پیش‌فرض امروز):</label>
+
+    <label>تاریخ ابلاغ (میلادی):</label>
     <input class="field" id="notifyDate" type="date" />
     <select class="field" id="deadlineDays">
       <option value="20">مهلت ۲۰ روزه (تجدیدنظر / واخواهی)</option>
-      <option value="10">مهلت ۱۰ روزه (رفع نقص / اعتراض قرار دادسرا)</option>
-      <option value="60">مقیم خارج از کشور (ماده ۴۴۶: ۲ ماه / ۶۰ روز)</option>
+      <option value="10">مهلت ۱۰ روزه (رفع نقص / اعتراض قرار)</option>
+      <option value="60">مقیم خارج از کشور (ماده ۴۴۶: ۶۰ روز)</option>
     </select>
-    <button class="gold-btn" style="width:100%" onclick="calcDeadline()">محاسبه آخرین روز اقدام (مواد ۴۴۴ و ۴۴۵)</button>
-    <p id="deadlineResult" style="color:var(--gold-bright);font-size:13px"></p>
-    <button class="pill-btn" style="width:100%;margin-top:8px" onclick="closeModal('toolsModal')">بستن</button>
+    <div style="display:flex;gap:8px">
+      <button class="gold-btn" style="flex:1" onclick="calcDeadline()">محاسبه مهلت قانونی</button>
+      <button class="pill-btn" onclick="insertDeadlineToEditor()">درج در متن</button>
+    </div>
+    <p id="deadlineResult" style="color:var(--gold-bright);font-size:12.5px;line-height:1.7"></p>
+
+    <button class="pill-btn" style="width:100%;margin-top:10px" onclick="closeModal('toolsModal')">بستن</button>
   </dialog>
 
   <dialog id="templatesModal">
@@ -325,7 +351,7 @@
 
   <dialog id="termsModal">
     <h3 style="margin-top:0;color:var(--gold-bright)">فرهنگ اصطلاحات حقوقی</h3>
-    <input class="field" id="termSearch" placeholder="جستجوی اصطلاح (مثلاً: اعسار، واخواهی)..." oninput="renderTerms()" />
+    <input class="field" id="termSearch" placeholder="جستجوی اصطلاح (مثلاً: واخواهی، اعسار)..." oninput="renderTerms()" />
     <div id="termsList" style="max-height:260px;overflow:auto"></div>
     <button class="pill-btn" style="width:100%;margin-top:8px" onclick="closeModal('termsModal')">بستن</button>
   </dialog>
@@ -338,7 +364,7 @@
 
   <dialog id="settingsModal">
     <h3 style="margin-top:0;color:var(--gold-bright)">تنظیمات و مشخصات وکیل</h3>
-    <label>نام و نام خانوادگی (در سربرگ Word/PDF):</label>
+    <label>نام و عنوان وکیل:</label>
     <input class="field" id="lawyerNameInput" placeholder="مثلاً: جلال زرگانی — وکیل پایه یک دادگستری" />
     <label>شماره پروانه وکالت:</label>
     <input class="field" id="lawyerLicenseInput" placeholder="مثلاً: ۱۲۳۴۵" />
@@ -352,29 +378,51 @@
       year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
     }).format(date);
 
+    function showToast(msg) {
+      const box = document.getElementById('toastBox');
+      box.textContent = msg;
+      box.style.display = 'block';
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => { box.style.display = 'none'; }, 2600);
+    }
+
     const TEMPLATES = [
-      { title: 'دادخواست مطالبه وجه', cat: 'petition', text: 'ریاست محترم دادگاه عمومی حقوقی\nبا سلام و احترام؛\nاینجانب به وکالت از خواهان به استحضار می‌رساند که خوانده به موجب مدارک پیوست مبلغ ... ریال بدهکار بوده و علی‌رغم مراجعات مکرر از پرداخت آن امتناع نموده است. لذا به استناد مواد ۱۹۸ و ۵۱۹ قانون آیین دادرسی مدنی، صدور حکم به محکومیت خوانده به پرداخت اصل خواسته، خسارت تأخیر تأدیه و هزینه دادرسی مورد استدعاست.' },
-      { title: 'لایحه دفاعیه حقوقی', cat: 'brief', text: 'ریاست محترم شعبه ... دادگاه عمومی حقوقی\nبا سلام؛ احتراماً در خصوص پرونده کلاسه ... در مقام دفاع معروض می‌دارد:\n۱. ادعای مطرح‌شده فاقد مستند قانونی و دلیل مثبته است.\n۲. تقاضای رد دعوی خواهان و صدور حکم مقتضی مورد استدعاست.' },
-      { title: 'وکالت‌نامه رسمی', cat: 'poa', text: 'موکل: ...\nوکیل: ...\nموضوع وکالت: پیگیری کلیه امور اداری و قضایی در مراجع ذی‌صلاح با حق توکیل به غیر و اخذ مدارک قانونی.' }
+      { title: 'دادخواست مطالبه وجه', text: 'ریاست محترم دادگاه عمومی حقوقی\nبا سلام و احترام؛\nاینجانب به وکالت از خواهان به استحضار می‌رساند که خوانده به موجب اسناد و مدارک پیوست مبلغ ... ریال بدهکار بوده و علی‌رغم مطالبه مکرر از ایفاء تعهد خودداری نموده است. لذا به استناد مواد ۱۹۸ و ۵۱۹ قانون آیین دادرسی مدنی، صدور حکم به محکومیت خوانده به پرداخت اصل خواسته، خسارت تأخیر تأدیه از تاریخ سررسید تا زمان اجرای حکم و هزینه دادرسی و حق‌الوکاله مورد استدعاست.' },
+      { title: 'لایحه دفاعیه حقوقی', text: 'ریاست محترم شعبه ... دادگاه عمومی حقوقی\nبا سلام و احترام؛\nدر خصوص پرونده کلاسه ... در مقام دفاع معروض می‌دارد:\n۱. ادعای خواهان فاقد دلیل اثباتی معتبر و مستند قانونی است.\n۲. به استناد ماده ۱۲۵۷ قانون مدنی، مدعی باید ادعای خود را اثبات نماید.\nلذا رد دعوی مطروحه و صدور حکم بر بی‌حقی خواهان مورد استدعاست.' },
+      { title: 'اظهارنامه رسمی مطالبه و اخطار', text: 'مخاطب محترم\nبا سلام؛\nبه موجب این اظهارنامه رسمی موضوع ماده ۱۵۶ قانون آیین دادرسی مدنی، ظرف مهلت مقرر نسبت به ایفای تعهد قراردادی و تسویه حساب اقدام فرمایید؛ بدیهی است پس از انقضای مهلت، طرح دعوای مقتضی در مرجع صالح قضایی بدون ارسال اخطار مجدد صورت خواهد پذیرفت.' }
     ];
 
     const LEGAL_TERMS = [
-      { term: 'واخواهی', source: 'ماده ۳۰۶ ق.آ.د.م', def: 'اعتراض محکوم‌علیه غایب به حکم غیابی ظرف ۲۰ روز از ابلاغ واقعی.' },
-      { term: 'اعسار', source: 'قانون نحوه اجرای محکومیت‌های مالی', def: 'ناتوانی موقت یا دائم مدیون از پرداخت یک‌جای محکوم‌به یا هزینه دادرسی.' },
+      { term: 'واخواهی', source: 'ماده ۳۰۶ ق.آ.د.م', def: 'اعتراض محکوم‌علیه غایب به حکم غیابی ظرف ۲۰ روز از تاریخ ابلاغ واقعی.' },
+      { term: 'اعسار', source: 'قانون نحوه اجرای محکومیت‌های مالی', def: 'ناتوانی مدیون از پرداخت یک‌جای محکوم‌به یا هزینه دادرسی.' },
       { term: 'تأمین خواسته', source: 'ماده ۱۰۸ ق.آ.د.م', def: 'توقیف اموال خوانده پیش از صدور حکم قطعی برای تضمین وصول طلب.' },
-      { term: 'ماده ۴۴۴ و ۴۴۵ ق.آ.د.م', source: 'آیین دادرسی مدنی', def: 'روز ابلاغ و اقدام محاسبه نمی‌شود و اگر روز آخر تعطیل باشد به اولین روز کاری منتقل می‌شود.' }
+      { term: 'مواد ۴۴۴ و ۴۴۵ ق.آ.د.م', source: 'آیین دادرسی مدنی', def: 'روز ابلاغ و اقدام در مواعد محاسبه نمی‌شود و اگر روز آخر تعطیل باشد به اولین روز کاری پس از تعطیل منتقل می‌شود.' }
     ];
 
-    let docs = JSON.parse(localStorage.getItem('qalamyar_docs') || 'null') || [
-      { id: '1', title: 'وکالت‌نامه رسمی', type: 'docx', date: jalaliNow(new Date(2025, 11, 17, 15, 30)), fav: true, text: TEMPLATES[2].text },
-      { id: '2', title: 'دادخواست حقوقی', type: 'pdf', date: jalaliNow(new Date(2025, 11, 16, 11, 20)), fav: false, text: TEMPLATES[0].text }
+    let docs = JSON.parse(localStorage.getItem('qalamyar_docs_v2') || 'null') || [
+      { id: '1', title: 'وکالت‌نامه رسمی', type: 'docx', date: jalaliNow(new Date(2025, 11, 17, 15, 30)), fav: true, text: TEMPLATES[0].text },
+      { id: '2', title: 'دادخواست حقوقی', type: 'pdf', date: jalaliNow(new Date(2025, 11, 16, 11, 20)), fav: false, text: TEMPLATES[1].text }
     ];
 
-    let isRecording = false, recognition = null, audioCtx = null, analyser = null, animId = null;
+    let isRecording = false, recognition = null, mediaRecorder = null, audioChunks = [];
+    let audioCtx = null, analyser = null, finalTranscript = '', lastFeeText = '', lastDeadlineText = '';
 
     function goSlide(idx) {
       document.getElementById('carouselTrack').style.transform = `translateX(${idx * 100}%)`;
       document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+    }
+
+    function updateDocTitleByMode() {
+      const labels = {
+        brief: 'لایحه دفاعیه',
+        petition: 'دادخواست حقوقی',
+        complaint: 'شکواییه کیفری',
+        declaration: 'اظهارنامه رسمی',
+        poa: 'وکالت‌نامه رسمی',
+        contract: 'قرارداد حقوقی'
+      };
+      const val = document.getElementById('proModeSelect').value;
+      document.getElementById('docTitle').value = labels[val] || 'سند حقوقی';
     }
 
     function drawWave() {
@@ -390,82 +438,204 @@
         const amp = isRecording && data ? (data[i % data.length] / 255) : (0.14 + 0.08 * Math.sin(Date.now() / 400 + i));
         const dist = 1 - Math.abs(i - bars / 2) / (bars / 2);
         const h = Math.max(4, amp * canvas.height * 0.85 * Math.max(0.25, dist));
-        ctx.strokeStyle = isRecording ? 'rgba(245,208,97,0.92)' : 'rgba(212,175,55,0.42)';
+        ctx.strokeStyle = isRecording ? 'rgba(245,208,97,0.95)' : 'rgba(212,175,55,0.42)';
         ctx.lineWidth = 2.5; ctx.lineCap = 'round';
         ctx.beginPath();
         ctx.moveTo(i * gap + gap / 2, canvas.height / 2 - h / 2);
         ctx.lineTo(i * gap + gap / 2, canvas.height / 2 + h / 2);
         ctx.stroke();
       }
-      animId = requestAnimationFrame(drawWave);
+      requestAnimationFrame(drawWave);
     }
     drawWave();
 
     async function toggleRecording() {
       if (isRecording) return stopRecording();
       isRecording = true;
+      finalTranscript = '';
+      audioChunks = [];
       document.getElementById('mainMicBtn').classList.add('recording');
-      document.getElementById('recStatus').textContent = 'در حال گوش دادن...';
+      document.getElementById('recStatus').textContent = 'در حال ضبط صدا... صحبت کنید';
+
+      const editor = document.getElementById('editorArea');
+      const startPrefix = editor.value.trim();
+
+      let stream = null;
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const src = audioCtx.createMediaStreamSource(stream);
         analyser = audioCtx.createAnalyser(); analyser.fftSize = 128;
         src.connect(analyser);
-      } catch (e) {}
+
+        if (window.MediaRecorder) {
+          mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
+          mediaRecorder.onstop = () => {
+            if (audioChunks.length) {
+              const blob = new Blob(audioChunks, { type: 'audio/webm' });
+              const player = document.getElementById('audioPlayer');
+              player.src = URL.createObjectURL(blob);
+              document.getElementById('audioPlaybackWrap').style.display = 'block';
+            }
+          };
+          mediaRecorder.start();
+        }
+      } catch (err) {
+        showToast('دسترسی میکروفون داده نشد؛ می‌توانید متن را تایپ کنید.');
+      }
 
       const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (SR) {
-        recognition = new SR();
-        recognition.lang = 'fa-IR'; recognition.continuous = true; recognition.interimResults = true;
-        const editor = document.getElementById('editorArea');
-        const base = editor.value;
-        recognition.onresult = (ev) => {
-          let spoken = '';
-          for (let i = 0; i < ev.results.length; i++) spoken += ev.results[i][0].transcript + ' ';
-          editor.value = (base ? base + '\n' : '') + spoken.trim();
-        };
-        recognition.start();
+        try {
+          recognition = new SR();
+          recognition.lang = 'fa-IR';
+          recognition.continuous = true;
+          recognition.interimResults = true;
+
+          recognition.onresult = (event) => {
+            let interim = '';
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+              const txt = event.results[i][0].transcript;
+              if (event.results[i].isFinal) finalTranscript += txt + ' ';
+              else interim += txt;
+            }
+            const combined = (finalTranscript + interim).trim();
+            if (combined) {
+              editor.value = (startPrefix ? startPrefix + '\n' : '') + toFa(combined);
+              document.getElementById('recStatus').textContent = 'در حال ثبت گفتار به متن...';
+            }
+          };
+
+          recognition.onerror = (e) => {
+            document.getElementById('recStatus').textContent = 'صدا ضبط می‌شود؛ در صورت عدم ثبت متن، تایپ یا ویرایش کنید.';
+          };
+
+          recognition.start();
+        } catch (e) {
+          document.getElementById('recStatus').textContent = 'صدا ضبط می‌شود؛ متن را وارد کنید.';
+        }
       } else {
-        document.getElementById('recStatus').textContent = 'مرورگر از تایپ صوتی پشتیبانی نمی‌کند؛ متن را تایپ کنید.';
+        document.getElementById('recStatus').textContent = 'ضبط صوت فعال است؛ متن را بنویسید یا تبدیل حقوقی بزنید.';
       }
     }
 
     function stopRecording() {
       isRecording = false;
       document.getElementById('mainMicBtn').classList.remove('recording');
-      document.getElementById('recStatus').textContent = 'توقف ضبط — آماده برای ویرایش و خروجی';
+      document.getElementById('recStatus').textContent = 'ضبط متوقف شد';
       if (recognition) { try { recognition.stop(); } catch(e){} recognition = null; }
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') { try { mediaRecorder.stop(); } catch(e){} }
       if (audioCtx) { try { audioCtx.close(); } catch(e){} audioCtx = null; analyser = null; }
     }
 
-    function smartPolishText() {
+    function transformToLegalLiterature() {
       const editor = document.getElementById('editorArea');
-      let t = editor.value.trim().replace(/ي/g, 'ی').replace(/ك/g, 'ک').replace(/ +/g, ' ');
-      if (!t) t = 'لطفاً ابتدا متن خود را ضبط یا تایپ کنید.';
-      else {
-        const mode = document.getElementById('proModeSelect').value;
-        const headerMap = {
-          brief: 'ریاست محترم شعبه رسیدگی‌کننده\nبا سلام و احترام؛ در مقام دفاع معروض می‌دارد:\n',
-          petition: 'ریاست محترم دادگاه عمومی حقوقی\nبا سلام و احترام؛ به استحضار می‌رساند:\n',
-          complaint: 'دادستان محترم عمومی و انقلاب\nبا سلام؛ احتراماً اعلام جرم و شکواییه ذیل تقدیم می‌گردد:\n',
-          poa: 'متن وکالت‌نامه رسمی:\n',
-          declaration: 'مخاطب محترم اظهارنامه موضوع ماده ۱۵۶ ق.آ.د.م:\n',
-          contract: 'متن قرارداد حقوقی فی‌مابین:\n'
-        };
-        if (!t.startsWith('ریاست') && !t.startsWith('دادستان')) t = headerMap[mode] + t;
-        if (!t.endsWith('.')) t += '.';
+      let raw = editor.value.trim();
+      if (!raw) {
+        raw = 'چک برگشت خورده و طلبم را نمی‌دهد و مهلت قانونی هم در حال اتمام است';
       }
-      editor.value = toFa(t);
+
+      let clean = raw
+        .replace(/ي/g, 'ی').replace(/ك/g, 'ک')
+        .replace(/پولمو نمیده|پولم رو نمیده|پولمو پس نمیده/g, 'از پرداخت وجه و ایفای تعهد مالی خودداری نموده است')
+        .replace(/چک برگشت خورده|چکم برگشت خورده/g, 'چک صادره منتهی به صدور گواهینامه عدم پرداخت شده است')
+        .replace(/اجاره نمیده|اجاره رو نمیده|اجاره را نمیده/g, 'از پرداخت مال‌الاجاره معوقه امتناع ورزیده است')
+        .replace(/مستاجر|مستأجر/g, 'مستأجر')
+        .replace(/پیمانکار/g, 'پیمانکار')
+        .replace(/موکل/g, 'موکل')
+        .replace(/مهلت/g, 'فرجه و مهلت قانونی')
+        .replace(/\s+/g, ' ').trim();
+
+      const mode = document.getElementById('proModeSelect').value;
+      const openings = {
+        brief: 'ریاست محترم شعبه رسیدگی‌کننده\nبا سلام و احترام؛\nاینجانب در مقام دفاع و بیان واقع معروض می‌دارد: ',
+        petition: 'ریاست محترم دادگاه عمومی حقوقی\nبا سلام و احترام؛\nبه استحضار می‌رساند: ',
+        complaint: 'دادستان محترم عمومی و انقلاب\nبا سلام و احترام؛\nاحتراماً ضمن اعلام موضوع، استدعای تعقیب و رسیدگی قانونی را دارد: ',
+        declaration: 'مخاطب محترم اظهارنامه رسمی (موضوع ماده ۱۵۶ قانون آیین دادرسی مدنی)\nبا سلام؛\nبدین‌وسیله رسماً اعلام و اخطار می‌گردد: ',
+        poa: 'متن وکالت‌نامه رسمی:\nموکل با تفویض اختیار کامل به وکیل، در خصوص موضوع ذیل اقدام می‌نماید: ',
+        contract: 'قرارداد حقوقی فی‌مابین طرفین:\nموضوع قرارداد و تعهدات طرفین به شرح ذیل منعقد گردید: '
+      };
+
+      const closings = {
+        brief: '\n\nبناءً علی‌هذا و به استناد مواد ۱۹۷ و ۱۹۸ قانون آیین دادرسی مدنی، صدور حکم شایسته و مقتضی مورد استدعاست.',
+        petition: '\n\nلذا به استناد مواد ۱۹۸ و ۵۱۹ قانون آیین دادرسی مدنی، صدور حکم به محکومیت خوانده به پرداخت اصل خواسته، خسارت تأخیر تأدیه و هزینه دادرسی مورد استدعاست.',
+        complaint: '\n\nبا عنایت به دلایل و قرائن موجود، صدور قرار جلب به دادرسی و کیفرخواست مقتضی مورد تقاضاست.',
+        declaration: '\n\nمقتضی است ظرف مهلت مقرر قانونی نسبت به انجام تکلیف اقدام فرمایید؛ در غیر این صورت اقدام قضایی به عمل خواهد آمد.',
+        poa: '\n\nحدود اختیارات وکیل مطابق مفاد مندرج در این سند معتبر و نافذ است.',
+        contract: '\n\nاین قرارداد در دو نسخه متحدالمتن تنظیم و پس از امضاء برای طرفین لازم‌الاتباع است.'
+      };
+
+      if (!clean.endsWith('.')) clean += '.';
+      const result = toFa((openings[mode] || openings.brief) + clean + (closings[mode] || closings.brief));
+      editor.value = result;
+      showToast('متن با ادبیات رسمی حقوقی بازنویسی شد.');
+    }
+
+    function calcFee() {
+      const amount = Math.max(0, Number(document.getElementById('feeAmount').value || 0));
+      const st = document.getElementById('feeStage').value;
+      let fee = 0;
+      if (st === 'first') {
+        fee = amount <= 200000000 ? amount * 0.025 : (200000000 * 0.025) + ((amount - 200000000) * 0.035);
+      } else if (st === 'appeal') {
+        fee = amount * 0.045;
+      } else {
+        fee = amount * 0.055;
+      }
+      fee = Math.round(fee);
+      const toman = Math.round(fee / 10);
+      lastFeeText = toFa(`هزینه دادرسی برآوردی: ${fee.toLocaleString()} ریال (معادل ${toman.toLocaleString()} تومان)`);
+      document.getElementById('feeResult').textContent = lastFeeText;
+    }
+
+    function insertFeeToEditor() {
+      if (!lastFeeText) calcFee();
+      const ed = document.getElementById('editorArea');
+      ed.value = (ed.value.trim() ? ed.value.trim() + '\n' : '') + lastFeeText;
+      closeModal('toolsModal');
+      showToast('هزینه دادرسی به متن اضافه شد.');
+    }
+
+    function calcDeadline() {
+      const val = document.getElementById('notifyDate').value;
+      const base = val ? new Date(val + 'T12:00:00') : new Date();
+      const days = Number(document.getElementById('deadlineDays').value);
+      const target = new Date(base.getTime() + (days + 1) * 86400000);
+      let extended = false;
+      while (target.getDay() === 5 || target.getDay() === 4) {
+        target.setDate(target.getDate() + 1);
+        extended = true;
+      }
+      const j = new Intl.DateTimeFormat('fa-IR-u-ca-persian', { year:'numeric', month:'2-digit', day:'2-digit' }).format(target);
+      lastDeadlineText = toFa(`آخرین مهلت اقدام (مواد ۴۴۴ و ۴۴۵ ق.آ.د.م): ${j}`) + (extended ? ' (انتقال به روز کاری بعد به علت تعطیلی آخر هفته)' : '');
+      document.getElementById('deadlineResult').textContent = lastDeadlineText;
+    }
+
+    function insertDeadlineToEditor() {
+      if (!lastDeadlineText) calcDeadline();
+      const ed = document.getElementById('editorArea');
+      ed.value = (ed.value.trim() ? ed.value.trim() + '\n' : '') + lastDeadlineText;
+      closeModal('toolsModal');
+      showToast('مهلت قانونی به متن اضافه شد.');
+    }
+
+    function copySanaText() {
+      const raw = document.getElementById('editorArea').value;
+      const clean = toFa(raw.replace(/[*#_~`]/g, '').replace(/\n{3,}/g, '\n\n').trim());
+      if (!clean) return showToast('ابتدا متنی در ویرایشگر وارد کنید.');
+      navigator.clipboard.writeText(clean);
+      showToast('متن پاک و آماده سامانه ثنا کپی شد.');
     }
 
     function saveCurrentDoc(format = 'docx') {
       const title = document.getElementById('docTitle').value.trim() || 'سند حقوقی جدید';
       const text = document.getElementById('editorArea').value.trim();
-      if (!text) return alert('متن سند خالی است.');
+      if (!text) return showToast('متن سند خالی است.');
       docs.unshift({ id: Date.now().toString(), title, type: format, date: jalaliNow(), fav: false, text });
-      localStorage.setItem('qalamyar_docs', JSON.stringify(docs));
+      localStorage.setItem('qalamyar_docs_v2', JSON.stringify(docs));
       renderRecent();
+      showToast('سند در تاریخچه ذخیره شد.');
     }
 
     const escXml = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -542,6 +712,7 @@
       a.href = URL.createObjectURL(blob);
       a.download = `${title}.docx`;
       a.click();
+      showToast('فایل Word (.docx) ساخته و دانلود شد.');
     }
 
     function exportPdf() {
@@ -555,33 +726,6 @@
         <h2 style="text-align:center">${toFa(title)}</h2>
         <div style="line-height:2;white-space:pre-wrap;text-align:justify">${toFa(body)}</div>`;
       window.print();
-    }
-
-    function copySanaText() {
-      const text = toFa(document.getElementById('editorArea').value.replace(/[*#_]/g, '').trim());
-      navigator.clipboard.writeText(text);
-      alert('متن پاک و سازگار با سامانه ثنا در حافظه کپی شد.');
-    }
-
-    function calcFee() {
-      const amount = Number(document.getElementById('feeAmount').value || 0);
-      const st = document.getElementById('feeStage').value;
-      let fee = st === 'first' ? (amount <= 2e8 ? amount * 0.025 : amount * 0.035) : st === 'appeal' ? amount * 0.045 : amount * 0.055;
-      document.getElementById('feeResult').textContent = toFa(`هزینه دادرسی برآوردی: ${Math.round(fee).toLocaleString()} ریال (به‌علاوه کارمزد دفتر خدمات قضایی)`);
-    }
-
-    function calcDeadline() {
-      const val = document.getElementById('notifyDate').value;
-      const base = val ? new Date(val) : new Date();
-      const days = Number(document.getElementById('deadlineDays').value);
-      const target = new Date(base.getTime() + (days + 1) * 86400000);
-      let extended = false;
-      while (target.getDay() === 5 || target.getDay() === 4) {
-        target.setDate(target.getDate() + 1);
-        extended = true;
-      }
-      const j = new Intl.DateTimeFormat('fa-IR-u-ca-persian', { year:'numeric', month:'2-digit', day:'2-digit' }).format(target);
-      document.getElementById('deadlineResult').textContent = toFa(`آخرین مهلت اقدام: ${j}`) + (extended ? ' (تمدید به علت تعطیلی آخر هفته)' : '');
     }
 
     function renderRecent() {
@@ -603,18 +747,19 @@
       document.getElementById('docTitle').value = d.title;
       document.getElementById('editorArea').value = d.text;
       closeModal('historyModal');
+      showToast('سند در ویرایشگر بارگذاری شد.');
     }
 
     function toggleFav(id) {
       docs = docs.map(d => d.id === id ? { ...d, fav: !d.fav } : d);
-      localStorage.setItem('qalamyar_docs', JSON.stringify(docs));
+      localStorage.setItem('qalamyar_docs_v2', JSON.stringify(docs));
       renderRecent();
     }
 
     function shareDoc(id) {
       const d = docs.find(x => x.id === id);
       if (navigator.share && d) navigator.share({ title: d.title, text: d.text });
-      else if (d) { navigator.clipboard.writeText(d.text); alert('متن سند کپی شد.'); }
+      else if (d) { navigator.clipboard.writeText(d.text); showToast('متن سند کپی شد.'); }
     }
 
     function renderTerms() {
@@ -637,7 +782,7 @@
         const favs = docs.filter(d => d.fav);
         sub.innerHTML = `<div class="glass" style="padding:16px"><h3>⭐ علاقه‌مندی‌ها</h3>${favs.length ? favs.map(d => `<p onclick="loadDoc('${d.id}');switchTab('home', document.querySelectorAll('.nav-btn')[1])" style="cursor:pointer;color:var(--gold-bright)">• ${d.title} (${d.date})</p>`).join('') : '<p>سندی نشانه‌گذاری نشده است.</p>'}</div>`;
       } else if (tab === 'reports') {
-        const words = docs.reduce((a, b) => a + b.text.split(/\s+/).length, 0);
+        const words = docs.reduce((a, b) => a + b.text.trim().split(/\s+/).filter(Boolean).length, 0);
         sub.innerHTML = `<div class="glass" style="padding:16px"><h3>📊 گزارش‌های عملکرد</h3><p>تعداد اسناد ذخیره‌شده: ${toFa(docs.length)}</p><p>مجموع واژگان نگارش‌شده: ${toFa(words)}</p></div>`;
       } else {
         sub.innerHTML = `<div class="glass" style="padding:16px"><h3>👤 پروفایل وکیل</h3><p>نام: ${localStorage.getItem('qalamyar_lawyer') || 'ثبت‌نشده'}</p><p>شماره پروانه: ${toFa(localStorage.getItem('qalamyar_license') || '—')}</p><button class="gold-btn" onclick="openModal('settingsModal')">ویرایش پروفایل</button></div>`;
@@ -648,12 +793,13 @@
       localStorage.setItem('qalamyar_lawyer', document.getElementById('lawyerNameInput').value);
       localStorage.setItem('qalamyar_license', document.getElementById('lawyerLicenseInput').value);
       closeModal('settingsModal');
+      showToast('مشخصات وکیل ذخیره شد.');
     }
 
     function openModal(id) {
       if (id === 'templatesModal') {
         document.getElementById('templatesList').innerHTML = TEMPLATES.map((t, i) => `
-          <div class="glass" style="padding:10px;margin-bottom:8px;border-radius:12px;cursor:pointer" onclick="document.getElementById('docTitle').value='${t.title}';document.getElementById('editorArea').value=TEMPLATES[${i}].text;closeModal('templatesModal')">
+          <div class="glass" style="padding:10px;margin-bottom:8px;border-radius:12px;cursor:pointer" onclick="document.getElementById('docTitle').value='${t.title}';document.getElementById('editorArea').value=TEMPLATES[${i}].text;closeModal('templatesModal');showToast('قالب در ویرایشگر قرار گرفت.')">
             <strong style="color:var(--gold-bright)">${t.title}</strong>
           </div>`).join('');
       }
