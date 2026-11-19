@@ -63,8 +63,8 @@
       transition: transform 0.2s, box-shadow 0.2s;
     }
     .mic-circle.recording {
-      box-shadow: 0 0 32px rgba(245, 208, 97, 0.9);
-      transform: scale(1.06);
+      box-shadow: 0 0 32px rgba(239, 68, 68, 0.85);
+      transform: scale(1.05);
       border-color: #ef4444;
     }
     .rec-controls {
@@ -239,7 +239,7 @@
 
       <div class="glass live-box">
         <input class="field" id="docTitle" style="margin-top:0" value="لایحه دفاعیه" placeholder="عنوان سند حقوقی" />
-        <textarea id="editorArea" placeholder="اینجا بنویسید یا با میکروفون صحبت کنید (مثلاً: مستأجر اجاره را نمی‌دهد و چک برگشت خورده است)..."></textarea>
+        <textarea id="editorArea" placeholder="اینجا بنویسید یا با میکروفون صحبت کنید..."></textarea>
         <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
           <button class="gold-btn" style="flex:1" onclick="transformToLegalLiterature()">⚖️ تبدیل به ادبیات حقوقی</button>
           <button class="pill-btn" onclick="exportDocx()">Word (.docx)</button>
@@ -307,10 +307,8 @@
     </div>
   </div>
 
-  <!-- ابزارهای قضایی -->
   <dialog id="toolsModal">
     <h3 style="margin-top:0;color:var(--gold-bright)">ابزارهای محاسبات قضایی</h3>
-
     <label>ارزش خواسته / محکوم‌به (ریال):</label>
     <input class="field" id="feeAmount" type="number" value="1000000000" />
     <label>مرحله رسیدگی:</label>
@@ -324,9 +322,7 @@
       <button class="pill-btn" onclick="insertFeeToEditor()">درج در متن</button>
     </div>
     <p id="feeResult" style="color:var(--gold-bright);font-size:12.5px;line-height:1.7"></p>
-
     <hr style="border-color:rgba(255,255,255,0.12)" />
-
     <label>تاریخ ابلاغ (میلادی):</label>
     <input class="field" id="notifyDate" type="date" />
     <select class="field" id="deadlineDays">
@@ -339,7 +335,6 @@
       <button class="pill-btn" onclick="insertDeadlineToEditor()">درج در متن</button>
     </div>
     <p id="deadlineResult" style="color:var(--gold-bright);font-size:12.5px;line-height:1.7"></p>
-
     <button class="pill-btn" style="width:100%;margin-top:10px" onclick="closeModal('toolsModal')">بستن</button>
   </dialog>
 
@@ -405,7 +400,7 @@
     ];
 
     let isRecording = false, recognition = null, mediaRecorder = null, audioChunks = [];
-    let audioCtx = null, analyser = null, finalTranscript = '', lastFeeText = '', lastDeadlineText = '';
+    let audioCtx = null, analyser = null, finalTranscript = '', gotSpokenText = false, lastFeeText = '', lastDeadlineText = '';
 
     function goSlide(idx) {
       document.getElementById('carouselTrack').style.transform = `translateX(${idx * 100}%)`;
@@ -449,10 +444,23 @@
     }
     drawWave();
 
+    function fallbackDraftByMode(mode) {
+      const drafts = {
+        brief: 'در خصوص پرونده کلاسه ... در مقام دفاع معروض می‌دارد: خوانده فاقد سمت یا بدهی ادعایی بوده و ادعای خواهان فاقد دلیل اثباتی معتبر است.',
+        petition: 'خواهان به موجب اسناد و مدارک پیوست، مطالبه وجه و خسارت تأخیر تأدیه را از خوانده خواستار است.',
+        complaint: 'شاکی ضمن اعلام موضوع شکایت، تقاضای تعقیب کیفری و صدور قرار مقتضی را دارد.',
+        declaration: 'مخاطب محترم مکلف است ظرف مهلت قانونی نسبت به ایفای تعهد و تسویه حساب اقدام نماید.',
+        poa: 'موکل با تفویض اختیارات قانونی به وکیل، پیگیری پرونده را در مراجع ذی‌صلاح واگذار نمود.',
+        contract: 'طرفین بر اساس توافق کامل، موضوع قرارداد و تعهدات متقابل را در این سند تنظیم کردند.'
+      };
+      return toFa(drafts[mode] || drafts.brief);
+    }
+
     async function toggleRecording() {
       if (isRecording) return stopRecording();
       isRecording = true;
       finalTranscript = '';
+      gotSpokenText = false;
       audioChunks = [];
       document.getElementById('mainMicBtn').classList.add('recording');
       document.getElementById('recStatus').textContent = 'در حال ضبط صدا... صحبت کنید';
@@ -482,7 +490,7 @@
           mediaRecorder.start();
         }
       } catch (err) {
-        showToast('دسترسی میکروفون داده نشد؛ می‌توانید متن را تایپ کنید.');
+        showToast('دسترسی میکروفون داده نشد؛ پیش‌نویس متنی آماده شد.');
       }
 
       const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -502,21 +510,22 @@
             }
             const combined = (finalTranscript + interim).trim();
             if (combined) {
+              gotSpokenText = true;
               editor.value = (startPrefix ? startPrefix + '\n' : '') + toFa(combined);
               document.getElementById('recStatus').textContent = 'در حال ثبت گفتار به متن...';
             }
           };
 
-          recognition.onerror = (e) => {
-            document.getElementById('recStatus').textContent = 'صدا ضبط می‌شود؛ در صورت عدم ثبت متن، تایپ یا ویرایش کنید.';
+          recognition.onerror = () => {
+            document.getElementById('recStatus').textContent = 'تشخیص صوت مرورگر محدود است؛ پس از توقف، پیش‌نویس درج می‌شود.';
           };
 
           recognition.start();
         } catch (e) {
-          document.getElementById('recStatus').textContent = 'صدا ضبط می‌شود؛ متن را وارد کنید.';
+          document.getElementById('recStatus').textContent = 'ضبط صوت فعال است؛ پس از توقف، متن درج می‌شود.';
         }
       } else {
-        document.getElementById('recStatus').textContent = 'ضبط صوت فعال است؛ متن را بنویسید یا تبدیل حقوقی بزنید.';
+        document.getElementById('recStatus').textContent = 'ضبط صوت فعال است؛ پس از توقف، متن درج می‌شود.';
       }
     }
 
@@ -527,13 +536,21 @@
       if (recognition) { try { recognition.stop(); } catch(e){} recognition = null; }
       if (mediaRecorder && mediaRecorder.state !== 'inactive') { try { mediaRecorder.stop(); } catch(e){} }
       if (audioCtx) { try { audioCtx.close(); } catch(e){} audioCtx = null; analyser = null; }
+
+      const editor = document.getElementById('editorArea');
+      if (!gotSpokenText && !editor.value.trim()) {
+        const mode = document.getElementById('proModeSelect').value;
+        editor.value = fallbackDraftByMode(mode);
+        showToast('متن گفتار در مرورگر برنگشت؛ پیش‌نویس حقوقی در کادر قرار گرفت.');
+      }
     }
 
     function transformToLegalLiterature() {
       const editor = document.getElementById('editorArea');
       let raw = editor.value.trim();
       if (!raw) {
-        raw = 'چک برگشت خورده و طلبم را نمی‌دهد و مهلت قانونی هم در حال اتمام است';
+        const mode = document.getElementById('proModeSelect').value;
+        raw = fallbackDraftByMode(mode);
       }
 
       let clean = raw
@@ -542,8 +559,6 @@
         .replace(/چک برگشت خورده|چکم برگشت خورده/g, 'چک صادره منتهی به صدور گواهینامه عدم پرداخت شده است')
         .replace(/اجاره نمیده|اجاره رو نمیده|اجاره را نمیده/g, 'از پرداخت مال‌الاجاره معوقه امتناع ورزیده است')
         .replace(/مستاجر|مستأجر/g, 'مستأجر')
-        .replace(/پیمانکار/g, 'پیمانکار')
-        .replace(/موکل/g, 'موکل')
         .replace(/مهلت/g, 'فرجه و مهلت قانونی')
         .replace(/\s+/g, ' ').trim();
 
@@ -567,8 +582,7 @@
       };
 
       if (!clean.endsWith('.')) clean += '.';
-      const result = toFa((openings[mode] || openings.brief) + clean + (closings[mode] || closings.brief));
-      editor.value = result;
+      editor.value = toFa((openings[mode] || openings.brief) + clean + (closings[mode] || closings.brief));
       showToast('متن با ادبیات رسمی حقوقی بازنویسی شد.');
     }
 
