@@ -1,364 +1,665 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0f172a">
-<title>قلم‌یار حقوقی — دستیار نوشتاری</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#081426">
 <link rel="manifest" href="manifest.json">
+<title>قلم‌یار حقوقی | دستیار هوشمند</title>
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
 <style>
-:root{--bg:#0f172a;--card:#1e293b;--card2:#273449;--txt:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--rec:#ef4444;--law:#f59e0b}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:var(--bg);color:var(--txt);font-family:Tahoma,"Segoe UI",system-ui,sans-serif;padding:12px 12px 40px;min-height:100vh}
-h1{font-size:20px;margin:6px 0 14px;text-align:center}
-h1 span{color:var(--accent)}
-.card{background:var(--card);border-radius:16px;padding:12px;margin-bottom:12px}
-.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-select,button{font-family:inherit;font-size:15px;border-radius:12px;border:0;padding:12px 14px}
-select{background:var(--card2);color:var(--txt);flex:1;min-width:130px}
-button{background:var(--card2);color:var(--txt);cursor:pointer;transition:.15s}
-button:active{transform:scale(.97)}
-button.primary{background:var(--accent);color:#06202f;font-weight:bold}
-button.rec{background:var(--rec);color:#fff;font-weight:bold;width:100%;padding:18px;font-size:18px;border-radius:18px}
-button.rec.on{background:#7f1d1d;animation:pulse 1.4s infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.6)}50%{box-shadow:0 0 0 14px rgba(239,68,68,0)}}
-.status{font-size:13px;color:var(--muted);text-align:center;margin-top:8px;min-height:18px}
-textarea{width:100%;min-height:220px;background:var(--card);color:var(--txt);border:1px solid #334155;border-radius:16px;padding:14px;font-size:17px;line-height:2;font-family:inherit;resize:vertical}
-textarea:focus{outline:2px solid var(--accent)}
-.interim{color:var(--muted);font-style:italic;font-size:15px;min-height:22px;padding:4px 8px}
-.tools{display:grid;gap:8px;margin-bottom:8px}
-.meta{font-size:13px;color:var(--muted);display:flex;justify-content:space-between;padding:0 6px 6px}
-.note{display:flex;gap:8px;align-items:center;background:var(--card2);border-radius:12px;padding:8px 10px;margin-bottom:8px;font-size:14px}
-.note .t{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.note button{padding:8px 10px;font-size:13px}
-.hint{font-size:12px;color:var(--muted);line-height:1.9;margin-top:10px}
-#legalBox{display:none; background:#2d1b1b; border:1px solid #7f1d1d; border-radius:12px; padding:12px; margin-top:10px;}
-#legalBox h3{margin:0 0 8px 0; font-size:14px; color:#fca5a5;}
-.legal-tag{display:inline-block; background:#7f1d1d; color:#fff; padding:4px 8px; border-radius:8px; font-size:13px; margin:4px; cursor:pointer;}
-.legal-def{font-size:13px; color:#fca5a5; margin-top:6px; display:none; background:#450a0a; padding:8px; border-radius:8px;}
+    :root {
+        --bg-main: #081426;
+        --bg-sec: #101E33;
+        --card-bg: #1C2B42;
+        --gold: #D6AD63;
+        --gold-light: #F4CB82;
+        --text-main: #F2F3F7;
+        --text-muted: #AAB4C5;
+        --red: #EF4444;
+        --green: #16B981;
+        --blue: #269BE8;
+        --purple: #8054D8;
+        --radius: 16px;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+        box-sizing: border-box;
+        outline: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: var(--bg-main);
+        color: var(--text-main);
+        font-family: 'Vazirmatn', sans-serif;
+        overflow-x: hidden;
+        padding-bottom: 80px; /* Space for bottom nav */
+    }
+
+    /* --- Glassmorphism & UI Components --- */
+    .glass {
+        background: rgba(28, 43, 66, 0.6);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(214, 173, 99, 0.15);
+        border-radius: var(--radius);
+    }
+
+    .btn {
+        background: var(--card-bg);
+        color: var(--text-main);
+        border: 1px solid rgba(255,255,255,0.05);
+        padding: 12px 20px;
+        border-radius: 12px;
+        font-family: inherit;
+        font-size: 15px;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .btn:active { transform: scale(0.96); }
+    .btn-primary { background: var(--gold); color: var(--bg-main); font-weight: bold; border: none; }
+    .btn-icon { padding: 10px; border-radius: 50%; }
+
+    /* --- Header --- */
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        background: linear-gradient(180deg, var(--bg-main) 0%, rgba(8,20,38,0) 100%);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+    header h1 { margin: 0; font-size: 20px; color: var(--gold); font-weight: 700; }
+    header p { margin: 4px 0 0; font-size: 12px; color: var(--text-muted); }
+
+    /* --- Views Container --- */
+    .view { display: none; padding: 0 20px; animation: fadeIn 0.4s ease; }
+    .view.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* --- Dashboard Cards --- */
+    .welcome-text { font-size: 14px; text-align: center; margin: 10px 0 25px; color: var(--gold-light); line-height: 1.6; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+    .dash-card {
+        padding: 20px 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        position: relative;
+        overflow: hidden;
+    }
+    .dash-card::before {
+        content: ''; position: absolute; top: 0; right: 0; width: 100%; height: 4px;
+        background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        opacity: 0.5;
+    }
+    .dash-card i { font-size: 24px; color: var(--gold); }
+    .dash-card h3 { margin: 0; font-size: 15px; font-weight: 600; }
+    .dash-card p { margin: 0; font-size: 11px; color: var(--text-muted); }
+
+    /* --- Voice Recorder --- */
+    .recorder-area { display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 20px; }
+    .mic-container {
+        position: relative;
+        width: 160px; height: 160px;
+        display: flex; align-items: center; justify-content: center;
+        margin-bottom: 30px;
+    }
+    .mic-btn {
+        width: 100px; height: 100px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--gold), var(--gold-light));
+        border: none;
+        color: var(--bg-main);
+        font-size: 36px;
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 0 30px rgba(214, 173, 99, 0.3);
+        z-index: 2;
+        transition: var(--transition);
+    }
+    .mic-btn.recording {
+        background: linear-gradient(135deg, var(--red), #b91c1c);
+        color: white;
+        animation: pulseRed 1.5s infinite;
+    }
+    .pulse-ring {
+        position: absolute; width: 100%; height: 100%;
+        border-radius: 50%; border: 2px solid var(--gold);
+        opacity: 0; z-index: 1;
+    }
+    .mic-btn.recording ~ .pulse-ring { border-color: var(--red); }
+    .mic-btn.recording ~ .pulse-ring:nth-child(2) { animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite; }
+    .mic-btn.recording ~ .pulse-ring:nth-child(3) { animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite 0.5s; }
+    
+    @keyframes pulseRed { 0%, 100% { box-shadow: 0 0 30px rgba(239, 68, 68, 0.3); } 50% { box-shadow: 0 0 50px rgba(239, 68, 68, 0.7); } }
+    @keyframes ping { 75%, 100% { transform: scale(1.5); opacity: 0; } }
+
+    .rec-status { font-size: 16px; font-weight: 600; margin-bottom: 20px; color: var(--gold); }
+    canvas { width: 100%; height: 80px; margin-bottom: 20px; }
+
+    /* --- Text Editor --- */
+    .editor-toolbar { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px; }
+    textarea {
+        width: 100%; min-height: 350px;
+        background: var(--card-bg); color: var(--text-main);
+        border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius);
+        padding: 20px; font-family: inherit; font-size: 16px; line-height: 2;
+        resize: vertical; transition: var(--transition);
+    }
+    textarea:focus { border-color: var(--gold); }
+
+    /* --- Bottom Navigation --- */
+    .bottom-nav {
+        position: fixed; bottom: 0; left: 0; width: 100%;
+        background: rgba(16, 30, 51, 0.95); backdrop-filter: blur(10px);
+        display: flex; justify-content: space-around; align-items: center;
+        padding: 10px 0; padding-bottom: env(safe-area-inset-bottom, 10px);
+        border-top: 1px solid rgba(255,255,255,0.05); z-index: 100;
+    }
+    .nav-item {
+        display: flex; flex-direction: column; align-items: center; gap: 4px;
+        color: var(--text-muted); font-size: 11px; text-decoration: none;
+        background: none; border: none; font-family: inherit; cursor: pointer;
+    }
+    .nav-item.active { color: var(--gold); }
+    .nav-item i { font-size: 20px; }
+    .nav-mic {
+        width: 60px; height: 60px; border-radius: 50%;
+        background: linear-gradient(135deg, var(--gold), var(--gold-light));
+        color: var(--bg-main); display: flex; align-items: center; justify-content: center;
+        font-size: 24px; margin-top: -30px; box-shadow: 0 10px 20px rgba(214, 173, 99, 0.3);
+        border: 4px solid var(--bg-main);
+    }
+
+    /* --- Modals & Toasts --- */
+    .modal-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+        z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-content {
+        background: var(--bg-sec); width: 100%; max-width: 400px; max-height: 80vh;
+        border-radius: var(--radius); padding: 20px; border: 1px solid var(--gold);
+        overflow-y: auto;
+    }
+    .list-item {
+        background: var(--card-bg); padding: 15px; border-radius: 12px; margin-bottom: 10px;
+        display: flex; justify-content: space-between; align-items: center;
+    }
+    .toast {
+        position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
+        background: var(--green); color: white; padding: 12px 24px; border-radius: 30px;
+        font-size: 14px; font-weight: bold; z-index: 300; opacity: 0; transition: 0.3s;
+        pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(-10px); }
 </style>
 </head>
 <body>
 
-<h1>قلم‌یار حقوقی <span>⚖️✍️</span></h1>
+<header>
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="width: 40px; height: 40px; background: var(--gold); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--bg-main); font-size: 20px;">
+            <i class="fa-solid fa-scale-balanced"></i>
+        </div>
+        <div>
+            <h1>قلم‌یار حقوقی</h1>
+            <p>دستیار هوشمند نگارش</p>
+        </div>
+    </div>
+    <button class="btn btn-icon" onclick="toggleSettings()"><i class="fa-solid fa-gear"></i></button>
+</header>
 
-<div class="card">
-  <div class="row">
-    <select id="templateSelect">
-      <option value="">📄 قالب‌های حقوقی (انتخاب کنید)</option>
-      <option value="wakalat">وکالت‌نامه</option>
-      <option value="shekayat">شکواییه</option>
-      <option value="ezharname">اظهارنامه</option>
-      <option value="tamas">متن رسمی اداری</option>
-    </select>
-    <select id="lang">
-      <option value="fa-IR" selected>فارسی</option>
-      <option value="en-US">English</option>
-    </select>
-  </div>
+<!-- View: Dashboard -->
+<div id="view-dashboard" class="view active">
+    <p class="welcome-text">«سخن بگویید؛ ما آن را به متنی دقیق، منظم و حرفه‌ای تبدیل می‌کنیم.»</p>
+    
+    <div class="grid-2">
+        <div class="glass dash-card" onclick="startNewDoc()">
+            <i class="fa-solid fa-pen-nib" style="color: var(--purple);"></i>
+            <h3>سند جدید</h3>
+            <p>شروع نگارش از صفر</p>
+        </div>
+        <div class="glass dash-card" onclick="openTemplates()">
+            <i class="fa-solid fa-file-lines" style="color: var(--blue);"></i>
+            <h3>قالب‌های آماده</h3>
+            <p>وکالت، اظهارنامه...</p>
+        </div>
+        <div class="glass dash-card" onclick="switchView('history')">
+            <i class="fa-solid fa-clock-rotate-left" style="color: var(--green);"></i>
+            <h3>تاریخچه اسناد</h3>
+            <p>مشاهده متون قبلی</p>
+        </div>
+        <div class="glass dash-card" onclick="openDictionary()">
+            <i class="fa-solid fa-book-open" style="color: var(--gold);"></i>
+            <h3>اصطلاحات حقوقی</h3>
+            <p>دیکشنری هوشمند</p>
+        </div>
+    </div>
 </div>
 
-<div class="card">
-  <button id="recBtn" class="rec">🎤 شروع گفتار</button>
-  <div class="status" id="status">آماده</div>
-  <div class="interim" id="interim"></div>
+<!-- View: Editor & Recorder -->
+<div id="view-editor" class="view">
+    <div class="recorder-area">
+        <div class="mic-container">
+            <button id="mainMicBtn" class="mic-btn" onclick="toggleRecording()">
+                <i class="fa-solid fa-microphone" id="micIcon"></i>
+            </button>
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring"></div>
+        </div>
+        <div class="rec-status" id="recStatus">آماده ضبط صدا</div>
+        <canvas id="waveform"></canvas>
+    </div>
+
+    <div class="editor-toolbar">
+        <button class="btn" onclick="applyAIFix()" style="color: var(--gold); border-color: var(--gold);"><i class="fa-solid fa-wand-magic-sparkles"></i> اصلاح هوشمند</button>
+        <button class="btn" onclick="exportDoc('pdf')"><i class="fa-solid fa-file-pdf"></i> PDF</button>
+        <button class="btn" onclick="exportDoc('word')"><i class="fa-solid fa-file-word"></i> Word</button>
+        <button class="btn" onclick="copyText()"><i class="fa-solid fa-copy"></i> کپی</button>
+        <button class="btn" onclick="saveCurrentDoc()"><i class="fa-solid fa-floppy-disk"></i> ذخیره</button>
+    </div>
+
+    <textarea id="textEditor" placeholder="متن حقوقی خود را اینجا بنویسید یا دکمه میکروفون را لمس کنید..."></textarea>
+    
+    <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-top: 8px;">
+        <span id="wordCount">۰ کلمه</span>
+        <span>ذخیره خودکار فعال است</span>
+    </div>
 </div>
 
-<div class="meta">
-  <span id="count">۰ کلمه</span>
-  <span id="timer">۰۰:۰۰</span>
+<!-- View: History -->
+<div id="view-history" class="view">
+    <h2 style="color: var(--gold); margin-bottom: 20px;">تاریخچه اسناد</h2>
+    <div id="historyList"></div>
 </div>
 
-<textarea id="editor" spellcheck="true" placeholder="متن خود را اینجا بنویسید یا بگویید..."></textarea>
+<!-- Bottom Navigation -->
+<nav class="bottom-nav">
+    <button class="nav-item active" onclick="switchView('dashboard')" id="nav-home">
+        <i class="fa-solid fa-house"></i>
+        <span>خانه</span>
+    </button>
+    <button class="nav-item" onclick="switchView('history')" id="nav-history">
+        <i class="fa-solid fa-folder-open"></i>
+        <span>اسناد</span>
+    </button>
+    <button class="nav-mic" onclick="switchView('editor'); toggleRecording();">
+        <i class="fa-solid fa-microphone"></i>
+    </button>
+    <button class="nav-item" onclick="openDictionary()">
+        <i class="fa-solid fa-book"></i>
+        <span>دیکشنری</span>
+    </button>
+    <button class="nav-item" onclick="toggleSettings()">
+        <i class="fa-solid fa-user-gear"></i>
+        <span>پروفایل</span>
+    </button>
+</nav>
 
-<div id="legalBox">
-  <h3>⚖️ اصطلاحات حقوقی شناسایی شده در متن:</h3>
-  <div id="legalTags"></div>
-  <div id="legalDef" class="legal-def"></div>
+<!-- Modals -->
+<div id="templateModal" class="modal-overlay" onclick="closeModal(event)">
+    <div class="modal-content">
+        <h3 style="color: var(--gold); margin-top: 0;">قالب‌های آماده</h3>
+        <div id="templateList"></div>
+        <button class="btn btn-primary" style="width: 100%; margin-top: 15px;" onclick="document.getElementById('templateModal').classList.remove('active')">بستن</button>
+    </div>
 </div>
 
-<div class="card" style="margin-top:12px">
-  <div class="tools" style="grid-template-columns: 1fr 1fr;">
-    <button id="saveBtn" class="primary">💾 ذخیره یادداشت</button>
-    <button id="copyBtn">📋 کپی متن</button>
-  </div>
-  <div class="tools" style="grid-template-columns: 1fr 1fr;">
-    <button id="dictBtn" style="background: #8b5cf6; color: white;">📖 معنی کلمه</button>
-    <button id="aiBtn" style="background: #10b981; color: white; font-weight: bold;">✨ تحلیل و اصلاح حقوقی</button>
-  </div>
-  <div class="tools" style="grid-template-columns: 1fr 1fr;">
-    <button id="wordBtn">📄 خروجی Word</button>
-    <button id="pdfBtn">🖨 خروجی PDF</button>
-  </div>
+<div id="dictModal" class="modal-overlay" onclick="closeModal(event)">
+    <div class="modal-content">
+        <h3 style="color: var(--gold); margin-top: 0;">دیکشنری اصطلاحات</h3>
+        <input type="text" id="dictSearch" placeholder="جستجوی اصطلاح..." style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 8px; border: 1px solid var(--text-muted); background: var(--bg-main); color: white;">
+        <div id="dictList"></div>
+        <button class="btn btn-primary" style="width: 100%; margin-top: 15px;" onclick="document.getElementById('dictModal').classList.remove('active')">بستن</button>
+    </div>
 </div>
 
-<div class="card">
-  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px">
-    <div style="font-size:14px;color:var(--muted)">یادداشت‌ها</div>
-    <button id="clearBtn" style="padding:6px 10px; font-size:12px;">🗑 پاک کردن کل متن</button>
-  </div>
-  <div id="notes"></div>
-</div>
+<div id="toast" class="toast">ذخیره شد!</div>
+
+<!-- Icons -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 
 <script>
-// ثبت سرویس ورکر برای نصب‌پذیری
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js');
-}
+// --- App State ---
+let currentView = 'dashboard';
+let isRecording = false;
+let recognition = null;
+let synth = window.speechSynthesis;
+let audioContext = null;
+let analyser = null;
+let animationId = null;
+let autoSaveTimeout = null;
 
-const $ = id => document.getElementById(id);
-const editor=$('editor'), recBtn=$('recBtn'), statusEl=$('status'), interimEl=$('interim');
-const langSel=$('lang'), countEl=$('count'), timerEl=$('timer'), notesEl=$('notes');
-const templateSelect=$('templateSelect');
-const legalBox=$('legalBox'), legalTags=$('legalTags'), legalDef=$('legalDef');
-
-const legalDictionary = {
-  'دادخواست': 'برگه‌ای که خواهان برای شروع دادرسی حقوقی به دادگاه تسلیم می‌کند.',
-  'اظهارنامه': 'سندی رسمی برای اطلاع دادن موضوعی به دیگری (معمولاً از طریق دفتر خدمات قضایی).',
-  'شکواییه': 'گزارشی که شاکی برای شروع تعقیب کیفری به دادسرا ارائه می‌دهد.',
-  'وکالت‌نامه': 'سند رسمی یا عادی که به موجب آن شخصی دیگری را نایب خود در انجام امری می‌کند.',
-  'قرار': 'تصمیمی که دادگاه در حین رسیدگی یا قبل از صدور حکم اتخاذ می‌کند.',
-  'حکم': 'رأی نهایی دادگاه که ماهیت دعوا را مشخص می‌کند.',
-  'تجدیدنظر': 'درخواست بازبینی رأی دادگاه بدوی توسط دادگاه بالاتر.',
-  'فرجام‌خواهی': 'درخواست رسیدگی مجدد به رأی قطعی از دیوان عالی کشور.',
-  'اعاده دادرسی': 'درخواست رسیدگی مجدد به حکم قطعی به دلیل وجود عیب در دادرسی.',
-  'دادنامه': 'سند رسمی حاوی متن رأی دادگاه.',
-  'مستندات': 'مدارک و اسنادی که برای اثبات ادعا به دادگاه ارائه می‌شود.',
-  'خواهان': 'شخصی که دعوای حقوقی را آغاز می‌کند.',
-  'خوانده': 'شخصی که دعوای حقوقی علیه او مطرح شده است.',
-  'شاکی': 'شخصی که از وقوع جرم شکایت می‌کند.',
-  'متهم': 'شخصی که ارتکاب جرم به او نسبت داده شده است.',
-  'صلاحیت': 'اختیار قانونی یک مرجع قضایی برای رسیدگی به یک دعوا.',
-  'تعرفه': 'هزینه‌های قانونی دادرسی یا حق‌الوکاله.',
-  'سند رسمی': 'سندی که در دفتر اسناد رسمی یا توسط مأمور رسمی تنظیم شده است.'
+// --- Data: Legal Dictionary ---
+const dictionary = {
+    'وکالت‌نامه': 'سند رسمی یا عادی که به موجب آن شخصی دیگری را نایب خود در انجام امری می‌کند.',
+    'اظهارنامه': 'سندی رسمی برای اطلاع دادن موضوعی به دیگری از طریق دفتر خدمات قضایی.',
+    'شکواییه': 'گزارشی که شاکی برای شروع تعقیب کیفری به دادسرا ارائه می‌دهد.',
+    'دادخواست': 'برگه‌ای که خواهان برای شروع دادرسی حقوقی به دادگاه تسلیم می‌کند.',
+    'قرار': 'تصمیمی که دادگاه در حین رسیدگی یا قبل از صدور حکم اتخاذ می‌کند.',
+    'حکم': 'رأی نهایی دادگاه که ماهیت دعوا را مشخص می‌کند.',
+    'تجدیدنظر': 'درخواست بازبینی رأی دادگاه بدوی توسط دادگاه بالاتر.',
+    'فرجام‌خواهی': 'درخواست رسیدگی مجدد به رأی قطعی از دیوان عالی کشور.',
+    'سند رسمی': 'سندی که در دفتر اسناد رسمی یا توسط مأمور رسمی تنظیم شده است.'
 };
 
-function scanLegalTerms(){
-  const text = editor.value;
-  let found = [];
-  for(let term in legalDictionary){
-    if(text.includes(term)){ found.push(term); }
-  }
-  if(found.length > 0){
-    legalBox.style.display = 'block';
-    legalTags.innerHTML = '';
-    found.forEach(term => {
-      const span = document.createElement('span');
-      span.className = 'legal-tag';
-      span.textContent = term;
-      span.onclick = () => {
-        legalDef.style.display = 'block';
-        legalDef.innerHTML = `<b>${term}:</b> ${legalDictionary[term]}`;
-      };
-      legalTags.appendChild(span);
-    });
-  } else {
-    legalBox.style.display = 'none';
-    legalDef.style.display = 'none';
-  }
-}
-
+// --- Data: Templates ---
 const templates = {
-  wakalat: `ریاست محترم دفتر اسناد رسمی شماره ..........\nموضوع: وکالت‌نامه\n\nاینجانب .............................. فرزند .............................. به شماره ملی .............................. ساکن .............................. به موجب این سند، آقای/خانم .............................. را به عنوان وکیل خود تعیین می‌نمایم تا ایشان در تمامی امور مربوط به .............................. از قبیل مراجعه به ادارات، امضای اوراق، دریافت و پرداخت وجوه، و هرگونه اقدام قانونی لازم را انجام دهند.\n\nامضا و اثر انگشت موکل\nتاریخ:`,
-  shekayat: `ریاست محترم دادگاه عمومی و انقلاب شهرستان ..............................\nموضوع: شکواییه\n\nشاکی: .............................. فرزند ..............................\nمتشاکی: ..............................\n\nبا سلام و احترام،\nبدینوسیله به استحضار می‌رسانم که متشاکی موصوف در تاریخ .............................. مرتکب .............................. گردیده است. مراتب با توجه به مدارک و مستندات پیوست قابل اثبات است.\n\nلذا از آن مقام محترم تقاضا دارم دستور فرمایید نسبت به رسیدگی و مجازات متشاکی مطابق با قانون اقدام لازم صورت پذیرد.\n\nشاکی: ..............................\nتاریخ:`,
-  ezharname: `مدیریت محترم دفتر خدمات قضایی ..............................\nموضوع: اظهارنامه\n\nاظهارکننده: ..............................\nمخاطب: ..............................\n\nبدینوسیله اظهار می‌دارم که مخاطب موصوف به موجب .............................. مبلغ/تعهد .............................. را به اینجانب بدهکار می‌باشد و از انجام تعهدات خود خودداری می‌نماید.\n\nلذا به موجب این اظهارنامه به ایشان اخطار می‌نمایم که ظرف ۱۰ روز نسبت به پرداخت بدهی اقدام نمایند، در غیر این صورت به مراجع قضایی مراجعه خواهم نمود.\n\nاظهارکننده: ..............................\nتاریخ:`,
-  tamas: `بسمه تعالی\n\nشماره: ..............................\nتاریخ: ..............................\nپیوست: ..............................\n\nجناب آقای/سرکار خانم ..............................\nمدیریت محترم ..............................\n\nموضوع: ..............................\n\nبا سلام و احترام،\nبدینوسیله به استحضار می‌رساند، .............................. (شرح کامل مطلب). خواهشمند است دستور فرمایید اقدامات لازم در این خصوص صورت پذیرد.\n\nبا تجدید احترام\nنام و نام خانوادگی: ..............................\nسمت: ..............................`
+    'wakalat': `ریاست محترم دفتر اسناد رسمی شماره ..........\nموضوع: وکالت‌نامه\n\nاینجانب .............................. فرزند .............................. به شماره ملی .............................. ساکن .............................. به موجب این سند، آقای/خانم .............................. را به عنوان وکیل خود تعیین می‌نمایم تا ایشان در تمامی امور مربوط به .............................. از قبیل مراجعه به ادارات، امضای اوراق، دریافت و پرداخت وجوه، و هرگونه اقدام قانونی لازم را انجام دهند.\n\nامضا و اثر انگشت موکل\nتاریخ:`,
+    'shekayat': `ریاست محترم دادگاه عمومی و انقلاب شهرستان ..............................\nموضوع: شکواییه\n\nشاکی: .............................. فرزند ..............................\nمتشاکی: ..............................\n\nبا سلام و احترام،\nبدینوسیله به استحضار می‌رسانم که متشاکی موصوف در تاریخ .............................. مرتکب .............................. گردیده است. مراتب با توجه به مدارک و مستندات پیوست قابل اثبات است.\n\nلذا از آن مقام محترم تقاضا دارم دستور فرمایید نسبت به رسیدگی و مجازات متشاکی مطابق با قانون اقدام لازم صورت پذیرد.\n\nشاکی: ..............................\nتاریخ:`,
+    'ezharname': `مدیریت محترم دفتر خدمات قضایی ..............................\nموضوع: اظهارنامه\n\nاظهارکننده: ..............................\nمخاطب: ..............................\n\nبدینوسیله اظهار می‌دارم که مخاطب موصوف به موجب .............................. مبلغ/تعهد .............................. را به اینجانب بدهکار می‌باشد و از انجام تعهدات خود خودداری می‌نماید.\n\nلذا به موجب این اظهارنامه به ایشان اخطار می‌نمایم که ظرف ۱۰ روز نسبت به پرداخت بدهی اقدام نمایند، در غیر این صورت به مراجع قضایی مراجعه خواهم نمود.\n\nاظهارکننده: ..............................\nتاریخ:`
 };
 
-templateSelect.onchange = (e) => {
-  const val = e.target.value;
-  if(val && templates[val]){
-    if(editor.value.trim() !== "" && !confirm("متن فعلی پاک شود و قالب جایگزین گردد؟")){
-      templateSelect.value = ""; return;
+// --- UI Navigation ---
+function switchView(viewName) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    
+    document.getElementById('view-' + viewName).classList.add('active');
+    currentView = viewName;
+
+    if(viewName === 'dashboard') document.getElementById('nav-home').classList.add('active');
+    if(viewName === 'history') {
+        document.getElementById('nav-history').classList.add('active');
+        renderHistory();
     }
-    editor.value = templates[val];
-    updateCount(); autosave(); scanLegalTerms();
-    templateSelect.value = ""; 
-  }
+}
+
+// --- Editor & Data ---
+const editor = document.getElementById('textEditor');
+editor.addEventListener('input', () => {
+    updateWordCount();
+    clearTimeout(autoSaveTimeout);
+    autoSaveTimeout = setTimeout(() => {
+        localStorage.setItem('ghalamyar_current_draft', editor.value);
+    }, 1000);
+});
+
+function updateWordCount() {
+    const text = editor.value.trim();
+    const words = text ? text.split(/\s+/).length : 0;
+    const persianWords = words.toString().replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+    document.getElementById('wordCount').innerText = `${persianWords} کلمه`;
+}
+
+function startNewDoc() {
+    if(editor.value.trim() && !confirm('متن فعلی پاک شود؟')) return;
+    editor.value = '';
+    updateWordCount();
+    switchView('editor');
+}
+
+// --- History Management ---
+function saveCurrentDoc() {
+    const text = editor.value.trim();
+    if(!text) return showToast('متن خالی است!', 'var(--red)');
+    
+    let docs = JSON.parse(localStorage.getItem('ghalamyar_docs') || '[]');
+    const newDoc = {
+        id: Date.now(),
+        title: text.substring(0, 30) + '...',
+        content: text,
+        date: new Date().toLocaleDateString('fa-IR')
+    };
+    docs.unshift(newDoc);
+    localStorage.setItem('ghalamyar_docs', JSON.stringify(docs));
+    showToast('سند با موفقیت ذخیره شد');
+}
+
+function renderHistory() {
+    const docs = JSON.parse(localStorage.getItem('ghalamyar_docs') || '[]');
+    const list = document.getElementById('historyList');
+    list.innerHTML = '';
+
+    if(docs.length === 0) {
+        list.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:30px;">سندی یافت نشد.</p>';
+        return;
+    }
+
+    docs.forEach(doc => {
+        const div = document.createElement('div');
+        div.className = 'glass list-item';
+        div.innerHTML = `
+            <div>
+                <h4 style="margin:0 0 5px 0; font-size:14px;">${doc.title}</h4>
+                <span style="font-size:11px; color:var(--text-muted);">${doc.date}</span>
+            </div>
+            <button class="btn btn-icon" onclick="loadDoc(${doc.id})"><i class="fa-solid fa-chevron-left"></i></button>
+        `;
+        list.appendChild(div);
+    });
+}
+
+function loadDoc(id) {
+    const docs = JSON.parse(localStorage.getItem('ghalamyar_docs') || '[]');
+    const doc = docs.find(d => d.id === id);
+    if(doc) {
+        editor.value = doc.content;
+        updateWordCount();
+        switchView('editor');
+    }
+}
+
+// --- Modals ---
+function openTemplates() {
+    const list = document.getElementById('templateList');
+    list.innerHTML = '';
+    const titles = { wakalat: 'وکالت‌نامه', shekayat: 'شکواییه', ezharname: 'اظهارنامه' };
+    
+    Object.keys(templates).forEach(key => {
+        const btn = document.createElement('div');
+        btn.className = 'list-item';
+        btn.innerHTML = `<span>${titles[key]}</span> <button class="btn" style="padding:6px 12px; font-size:12px;">انتخاب</button>`;
+        btn.onclick = () => {
+            if(editor.value.trim() && !confirm('متن قبلی جایگزین شود؟')) return;
+            editor.value = templates[key];
+            updateWordCount();
+            document.getElementById('templateModal').classList.remove('active');
+            switchView('editor');
+        };
+        list.appendChild(btn);
+    });
+    document.getElementById('templateModal').classList.add('active');
+}
+
+function openDictionary() {
+    const list = document.getElementById('dictList');
+    list.innerHTML = '';
+    Object.keys(dictionary).forEach(term => {
+        const div = document.createElement('div');
+        div.className = 'list-item';
+        div.style.flexDirection = 'column';
+        div.style.alignItems = 'flex-start';
+        div.innerHTML = `<strong style="color:var(--gold); font-size:14px;">${term}</strong><p style="margin:5px 0 0; font-size:12px; color:var(--text-muted); line-height:1.6;">${dictionary[term]}</p>`;
+        list.appendChild(div);
+    });
+    document.getElementById('dictModal').classList.add('active');
+}
+
+function closeModal(e) {
+    if(e.target.classList.contains('modal-overlay')) {
+        e.target.classList.remove('active');
+    }
+}
+
+function toggleSettings() {
+    showToast('تنظیمات در نسخه‌های بعدی...', 'var(--blue)');
+}
+
+// --- AI & Export Functions ---
+function applyAIFix() {
+    if(!editor.value.trim()) return showToast('متن خالی است', 'var(--red)');
+    const prompt = `به عنوان یک حقوقدان و ویراستار، متن زیر را اصلاح کن (غلط املایی، نگارشی و لحن حقوقی):\n\n${editor.value}`;
+    navigator.clipboard.writeText(prompt).then(() => {
+        showToast('متن کپی شد، در گوگل جمنای پیست کنید');
+        window.open("https://gemini.google.com/app", "_blank");
+    });
+}
+
+function exportDoc(type) {
+    const text = editor.value.trim();
+    if(!text) return showToast('متن خالی است', 'var(--red)');
+    
+    if(type === 'pdf') {
+        const w = window.open('', '_blank');
+        w.document.write(`<html dir="rtl"><head><style>body{font-family:Vazirmatn, Tahoma; padding:2cm; line-height:2;}</style></head><body>${text.replace(/\n/g, '<br>')}</body></html>`);
+        w.document.close();
+        setTimeout(() => w.print(), 500);
+    } else if(type === 'word') {
+        const html = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>body{font-family:Tahoma; font-size:14pt;}</style></head><body dir='rtl'>${text.replace(/\n/g, '<br>')}</body></html>`;
+        const blob = new Blob(['\ufeff', html], {type: 'application/msword'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'Ghalamyar.doc'; a.click();
+        showToast('فایل Word دانلود شد');
+    }
+}
+
+function copyText() {
+    if(!editor.value) return;
+    navigator.clipboard.writeText(editor.value).then(() => showToast('کپی شد'));
+}
+
+function showToast(msg, color = 'var(--green)') {
+    const toast = document.getElementById('toast');
+    toast.innerText = msg;
+    toast.style.background = color;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+// --- Recording & Audio Logic ---
+const micBtn = document.getElementById('mainMicBtn');
+const micIcon = document.getElementById('micIcon');
+const recStatus = document.getElementById('recStatus');
+const canvas = document.getElementById('waveform');
+const ctx = canvas.getContext('2d');
+
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+if(SpeechRecognition) {
+    recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = 'fa-IR';
+
+    recognition.onstart = () => {
+        isRecording = true;
+        micBtn.classList.add('recording');
+        micIcon.className = 'fa-solid fa-stop';
+        recStatus.innerText = 'در حال گوش دادن...';
+        recStatus.style.color = 'var(--red)';
+    };
+
+    recognition.onresult = (event) => {
+        let interim = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+            if (event.results[i].isFinal) {
+                const text = event.results[i][0].transcript;
+                editor.value += (editor.value ? ' ' : '') + text;
+                updateWordCount();
+            } else {
+                interim += event.results[i][0].transcript;
+            }
+        }
+    };
+
+    recognition.onerror = (e) => {
+        if(e.error === 'not-allowed') showToast('دسترسی به میکروفون داده نشد', 'var(--red)');
+        stopRecordingState();
+    };
+
+    recognition.onend = () => {
+        if(isRecording) recognition.start(); // keep alive
+        else stopRecordingState();
+    };
+}
+
+function toggleRecording() {
+    if(!recognition) return showToast('مرورگر شما پشتیبانی نمی‌کند', 'var(--red)');
+    
+    if (isRecording) {
+        isRecording = false;
+        recognition.stop();
+        stopRecordingState();
+    } else {
+        try {
+            recognition.start();
+            startVisualizer();
+        } catch(e) {}
+    }
+}
+
+function stopRecordingState() {
+    isRecording = false;
+    micBtn.classList.remove('recording');
+    micIcon.className = 'fa-solid fa-microphone';
+    recStatus.innerText = 'آماده ضوابط صدا';
+    recStatus.style.color = 'var(--gold)';
+    cancelAnimationFrame(animationId);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+// --- Audio Visualizer ---
+async function startVisualizer() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        const source = audioContext.createMediaStreamSource(stream);
+        source.connect(analyser);
+        
+        analyser.fftSize = 256;
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+
+        function draw() {
+            if (!isRecording) return;
+            animationId = requestAnimationFrame(draw);
+
+            analyser.getByteFrequencyData(dataArray);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const barWidth = (canvas.width / bufferLength) * 2.5;
+            let x = 0;
+
+            for(let i = 0; i < bufferLength; i++) {
+                const barHeight = (dataArray[i] / 255) * canvas.height;
+                ctx.fillStyle = `rgba(214, 173, 99, ${dataArray[i]/255 + 0.2})`;
+                ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+                x += barWidth + 1;
+            }
+        }
+        draw();
+    } catch (err) {
+        console.warn("Audio visualizer failed (mic permission):", err);
+    }
+}
+
+// Load saved draft on startup
+window.onload = () => {
+    const saved = localStorage.getItem('ghalamyar_current_draft');
+    if(saved) editor.value = saved;
+    updateWordCount();
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
 };
-
-function insertText(t){
-  if(!t) return;
-  const pos = (document.activeElement===editor) ? editor.selectionStart : editor.value.length;
-  const before = editor.value.slice(0,pos);
-  const after  = editor.value.slice(pos);
-  const sep = (before && !/\s$/.test(before)) ? ' ' : '';
-  const ins = sep + t;
-  editor.value = before + ins + after;
-  const np = (before+ins).length;
-  editor.selectionStart = editor.selectionEnd = np;
-  editor.scrollTop = editor.scrollHeight;
-  updateCount(); autosave(); scanLegalTerms();
-}
-
-function updateCount(){
-  const w = editor.value.trim().split(/\s+/).filter(Boolean).length;
-  countEl.textContent = toFa(w) + ' کلمه';
-}
-
-const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-let recog=null, listening=false, restart=false, startTime=0, timerInt=null;
-const faDigits='۰۱۲۳۴۵۶۷۸۹';
-const toFa = s => String(s).replace(/\d/g, d => faDigits[d]);
-
-function buildRecog(){
-  const r = new SR();
-  r.lang = langSel.value;
-  r.continuous = true;
-  r.interimResults = true;
-  r.maxAlternatives = 1;
-
-  r.onstart = () => { statusEl.textContent = '🔴 در حال شنیدن...'; };
-  r.onresult = (e) => {
-    let interim='';
-    for(let i=e.resultIndex; i<e.results.length; i++){
-      const res=e.results[i], txt=res[0].transcript;
-      if(res.isFinal) insertText(txt.trim());
-      else interim += txt;
-    }
-    interimEl.textContent = interim;
-  };
-  r.onerror = (e) => {
-    if(e.error==='not-allowed' || e.error==='service-not-allowed'){ statusEl.textContent='❌ دسترسی میکروفون داده نشد'; hardStop(); }
-    else if(e.error==='no-speech'){ statusEl.textContent='سکوت بود، ادامه بده...'; }
-    else { statusEl.textContent='خطا: '+e.error; }
-  };
-  r.onend = () => { if(listening && restart){ setTimeout(()=>{ try{ r.start(); }catch(_){} }, 250); } };
-  return r;
-}
-
-function startRec(){
-  if(!SR){ statusEl.textContent='❌ این مرورگر پشتیبانی نمی‌کند.'; return; }
-  if(!recog) recog = buildRecog();
-  recog.lang = langSel.value;
-  listening = true; restart = true;
-  try{ recog.start(); }catch(_){}
-  recBtn.textContent='⏹ توقف'; recBtn.classList.add('on'); startTimer();
-}
-
-function stopRec(){
-  listening = false; restart = false;
-  if(recog){ try{ recog.stop(); }catch(_){} }
-  recBtn.textContent='🎤 شروع گفتار'; recBtn.classList.remove('on');
-  stopTimer(); interimEl.textContent=''; statusEl.textContent='متوقف شد — متن ذخیره شد'; autosave();
-}
-
-function hardStop(){ listening=false; restart=false; recBtn.textContent='🎤 شروع گفتار'; recBtn.classList.remove('on'); stopTimer(); }
-recBtn.onclick = () => listening ? stopRec() : startRec();
-langSel.onchange = () => { if(listening){ stopRec(); setTimeout(startRec, 400); } };
-
-function startTimer(){
-  if(timerInt) return;
-  startTime = Date.now();
-  timerInt = setInterval(()=>{
-    const s = Math.floor((Date.now()-startTime)/1000);
-    timerEl.textContent = toFa(String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'));
-  }, 500);
-}
-function stopTimer(){ clearInterval(timerInt); timerInt=null; }
-
-let saveT;
-function autosave(){
-  clearTimeout(saveT);
-  saveT = setTimeout(()=>{ try{ localStorage.setItem('ghalamyar_draft', editor.value); }catch(_){}} , 400);
-}
-
-const KEY='ghalamyar_notes_v1';
-function getNotes(){ try{ return JSON.parse(localStorage.getItem(KEY))||[]; }catch(_){ return []; } }
-function setNotes(n){ localStorage.setItem(KEY, JSON.stringify(n)); renderNotes(); }
-
-function saveNote(){
-  const text = editor.value.trim();
-  if(!text){ alert('متنی برای ذخیره نیست.'); return; }
-  const notes = getNotes();
-  if(notes.length && notes[0].text === text){ statusEl.textContent='قبلاً ذخیره شده'; return; }
-  notes.unshift({ title: text.slice(0,45).replace(/\n/g,' '), text, date: Date.now() });
-  setNotes(notes); statusEl.textContent='💾 ذخیره شد';
-}
-
-function renderNotes(){
-  const notes = getNotes();
-  notesEl.innerHTML='';
-  if(!notes.length){ notesEl.innerHTML='<div class="hint">هنوز چیزی ذخیره نکرده‌ای.</div>'; return; }
-  notes.forEach((n,i)=>{
-    const d=document.createElement('div'); d.className='note';
-    const t=document.createElement('div'); t.className='t'; t.textContent=n.title||'بدون عنوان';
-    const open=document.createElement('button'); open.textContent='باز کردن';
-    open.onclick=()=>{ editor.value=n.text; updateCount(); autosave(); scanLegalTerms(); window.scrollTo({top:0,behavior:'smooth'}); };
-    const del=document.createElement('button'); del.textContent='🗑';
-    del.onclick=()=>{ if(confirm('حذف شود؟')){ const a=getNotes(); a.splice(i,1); setNotes(a);} };
-    d.append(t,open,del); notesEl.appendChild(d);
-  });
-}
-
-const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-function exportPDF(){
-  const text = editor.value.trim(); if(!text){ alert('متنی نیست!'); return; }
-  const w = window.open('', '_blank'); if(!w){ alert('اجازه پاپ‌آپ بده.'); return; }
-  w.document.open(); w.document.write('<!DOCTYPE html><html dir="rtl" lang="fa"><head><meta charset="utf-8"><title>قلم‌یار</title><style>body{font-family:Tahoma,Arial,sans-serif;font-size:15pt;line-height:2;padding:24px;color:#000;white-space:pre-wrap;word-wrap:break-word}@page{size:A4;margin:2cm}</style></head><body>'+esc(text)+'</body></html>');
-  w.document.close(); w.focus(); setTimeout(()=>{ try{ w.print(); }catch(_){}} , 700);
-}
-
-function exportWord(){
-  const text = editor.value.trim(); if(!text){ alert('متنی نیست!'); return; }
-  const html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><style>body{font-family:Tahoma;font-size:14pt;line-height:1.9}</style></head><body dir="rtl">'+esc(text).replace(/\n/g,'<br>')+'</body></html>';
-  const blob=new Blob(['\ufeff',html],{type:'application/msword'}); const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob); a.download='ghalamyar-'+Date.now()+'.doc'; a.click();
-  setTimeout(()=>URL.revokeObjectURL(a.href),3000); statusEl.textContent='📄 فایل Word ساخته شد';
-}
-
-async function copyText(){
-  if(!editor.value) return;
-  try{ await navigator.clipboard.writeText(editor.value); } catch(_){ editor.select(); document.execCommand('copy'); }
-  statusEl.textContent='📋 کپی شد';
-}
-
-function openDictionary(){
-  let selectedText = "";
-  if(editor.selectionStart !== editor.selectionEnd){
-    selectedText = editor.value.substring(editor.selectionStart, editor.selectionEnd).trim();
-  }
-  if(!selectedText){ alert('ابتدا یک کلمه را انتخاب کنید.'); return; }
-  window.open("https://vajehyab.com/?q=" + encodeURIComponent(selectedText), "_blank");
-}
-
-async function openAI(){
-  const text = editor.value.trim();
-  if(!text){ alert('متنی برای تحلیل وجود ندارد.'); return; }
-  const prompt = `به عنوان یک حقوقدان، ویراستار متون حقوقی و یک متخصص زبان فارسی، متن زیر را بررسی کن:
-۱. غلط‌های املایی و نگارشی را اصلاح کن.
-۲. اصطلاحات حقوقی و قضایی به کار رفته را شناسایی و تحلیل کن.
-۳. لحن متن را کاملاً رسمی، اداری و حقوقی کن.
-متن نهایی و اصلاح شده را به همراه توضیحات کوتاه بنویس:
-
-متن من:
-${text}`;
-  try{ 
-    await navigator.clipboard.writeText(prompt); 
-    alert('متن شما همراه با دستور تحلیل حقوقی کپی شد! در صفحه باز شده، آن را پیست کنید.');
-  } catch(_){ alert('لطفاً متن را دستی کپی کنید.'); }
-  window.open("https://gemini.google.com/app", "_blank");
-}
-
-$('saveBtn').onclick = saveNote;
-$('copyBtn').onclick = copyText;
-$('wordBtn').onclick = exportWord;
-$('pdfBtn').onclick = exportPDF;
-$('dictBtn').onclick = openDictionary;
-$('aiBtn').onclick = openAI;
-$('clearBtn').onclick = ()=>{ if(editor.value && !confirm('متن پاک شود؟')) return; editor.value=''; updateCount(); autosave(); legalBox.style.display='none'; interimEl.textContent=''; };
-
-editor.addEventListener('input', ()=>{ updateCount(); autosave(); scanLegalTerms(); });
-
-try{ const d=localStorage.getItem('ghalamyar_draft'); if(d) editor.value=d; }catch(_){}
-updateCount();
-renderNotes();
-scanLegalTerms();
-
-if(!SR){
-  statusEl.textContent='⚠️ این مرورگر تشخیص گفتار ندارد. Chrome را باز کن.';
-  recBtn.disabled=true; recBtn.style.opacity=.5;
-}
 </script>
 </body>
-</html>
+  </html>
