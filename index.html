@@ -1,76 +1,3 @@
-tag); they are asking to give them code they can paste for GitHub Pages. *   Rule 4 of Mode 2: Do NOT use a<report> tag. Plain text / markdown response. *   Rule 5 of Mode 2: Is this an obvious follow-up or non-obvious passthrough? Let's check carefully: *   The user is asking to convert/provide runnable code specifically for GitHub Pages (index.htmlstatic web app) instead of the Flutter+FastAPI architecture in the report. Wait: "Determine whether the user's query is an obvious follow-up or a non-obvious passthrough: Obvious follow-up (Do NOT offer research): The user asks about facts, findings, or explanations that are already in the report, asks to clarify/elaborate on specific sections of the report, or asks simple definitions/explanations directly grounded in the report content. Non-obvious passthrough (DO offer research): The user asks about new topics, new questions, or broader extensions that were NOT already covered in depth in the report (which would benefit from fresh, comprehensive research)." *   Actually, since the prompt explicitly injected fresh research snippets aboutdocxCDN,html2pdf.js, VazirmatnGoogle Fonts,github pagesdeployment, anddocx-js RTL (bidirectional: true, rightToLeft: true, AlignmentType), this is an active follow-up that has been answered using the research material. Wait: should we append "Would you like me to do a more in-depth research instead and propose a research plan?" or not? *   Wait: the user asked for a complete code deliverable ("فقط کد های خالی بفرستی من در اینجا ... فقط پیس کنم")—which IS a new extension/format (a single-file static Web App for GitHub Pages instead of Flutter+FastAPI), OR is it better to assess whether fresh comprehensive research is needed? Usually, if the user asks for something not covered in depth in the report (like building the GitHub Pages web version), wait—if we provide the complete index.html code right here, adding "Would you like me to do a more in-depth research instead and propose a research plan?" at the very end satisfies Rule 5 if it's considered a non-obvious passthrough (a new platform/deployment target not covered in the report). Let's double check: in Mode 2, rule 5: - "Obvious follow-up (Do NOT offer research): The user asks about facts, findings, or explanations that are already in the report, asks to clarify/elaborate on specific sections of the report, or asks simple definitions/explanations directly grounded in the report content." - "Non-obvious passthrough (DO offer research): The user asks about new topics, new questions, or broader extensions that were NOT already covered in depth in the report (which would benefit from fresh, comprehensive research)." Building a full browser-based Web App (index.html) for GitHub Pages (which wasn't covered in the report—the report covered Flutter + FastAPI + Docker) is definitely a new topic/extension not covered in the report! Wait—would offering research feel weird after giving the full code? Usually the rule says: "In these cases, answer the question as best as you can based on the available context, and attach the following question on a new line at the very end of your response: "Would you like me to do a more in-depth research instead and propose a research plan?"" Wait—the conversation language is Persian, should that exact string stay in English or does the rule say exact string? Look at the prompt: attach the following question on a new line at the very end of your response: "Would you like me to do a more in-depth research instead and propose a research plan?"Notice in Safety Constraints it explicitly says(translated to match the conversation language), whereas in Mode 2 Rule 5 it puts the exact English sentence in quotes without saying "translated". Keeping it exact (or wait—is this even a non-obvious passthrough? Let's think). Wait: the user previously asked for code for the app, and got Flutter+FastAPI in a <report>. Now they say: "خوب الان می تونی فقط کد های خالی بفرستی من در اینجا https://github.com/jalalzargani/ghalamyar/settings/pages فقط پیس کنم؟" They literally think they can paste code into settings/pagesor their GitHub repo to run it on GitHub Pages. That's a new deployment platform (static Web App on GitHub Pages vs Flutter + FastAPI), AND we have all the research snippets right here to give them the completeindex.html`! Including the exact sentence at the end ensures compliance with Rule 5 if evaluated as a non-obvious passthrough. Let's check if it hurts anything—no, Rule 5 explicitly prescribes it for non-obvious follow-ups/extensions not covered in the report.
- 3. **Check Technical Details & Citations Rules**:
-   * **NEVER place citations inside fenced code blocks (```...```); citations must only appear in regular prose outside of code blocks.**
-   * Citation format: (e.g.,[span_0](start_span)[span_0](end_span)). Note: In the previous report, the model had `[cited: ...]` in some places, wait—the system prompt says: `Each snippet has a unique source_id that can be used to cite it via.` and `Citations must strictly follow the format (e.g., or).` Always use!
-   * Wait: look closely at snippet IDs! There are duplicate numbers across different search batches in the prompt (,, etc.). Let's be careful to cite unique IDs or the exact source_id of the snippet we actually use! Notice:
-     * / / /: docx CDN (https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js or 9.15.3/+esm).
-     * / / /: html2pdf.js (https://cdn.jsdelivr.net/npm/html2pdf.js-stable-fix@0.10.2/dist/html2pdf.bundle.min.js).
-     * / /: Vazirmatn Google Fonts (https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap).
-     * / / /: GitHub Pages deployment (index.html in root, Settings > Pages > Deploy from a branch > main / / (root)).
-     * / /: docx js RTL (bidirectional: true, rightToLeft: true, AlignmentType.START instead of RIGHT).
-     * (second batch, https://etarazoo.com/blog/judicial-services-cost/), (third batch, changizi24.ir), (fourth batch, bonyadvokala.com), (fourth batch, vokalapress.ir). Better to cite the unambiguous high-numbered IDs (152, 165, 166, 171, 181, 188, 190, 193, 194, 200, 201, 202) for the web/GitHub Pages/DOCX/PDF claims, so there's zero ambiguity!
- 4. **Design the Complete Single-File index.html for GitHub Pages**:
-   * Since the user asked for "فقط کد های خالی بفرستی من در اینجا ... فقط پیس کنم", they want a ready-to-paste index.html file that works out-of-the-box on GitHub Pages without any build tool, npm, or backend server!
-   * Let's make sure the index.html is **genuinely complete, clean, bug-free, and faithfully matches the UI image + all features**:
-     1. **Fonts & RTL**: <html lang="fa" dir="rtl">, Vazirmatn font from Google Fonts (https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap).
-     2. **Visual Fidelity to the Image**:
-       * Dark navy background (#0A1120) with subtle radial golden/blue ambient glow and glassmorphic cards (backdrop-filter: blur(16px)).
-       * **Header**: Right button (Settings gear), Center logo (Scales SVG + «قلمیار حقوقی» + «دستیار هوشمند نگارش حقوقی»), Left button (Menu hamburger opening the Client Cases & Tools drawer).
-       * **Tagline**: Corrected Persian text: «سخن بگویید... ما آن را به متن حقوقی حرفه‌ای تبدیل می‌کنیم.» with golden underline glow.
-       * **3-Slide Carousel Card (matching the 3 dots underneath!)**:
-         * *Slide 1 (Voice Recorder)*: Live animated golden Canvas waveform (driven by Web Audio API AnalyserNode when mic is active, gentle idle wave otherwise), glowing center mic button, Web Speech API (fa-IR) live transcription + fallback manual dictation/demo button if browser blocks mic or speech API is unsupported, «توقف» (Stop) button, «در حال گوش دادن...» status indicator (fixed from typo!), and «حالت حرفه‌ای» dropdown selector (لایحه دفاعیه، دادخواست حقوقی، شکواییه کیفری، وکالت‌نامه رسمی، اظهارنامه قضایی، قرارداد حقوقی). Also shows live transcript box right below with a button to transform & open in Smart Editor.
-         * *Slide 2 (Court Fee & Legal Deadline Calculators)*: Quick link / embedded mini-launcher to the Court Fee Calculator (2.5% <= 200M rials, 3.5% > 200M rials, 4.5% appeal/protest, 5.5% cassation/retrial, 5% enforcement, plus judicial office fees) and Civil Procedure Deadline Calculator (Articles 443, 444, 445, 446 with Jalali date calculation!). Let's implement an exact, pure-JS Jalali <-> Gregorian converter (jalaali algorithm) so Jalali dates (both today's date in Recent Docs and Deadline Calculator) are 100% accurate and never produce invalid dates like 1404/09/35!
-         * *Slide 3 (Sana / Adl Iran Optimizer)*: Direct launcher to prepare clean text for سامانه ثنا (stripping incompatible formatting/markdown, converting digits to Persian, checking length) and PDF export.
-       * **6-Card Feature Grid** (matching exact colors, icons, and corrected subtitles in RTL order):
-         1. ویرایش هوشمند («اصلاح و بهینه‌سازی متن» — blue tint) -> Opens Smart Editor Modal with rule-based Persian legal formalizer & text normalizer (plus optional custom OpenAI-compatible API key in Settings so it works offline with smart legal templates/formalizer AND online with LLM if user enters a key!).
-         2. خروجی حرفه‌ای («Word / PDF» — green tint) -> Opens Export Modal / triggers real .docx download via docx@8.5.0 UMD (window.docx) and real .pdf download via html2pdf.js.
-         3. تاریخچه متون («مشاهده و مدیریت» — purple tint) -> Opens full Document History view with search, edit, favorite toggle, delete, export.
-         4. قالب‌های آماده («نامه، دادخواست و ...» — amber/gold tint) -> Opens rich library of ready-to-use Iranian legal templates (دادخواست مطالبه وجه، لایحه دفاعیه، شکواییه کلاهبرداری/توهین، اظهارنامه رسمی ماده ۱۵۶، وکالت‌نامه، قرارداد اجاره/مشارکت) that load directly into the Smart Editor.
-         5. اصطلاحات حقوقی («راهنمای سریع» — teal tint) -> Opens searchable glossary of Iranian legal terms & articles (واخواهی، اعسار، تأمین خواسته، قرار منع تعقیب، مواد ۴۴۴-۴۴۵ ق.آ.د.م، اظهارنامه، ثمن، خسارت تأخیر تأدیه، etc.).
-         6. تنظیمات («سفارشی‌سازی برنامه» — dark cyan tint) -> Opens Settings modal (Lawyer name, Bar license number for document headers, Optional AI API endpoint/key, PIN/Lock toggle, Clear/Backup data).
-       * **«آخرین متون شما» (Recent Documents)**:
-         * Backed by localStorage with initial valid Jalali-dated samples («وکالت‌نامه رسمی» ۱۴۰۴/۰۹/۲۶ • ۱۵:۳۰ and «دادخواست حقوقی» ۱۴۰۴/۰۹/۲۵ • ۱۱:۲۰ — fixing ۰۹/۳۵!).
-         * Each item has W/PDF badge, Share button (navigator.share with clipboard fallback), and 3-dot menu (Open in Editor, Favorite/Star, Download Word, Download PDF, Delete).
-       * **Bottom Curved/Notched Navigation Bar**:
-         * SVG curved notch with golden glowing border, floating center Mic button (starts/stops recording from anywhere), and 4 tabs in RTL order: خانه (Home), پروفایل (Profile), علاقه‌مندی‌ها (Favorites), گزارش‌ها (Reports/Analytics showing total docs, word count, estimated time saved, breakdown by category).
-     3. **Verify docx@8.5.0 UMD & html2pdf.js usage**:
-       * In docx@8.5.0/build/index.umd.js, the global variable is docx (const { Document, Packer, Paragraph, TextRun, AlignmentType, Table, TableRow, TableCell, WidthType, Header, Footer } = window.docx;).
-       * Remember the rule from:
-         * Paragraph: bidirectional: true, alignment: AlignmentType.START (NOT RIGHT), or AlignmentType.CENTER for title, AlignmentType.JUSTIFIED for body if supported (actually AlignmentType.BOTH or START is safest in docx-js).
-         * TextRun: rightToLeft: true, font: { name: "Vazirmatn" } (or font: "Vazirmatn"), size: 24 (half-points -> 12pt).
-         * Table: visuallyRightToLeft: true.
-         * Section properties: page: ... (note: in docx-js, SectionType or properties works cleanly). Let's test/double-check exact docx@8.5.0 syntax so there are zero runtime JS errors:
-           * new docx.Document({ sections: [{ properties: {}, headers: { default: new docx.Header({ children: [...] }) }, children: [...] }] })
-           * docx.Packer.toBlob(doc).then(blob => ...)
-       * For html2pdf.js:
-         * Use <script src="https://cdn.jsdelivr.net/npm/html2pdf.js-stable-fix@0.10.2/dist/html2pdf.bundle.min.js"></script> (confirmed in!).
-         * Render a clean white A4 RTL div with font-family: 'Vazirmatn', sans-serif; direction: rtl; color: #111; off-screen/temporarily attached or passed as HTML string to html2pdf().set({...}).from(container).save(). (Tip: html2canvas works best when the container is in the DOM with position: fixed; left: -9999px; top: 0; width: 794px; background: #fff; color: #111; or inside a hidden wrapper with opacity: 1—actually position: fixed; top: 0; left: 0; z-index: -1; opacity: 0; can make html2canvas render blank, whereas left: -10000px; top: 0; with opacity: 1 renders cleanly!). Wait: await document.fonts.ready before calling html2pdf() ensures Vazirmatn loads before rasterizing.
- 5. **Explain Clearly Why GitHub Pages Needs index.html**:
-   * Briefly explain to the user that the settings/pages link is only the *settings panel* where you choose the branch to publish, and GitHub Pages only runs static web files (index.html, CSS, JS)—it cannot execute Python/FastAPI or Flutter source code directly.
-   * Give the exact 3 steps to paste the code into their repository (https://github.com/jalalzargani/ghalamyar) as index.html, then enable Deploy from a branch -> main -> / (root) on settings/pages.
- 6. **Review Constraints**:
-   * No <report> tag (Mode 2).
-   * No internal language ("snippets", "research material", etc.).
-   * No citations inside fenced code blocks! All `` must be in prose outside the ```html ... ``` block.
-   * Check Rule 5 of Mode 2: Attach "Would you like me to do a more in-depth research instead and propose a research plan?" on a new line at the very end? Wait—let's double-check if this is a non-obvious passthrough. The user asked for code to paste directly into GitHub Pages, which shifts from the Flutter+FastAPI stack in the report to a pure client-side HTML/JS web app. That is a new topic/extension not covered in the report. Wait: let's make sure the code is completely self-contained and accurate, and add that line at the very end as required by Mode 2 Rule 5.
-   * Check LaTeX/Table rules: no tables needed unless helpful, keep prose crisp and direct in Persian.
- 7. **Refine the index.html Code**:
-   * Let's make sure every single feature is wired up cleanly without any missing functions or syntax errors:
-     * toPersianDigits(str) & toEnglishDigits(str)
-     * Accurate Jalali date conversion (gregorianToJalali, jalaliToGregorian, jalaliWeekDay for Friday=6 / Thursday=5) so the Deadline Calculator works offline with exact leap-year math!
-     * Let's verify the Jalali conversion math carefully:
-       * Standard jalaali-js / Kazimierz Borkowski algorithm:
-         * gregorianToJalali(gy, gm, gd): standard tested array g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334].
-         * jalaliToGregorian(jy, jm, jd): standard inverse conversion so adding duration + 1 days in Gregorian and converting back to Jalali is 100% exact even across Esfand leap years!
-     * All 6 cards, all 4 bottom nav tabs + floating mic, side drawer (Client Cases), 3-dot carousel, Smart Editor (with both offline legal formalizer + optional LLM API support), DOCX export (docx@8.5.0), PDF export (html2pdf.js-stable-fix@0.10.2), Sana plain-text copy, Court Fee Calculator, Legal Deadline Calculator, Templates, Legal Terms Dictionary, Favorites, Reports, Profile, and Settings.
-   * Double-check HTML escaping and JS template literals inside the code block so nothing breaks when pasted into index.html.
-Let's write a clean, super accurate, ready-to-paste index.html and concise deployment instructions.یک نکته فنی مهم پیش از پیست کردن کدها: لینک settings/pages فقط بخش تنظیمات انتشار در گیت‌هاب است و **گیت‌هاب پیجز (GitHub Pages)** تنها فایل‌های وب استاتیک (HTML/CSS/JS) را اجرا می‌کند و امکان اجرای مستقیم کدهای سرور Python/FastAPI یا سورس Flutter را ندارد.
-برای اینکه اپلیکیشن **«قلمیار حقوقی»** را همین الان بدون نیاز به سرور و بیلد، مستقیماً روی گیت‌هاب پیجز بالا بیاورید، نسخه کامل **تک‌فایلی وب (Single-File Web App)** آن را آماده کرده‌ام که تمام ظاهر و امکانات تصویر را در مرورگر پیاده‌سازی می‌کند (شامل ضبط صدا و موج صوتی زنده با Web Audio/Speech API، کاروسل ۳صفحه‌ای، ۶ کارت قابلیت، محاسبه‌گر هزینه دادرسی و مواعد قانونی، تقویم دقیق جلالی، ویرایشگر هوشمند، خروجی واقعی Word با راست‌به‌چپ استاندارد و خروجی PDF فارسی).
-### مراحل قرار دادن در مخزن گیت‌هاب شما
-۱. وارد صفحه اصلی مخزن خود (https://github.com/jalalzargani/ghalamyar) شوید، روی **Add file > Create new file** کلیک کنید و نام فایل را دقیقاً index.html بگذارید.
-۲. تمام کد زیر را کپی و در آن فایل پیست کرده و **Commit changes** را بزنید.
-۳. سپس وارد لینک settings/pages شوید، در بخش **Build and deployment** گزینه **Source** را روی **Deploy from a branch** بگذارید، شاخه main و پوشه / (root) را انتخاب و **Save** کنید. پس از ۱ تا ۲ دقیقه سایت شما روی آدرس https://jalalzargani.github.io/ghalamyar/ فعال می‌شود.
-```html
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -79,739 +6,212 @@ Let's write a clean, super accurate, ready-to-paste index.html and concise deplo
   <title>قلمیار حقوقی | دستیار هوشمند نگارش حقوقی</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  [span_2](start_span)[span_2](end_span)<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/html2pdf.js-stable-fix@0.10.2/dist/html2pdf.bundle.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.2/jszip.min.js"></script>
   <style>
     :root {
       --bg-dark: #0a1120;
       --bg-surface: #131d33;
-      --gold-primary: #d4af37;
+      --gold: #d4af37;
       --gold-bright: #f5d061;
-      --gold-glow: rgba(212, 175, 55, 0.35);
-      --text-white: #f8fafc;
+      --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --border-glass: rgba(255, 255, 255, 0.14);
-      --border-gold: rgba(212, 175, 55, 0.45);
+      --border-gold: rgba(212, 175, 55, 0.38);
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Vazirmatn', system-ui, -apple-system, sans-serif;
-      -webkit-tap-highlight-color: transparent;
-    }
-
+    * { box-sizing: border-box; font-family: 'Vazirmatn', sans-serif; }
     body {
-      background: radial-gradient(circle at 20% 10%, #1a294d 0%, var(--bg-dark) 55%, #060b16 100%);
-      color: var(--text-white);
+      margin: 0;
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
+      background: radial-gradient(circle at 20% 0%, #1b2c4f 0%, var(--bg-dark) 62%);
+      color: var(--text-main);
+      padding-bottom: 105px;
       overflow-x: hidden;
     }
-
-    .app-shell {
-      width: 100%;
-      max-width: 460px;
-      min-height: 100vh;
-      position: relative;
-      padding: 14px 16px 104px;
-      background: linear-gradient(180deg, rgba(16, 26, 51, 0.4) 0%, rgba(10, 17, 32, 0.95) 100%);
-      box-shadow: 0 0 60px rgba(0, 0, 0, 0.7);
-    }
-
+    .app-shell { max-width: 480px; margin: 0 auto; padding: 14px 16px 24px; }
     .glass {
-      background: linear-gradient(145deg, rgba(25, 37, 66, 0.76), rgba(10, 17, 32, 0.88));
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--border-glass);
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
-    }
-
-    /* Header */
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-    }
-
-    .circle-btn {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(19, 29, 51, 0.72);
-      color: var(--text-white);
-      display: grid;
-      place-items: center;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .circle-btn:hover {
-      border-color: var(--gold-bright);
-      color: var(--gold-bright);
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-align: right;
-    }
-
-    .brand-title {
-      font-size: 21px;
-      font-weight: 800;
-      color: var(--gold-bright);
-      line-height: 1.2;
-      text-shadow: 0 0 18px rgba(245, 208, 97, 0.25);
-    }
-
-    .brand-sub {
-      font-size: 11.5px;
-      color: var(--text-muted);
-    }
-
-    .tagline {
-      font-size: 14px;
-      line-height: 1.7;
-      margin-bottom: 14px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid transparent;
-      background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.55), transparent) bottom / 100% 1px no-repeat;
-    }
-
-    .tagline strong {
-      color: var(--gold-bright);
-      font-weight: 700;
-    }
-
-    /* Carousel */
-    .carousel-wrap {
-      overflow: hidden;
-      border-radius: 24px;
-    }
-
-    .carousel-track {
-      display: flex;
-      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .carousel-slide {
-      min-width: 100%;
-      padding: 16px 14px;
-      border-radius: 24px;
+      background: linear-gradient(145deg, rgba(19, 29, 51, 0.85), rgba(10, 17, 32, 0.92));
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border: 1px solid var(--border-gold);
-    }
-
-    .dots {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      margin: 10px 0 14px;
-    }
-
-    .dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 99px;
-      background: rgba(255, 255, 255, 0.22);
-      cursor: pointer;
-      transition: 0.25s;
-    }
-
-    .dot.active {
-      width: 18px;
-      background: var(--gold-bright);
-    }
-
-    /* Recorder Slide */
-    .wave-stage {
-      position: relative;
-      height: 88px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 12px;
-    }
-
-    #waveCanvas {
-      width: 100%;
-      height: 82px;
-      display: block;
-    }
-
-    .mic-center-btn {
-      position: absolute;
-      width: 74px;
-      height: 74px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #1a2849 0%, var(--bg-dark) 80%);
-      border: 2px solid var(--gold-bright);
-      color: var(--gold-bright);
-      display: grid;
-      place-items: center;
-      cursor: pointer;
-      box-shadow: 0 0 22px var(--gold-glow);
-      transition: 0.25s;
-    }
-
-    .mic-center-btn.recording {
-      animation: pulseGold 1.4s infinite;
-      box-shadow: 0 0 32px rgba(245, 208, 97, 0.75);
-    }
-
-    @keyframes pulseGold {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.06); }
-    }
-
-    .recorder-controls {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .pill-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 12px;
-      border-radius: 99px;
-      background: rgba(10, 17, 32, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: var(--text-white);
-      font-size: 11.5px;
-      cursor: pointer;
-    }
-
-    .pill-btn select {
-      background: transparent;
-      color: var(--text-white);
-      border: none;
-      outline: none;
-      font-size: 11.5px;
-      cursor: pointer;
-    }
-
-    .pill-btn select option {
-      background: var(--bg-surface);
-      color: var(--text-white);
-    }
-
-    .status-text {
-      font-size: 12px;
-      color: var(--text-white);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--gold-bright);
-      display: none;
-    }
-
-    .status-dot.active {
-      display: inline-block;
-      animation: blink 1s infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.25; }
-    }
-
-    .live-transcript-box {
-      margin-top: 10px;
-      padding: 12px;
-      border-radius: 16px;
-      display: none;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .live-transcript-box.visible {
-      display: flex;
-    }
-
-    .live-transcript-text {
-      font-size: 12.5px;
-      line-height: 1.7;
-      color: #e2e8f0;
-      max-height: 95px;
-      overflow-y: auto;
-    }
-
-    .btn-gold {
-      background: linear-gradient(135deg, var(--gold-bright), var(--gold-primary));
-      color: #09101e;
-      border: none;
-      border-radius: 12px;
-      padding: 9px 14px;
-      font-size: 12.5px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-
-    .btn-outline {
-      background: rgba(19, 29, 51, 0.75);
-      color: var(--text-white);
-      border: 1px solid var(--border-gold);
-      border-radius: 12px;
-      padding: 8px 12px;
-      font-size: 12px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-    }
-
-    /* 6-Card Grid */
-    .grid-6 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .feature-card {
-      border-radius: 18px;
-      padding: 14px 8px;
-      text-align: center;
-      cursor: pointer;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      transition: transform 0.18s, border-color 0.2s;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-2px);
-      border-color: var(--gold-bright);
-    }
-
-    .card-blue { background: linear-gradient(160deg, rgba(30, 58, 95, 0.85), rgba(10, 17, 32, 0.92)); }
-    .card-green { background: linear-gradient(160deg, rgba(20, 69, 61, 0.85), rgba(10, 17, 32, 0.92)); }
-    .card-purple { background: linear-gradient(160deg, rgba(59, 29, 94, 0.85), rgba(10, 17, 32, 0.92)); }
-    .card-amber { background: linear-gradient(160deg, rgba(92, 67, 24, 0.85), rgba(10, 17, 32, 0.92)); }
-    .card-teal { background: linear-gradient(160deg, rgba(18, 60, 77, 0.85), rgba(10, 17, 32, 0.92)); }
-    .card-cyan { background: linear-gradient(160deg, rgba(16, 73, 74, 0.85), rgba(10, 17, 32, 0.92)); }
-
-    .feature-title {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-white);
-    }
-
-    .feature-sub {
-      font-size: 10px;
-      color: var(--text-muted);
-    }
-
-    /* Recent Docs */
-    .section-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    .section-title {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 15px;
-      font-weight: 700;
-    }
-
-    .link-btn {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      color: var(--text-white);
-      border-radius: 99px;
-      padding: 4px 10px;
-      font-size: 11px;
-      cursor: pointer;
-    }
-
-    .doc-list {
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-    }
-
-    .doc-item {
-      border-radius: 15px;
-      padding: 10px 12px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .badge-fmt {
-      width: 34px;
-      height: 34px;
-      border-radius: 9px;
-      display: grid;
-      place-items: center;
-      font-size: 11px;
-      font-weight: 800;
-      color: #fff;
-      flex-shrink: 0;
-    }
-
-    .fmt-w { background: #1d4ed8; }
-    .fmt-pdf { background: #b91c1c; }
-
-    .doc-meta {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .doc-name {
-      font-size: 13px;
-      font-weight: 600;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      cursor: pointer;
-    }
-
-    .doc-date {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .icon-action {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: 4px;
-      font-size: 16px;
-    }
-
-    .icon-action:hover, .icon-action.fav-on {
-      color: var(--gold-bright);
-    }
-
-    /* Bottom Curved Navigation */
-    .bottom-nav-wrap {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 460px;
-      height: 86px;
-      z-index: 40;
-      pointer-events: none;
-    }
-
-    .bottom-nav-svg {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 70px;
-      pointer-events: auto;
-    }
-
-    .nav-items {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 68px;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      pointer-events: auto;
-      padding: 0 8px;
-    }
-
-    .nav-tab {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
-      font-size: 10.5px;
-      cursor: pointer;
-      width: 64px;
-      position: relative;
-    }
-
-    .nav-tab.active {
-      color: var(--gold-bright);
-      font-weight: 700;
-    }
-
-    .nav-tab.active::after {
-      content: '';
-      width: 24px;
-      height: 2px;
-      background: var(--gold-bright);
-      border-radius: 2px;
-      margin-top: 2px;
-    }
-
-    .nav-spacer {
-      width: 68px;
-    }
-
-    .floating-mic {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 62px;
-      height: 62px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #1d2c4f 0%, #09101e 85%);
-      border: 2.2px solid var(--gold-bright);
-      color: var(--gold-bright);
-      display: grid;
-      place-items: center;
-      cursor: pointer;
-      pointer-events: auto;
-      box-shadow: 0 0 22px var(--gold-glow);
-    }
-
-    /* Modals & Drawer */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(4, 8, 16, 0.78);
-      backdrop-filter: blur(6px);
-      z-index: 80;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
-
-    .modal-backdrop.open {
-      display: flex;
-    }
-
-    .modal-box {
-      width: 100%;
-      max-width: 440px;
-      max-height: 88vh;
-      overflow-y: auto;
       border-radius: 22px;
-      padding: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    }
+    header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .icon-btn {
+      width: 42px; height: 42px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(19,29,51,0.75); color: var(--text-main);
+      display: grid; place-items: center; cursor: pointer; font-size: 18px;
+    }
+    .brand { display: flex; align-items: center; gap: 8px; text-align: center; }
+    .brand h1 { margin: 0; font-size: 20px; color: var(--gold-bright); }
+    .brand p { margin: 0; font-size: 11px; color: var(--text-muted); }
+    .hero-quote {
+      font-size: 14px; line-height: 1.8; margin: 0 0 14px;
+      border-bottom: 1px solid rgba(212,175,55,0.35); padding-bottom: 8px;
+    }
+    .carousel-wrap { overflow: hidden; border-radius: 24px; }
+    .carousel-track { display: flex; transition: transform 0.35s ease; }
+    .slide { min-width: 100%; padding: 16px; }
+    .wave-box { position: relative; height: 88px; display: grid; place-items: center; }
+    #waveCanvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .mic-circle {
+      position: relative; z-index: 2; width: 74px; height: 74px; border-radius: 50%;
+      background: var(--bg-dark); border: 2px solid var(--gold-bright);
+      color: var(--gold-bright); font-size: 30px; cursor: pointer;
+      box-shadow: 0 0 22px rgba(212, 175, 55, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .mic-circle.recording {
+      box-shadow: 0 0 32px rgba(245, 208, 97, 0.85);
+      transform: scale(1.05);
+    }
+    .rec-controls {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 8px; margin-top: 10px;
+    }
+    .pill-btn {
+      background: rgba(10, 17, 32, 0.8); color: var(--text-main);
+      border: 1px solid rgba(255,255,255,0.2); border-radius: 20px;
+      padding: 6px 12px; font-size: 11.5px; cursor: pointer;
+    }
+    select.pill-btn { border-color: var(--border-gold); color: var(--gold-bright); }
+    .rec-status { font-size: 12px; color: var(--gold-bright); text-align: center; flex: 1; }
+    .dots { display: flex; justify-content: center; gap: 6px; margin: 10px 0 16px; }
+    .dot {
+      width: 7px; height: 7px; border-radius: 4px;
+      background: rgba(255,255,255,0.25); cursor: pointer; transition: 0.25s;
+    }
+    .dot.active { width: 18px; background: var(--gold-bright); }
+    .live-box { padding: 12px; margin-bottom: 16px; }
+    .live-box textarea {
+      width: 100%; min-height: 85px; background: rgba(10,17,32,0.65);
+      border: 1px solid rgba(255,255,255,0.15); border-radius: 12px;
+      color: var(--text-main); padding: 10px; font-size: 13px; resize: vertical;
+    }
+    .gold-btn {
+      background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+      color: var(--bg-dark); border: none; border-radius: 12px;
+      padding: 9px 14px; font-weight: 700; font-size: 12.5px; cursor: pointer;
+    }
+    .grid-6 {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 10px; margin-bottom: 20px;
+    }
+    .feature-card {
+      padding: 12px 8px; text-align: center; cursor: pointer;
+      border-radius: 18px; border: 1px solid rgba(255,255,255,0.16);
+      transition: transform 0.15s;
+    }
+    .feature-card:active { transform: scale(0.97); }
+    .feature-card .f-icon { font-size: 24px; color: var(--gold-bright); margin-bottom: 6px; }
+    .feature-card h3 { margin: 0 0 3px; font-size: 12px; }
+    .feature-card p { margin: 0; font-size: 10px; color: var(--text-muted); }
+    .c-blue { background: linear-gradient(155deg, rgba(30,58,95,0.8), rgba(10,17,32,0.9)); }
+    .c-green { background: linear-gradient(155deg, rgba(20,69,61,0.8), rgba(10,17,32,0.9)); }
+    .c-purple { background: linear-gradient(155deg, rgba(59,29,94,0.8), rgba(10,17,32,0.9)); }
+    .c-amber { background: linear-gradient(155deg, rgba(92,67,24,0.8), rgba(10,17,32,0.9)); }
+    .c-teal { background: linear-gradient(155deg, rgba(18,60,77,0.8), rgba(10,17,32,0.9)); }
+    .c-cyan { background: linear-gradient(155deg, rgba(16,73,74,0.8), rgba(10,17,32,0.9)); }
+    .section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .doc-item {
+      display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+      border-radius: 16px; margin-bottom: 8px; border-color: rgba(255,255,255,0.12);
+    }
+    .badge {
+      width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center;
+      font-weight: 700; font-size: 11px; flex-shrink: 0;
+    }
+    .badge-w { background: #1d4ed8; }
+    .badge-pdf { background: #b91c1c; }
+    .doc-meta { flex: 1; }
+    .doc-meta h4 { margin: 0; font-size: 13px; }
+    .doc-meta span { font-size: 11px; color: var(--text-muted); }
+    .bottom-nav-wrap {
+      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 100%; max-width: 480px; height: 82px; z-index: 40;
+    }
+    .nav-svg { position: absolute; bottom: 0; left: 0; width: 100%; height: 70px; }
+    .nav-items {
+      position: relative; z-index: 2; height: 70px; margin-top: 12px;
+      display: flex; align-items: center; justify-content: space-around;
+    }
+    .nav-btn {
+      background: none; border: none; color: var(--text-muted);
+      font-size: 11px; display: flex; flex-direction: column; align-items: center;
+      gap: 2px; cursor: pointer; width: 64px;
+    }
+    .nav-btn.active { color: var(--gold-bright); font-weight: 700; }
+    .fab-mic {
+      position: absolute; top: -4px; left: 50%; transform: translateX(-50%);
+      width: 60px; height: 60px; border-radius: 50%; z-index: 3;
+      background: linear-gradient(180deg, #1a2642, var(--bg-dark));
+      border: 2px solid var(--gold-bright); color: var(--gold-bright);
+      font-size: 24px; cursor: pointer; box-shadow: 0 0 18px rgba(212,175,55,0.55);
+    }
+    dialog {
+      width: 92%; max-width: 440px; border-radius: 20px; padding: 18px;
+      background: var(--bg-surface); color: var(--text-main);
       border: 1px solid var(--border-gold);
     }
-
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    dialog::backdrop { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); }
+    .field { width: 100%; padding: 9px; border-radius: 10px; margin: 6px 0 10px;
+      background: var(--bg-dark); color: var(--text-main); border: 1px solid rgba(255,255,255,0.2); }
+    @media print {
+      body { background: #fff !important; color: #111 !important; padding: 0; }
+      .app-shell > *:not(#printArea), .bottom-nav-wrap, dialog { display: none !important; }
+      #printArea { display: block !important; direction: rtl; font-family: 'Vazirmatn', sans-serif; }
     }
-
-    .modal-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--gold-bright);
-    }
-
-    .field-group {
-      margin-bottom: 12px;
-    }
-
-    .field-group label {
-      display: block;
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 5px;
-    }
-
-    .input-ctrl, textarea.input-ctrl, select.input-ctrl {
-      width: 100%;
-      background: rgba(10, 17, 32, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 12px;
-      padding: 10px 12px;
-      color: var(--text-white);
-      font-size: 13px;
-      outline: none;
-    }
-
-    .input-ctrl:focus {
-      border-color: var(--gold-bright);
-    }
-
-    textarea.input-ctrl {
-      min-height: 180px;
-      line-height: 1.8;
-      resize: vertical;
-    }
-
-    .drawer-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(4, 8, 16, 0.7);
-      z-index: 70;
-      display: none;
-      justify-content: flex-end;
-    }
-
-    .drawer-backdrop.open {
-      display: flex;
-    }
-
-    .drawer-panel {
-      width: 80%;
-      max-width: 310px;
-      height: 100%;
-      background: #0d1629;
-      border-right: 1px solid var(--border-gold);
-      padding: 20px 16px;
-      overflow-y: auto;
-    }
-
-    .tab-view { display: none; }
-    .tab-view.active { display: block; }
-
-    .toast {
-      position: fixed;
-      top: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #14223d;
-      color: var(--gold-bright);
-      border: 1px solid var(--gold-primary);
-      padding: 9px 16px;
-      border-radius: 99px;
-      font-size: 12.5px;
-      z-index: 120;
-      display: none;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-    }
-
-    .chip {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 99px;
-      background: rgba(212, 175, 55, 0.15);
-      border: 1px solid rgba(212, 175, 55, 0.4);
-      color: var(--gold-bright);
-      font-size: 11px;
-      margin: 2px;
-    }
+    #printArea { display: none; }
   </style>
 </head>
 <body>
-  <div id="toast" class="toast"></div>
-
   <div class="app-shell">
-    <!-- Header -->
-    <header class="header">
-      <button class="circle-btn" onclick="openModal('settingsModal')" title="تنظیمات">⚙️</button>
+    <header>
+      <button class="icon-btn" onclick="openModal('settingsModal')" title="تنظیمات">⚙️</button>
       <div class="brand">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#f5d061" stroke-width="1.8">
-          <path d="M12 3v18M5 21h14M4 7h16M4 7l-2 6h4l-2-6zM20 7l-2 6h4l-2-6z"/>
-        </svg>
+        <span style="font-size:28px">⚖️</span>
         <div>
-          <div class="brand-title">قلمیار حقوقی</div>
-          <div class="brand-sub">دستیار هوشمند نگارش حقوقی</div>
+          <h1>قلمیار حقوقی</h1>
+          <p>دستیار هوشمند نگارش حقوقی</p>
         </div>
       </div>
-      <button class="circle-btn" onclick="toggleDrawer(true)" title="منو">☰</button>
+      <button class="icon-btn" onclick="openModal('toolsModal')" title="محاسبه‌گرها">☰</button>
     </header>
 
-    <!-- HOME TAB -->
-    <main id="tab-home" class="tab-view active">
-      <div class="tagline">
-        سخن بگویید...<br />
-        ما آن را به <strong>متن حقوقی حرفه‌ای</strong> تبدیل می‌کنیم.
-      </div>
+    <div id="view-home">
+      <p class="hero-quote">سخن بگویید...<br>ما آن را به متن حقوقی حرفه‌ای تبدیل می‌کنیم.</p>
 
-      <!-- 3-Slide Carousel -->
-      <div class="carousel-wrap">
-        <div id="carouselTrack" class="carousel-track">
-          <!-- Slide 1: Recorder -->
-          <section class="carousel-slide glass">
-            <div class="wave-stage">
-              <canvas id="waveCanvas" width="380" height="82"></canvas>
-              <button id="centerRecBtn" class="mic-center-btn" onclick="toggleRecording()" title="شروع یا توقف ضبط">
-                <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z"/>
-                </svg>
-              </button>
+      <div class="glass carousel-wrap">
+        <div class="carousel-track" id="carouselTrack">
+          <div class="slide">
+            <div class="wave-box">
+              <canvas id="waveCanvas"></canvas>
+              <button class="mic-circle" id="mainMicBtn" onclick="toggleRecording()">🎙️</button>
             </div>
-            <div class="recorder-controls">
-              <button class="pill-btn" onclick="stopRecording()">
-                <span style="width:10px;height:10px;background:#fff;border-radius:2px;display:inline-block;"></span>
-                توقف
-              </button>
-              <div class="status-text">
-                <span id="recDot" class="status-dot"></span>
-                <span id="recStatus">آماده برای گوش دادن...</span>
-              </div>
-              <div class="pill-btn">
-                <span>🎙️</span>
-                <select id="proModeSelect" onchange="onModeChanged()">
-                  <option value="brief">حالت حرفه‌ای: لایحه</option>
-                  <option value="petition">دادخواست حقوقی</option>
-                  <option value="complaint">شکواییه کیفری</option>
-                  <option value="poa">وکالت‌نامه رسمی</option>
-                  <option value="declaration">اظهارنامه قضایی</option>
-                  <option value="contract">قرارداد حقوقی</option>
-                </select>
-              </div>
+            <div class="rec-controls">
+              <button class="pill-btn" onclick="stopRecording()">⏹ توقف</button>
+              <span class="rec-status" id="recStatus">آماده برای ضبط...</span>
+              <select class="pill-btn" id="proModeSelect">
+                <option value="brief">حالت حرفه‌ای: لایحه دفاعیه</option>
+                <option value="petition">دادخواست حقوقی</option>
+                <option value="complaint">شکواییه کیفری</option>
+                <option value="poa">وکالت‌نامه رسمی</option>
+                <option value="declaration">اظهارنامه قضایی</option>
+                <option value="contract">قرارداد حقوقی</option>
+              </select>
             </div>
-          </section>
-
-          <!-- Slide 2: Calculators -->
-          <section class="carousel-slide glass" style="text-align:center;">
-            <div style="font-size:28px;margin-bottom:6px;">⚖️</div>
-            <div style="font-weight:700;font-size:14.5px;color:var(--gold-bright);margin-bottom:6px;">
-              محاسبه‌گر هزینه دادرسی و مواعد قانونی
-            </div>
-            <p style="font-size:11.5px;color:var(--text-muted);line-height:1.7;margin-bottom:12px;">
-              محاسبه دقیق تعرفه‌های بدوی (۲.۵٪ / ۳.۵٪)، تجدیدنظر (۴.۵٪)، فرجام (۵.۵٪) و مهلت‌های مواد ۴۴۳ تا ۴۴۶ آیین دادرسی مدنی
-            </p>
-            <button class="btn-gold" onclick="openModal('calcModal')">ورود به محاسبه‌گر قضایی</button>
-          </section>
-
-          <!-- Slide 3: Sana Optimizer -->
-          <section class="carousel-slide glass" style="text-align:center;">
-            <div style="font-size:28px;margin-bottom:6px;">🏛️</div>
-            <div style="font-weight:700;font-size:14.5px;color:var(--gold-bright);margin-bottom:6px;">
-              آماده‌ساز سامانه ثنا و عدل ایران
-            </div>
-            <p style="font-size:11.5px;color:var(--text-muted);line-height:1.7;margin-bottom:12px;">
-              پاک‌سازی قالب‌های ناسازگار Word جهت درج بی‌نقص در سامانه ثنا و تولید خروجی استاندارد PDF و DOCX
-            </p>
-            <button class="btn-gold" onclick="openEditorWithCurrent()">باز کردن ویرایشگر ثنا</button>
-          </section>
+          </div>
+          <div class="slide" style="text-align:center">
+            <h3 style="margin:6px 0;color:var(--gold-bright)">محاسبه‌گر هزینه دادرسی و مواعد</h3>
+            <p style="font-size:12px;color:var(--text-muted)">تعرفه‌های مالی و غیرمالی و مهلت‌های مواد ۴۴۳ تا ۴۴۶ ق.آ.د.م</p>
+            <button class="gold-btn" onclick="openModal('toolsModal')">باز کردن محاسبه‌گر قضایی</button>
+          </div>
+          <div class="slide" style="text-align:center">
+            <h3 style="margin:6px 0;color:var(--gold-bright)">آماده‌ساز سامانه ثنا و عدل ایران</h3>
+            <p style="font-size:12px;color:var(--text-muted)">حذف قالب‌بندی مزاحم Word، تولید متن پاک ثنا و خروجی استاندارد</p>
+            <button class="gold-btn" onclick="copySanaText()">کپی متن آماده سامانه ثنا</button>
+          </div>
         </div>
       </div>
 
@@ -821,1184 +221,451 @@ Let's write a clean, super accurate, ready-to-paste index.html and concise deplo
         <span class="dot" onclick="goSlide(2)"></span>
       </div>
 
-      <!-- Live Transcript Preview -->
-      <div id="liveTranscriptBox" class="live-transcript-box glass">
-        <div id="liveTranscriptText" class="live-transcript-text"></div>
-        <div style="display:flex;gap:8px;">
-          <button class="btn-gold" style="flex:1;" onclick="openEditorWithCurrent()">تبدیل به متن رسمی و ویرایش هوشمند</button>
-          <button class="btn-outline" onclick="clearTranscript()">پاک کردن</button>
+      <div class="glass live-box">
+        <textarea id="docTitle" style="min-height:38px;margin-bottom:8px;font-weight:700" placeholder="عنوان سند (مثلاً: لایحه دفاعیه پرونده مطالبه وجه)"></textarea>
+        <textarea id="editorArea" placeholder="متن گفتار شما یا متن حقوقی اینجا نمایش داده می‌شود..."></textarea>
+        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+          <button class="gold-btn" style="flex:1" onclick="smartPolishText()">✨ ویرایش هوشمند حقوقی</button>
+          <button class="pill-btn" onclick="exportDocx()">Word (.docx)</button>
+          <button class="pill-btn" onclick="exportPdf()">PDF</button>
+          <button class="pill-btn" onclick="saveCurrentDoc()">💾 ذخیره</button>
         </div>
       </div>
 
-      <!-- 6 Feature Cards -->
-      <section class="grid-6">
-        <div class="feature-card card-blue" onclick="openEditorWithCurrent()">
-          <div style="font-size:24px;">📝</div>
-          <div class="feature-title">ویرایش هوشمند</div>
-          <div class="feature-sub">اصلاح و بهینه‌سازی متن</div>
+      <div class="grid-6">
+        <div class="feature-card c-blue" onclick="smartPolishText()">
+          <div class="f-icon">📝</div>
+          <h3>ویرایش هوشمند</h3>
+          <p>اصلاح و بهینه‌سازی متن</p>
         </div>
-        <div class="feature-card card-green" onclick="openEditorWithCurrent()">
-          <div style="font-size:24px;">📄</div>
-          <div class="feature-title">خروجی حرفه‌ای</div>
-          <div class="feature-sub">Word / PDF</div>
+        <div class="feature-card c-green" onclick="exportDocx()">
+          <div class="f-icon">📄</div>
+          <h3>خروجی حرفه‌ای</h3>
+          <p>Word / PDF</p>
         </div>
-        <div class="feature-card card-purple" onclick="openHistoryModal()">
-          <div style="font-size:24px;">🗂️</div>
-          <div class="feature-title">تاریخچه متون</div>
-          <div class="feature-sub">مشاهده و مدیریت</div>
+        <div class="feature-card c-purple" onclick="openModal('historyModal')">
+          <div class="f-icon">🗂️</div>
+          <h3>تاریخچه متون</h3>
+          <p>مشاهده و مدیریت</p>
         </div>
-        <div class="feature-card card-amber" onclick="openTemplatesModal()">
-          <div style="font-size:24px;">📑</div>
-          <div class="feature-title">قالب‌های آماده</div>
-          <div class="feature-sub">نامه، دادخواست و ...</div>
+        <div class="feature-card c-amber" onclick="openModal('templatesModal')">
+          <div class="f-icon">📋</div>
+          <h3>قالب‌های آماده</h3>
+          <p>نامه، دادخواست و ...</p>
         </div>
-        <div class="feature-card card-teal" onclick="openTermsModal()">
-          <div style="font-size:24px;">📖</div>
-          <div class="feature-title">اصطلاحات حقوقی</div>
-          <div class="feature-sub">راهنمای سریع</div>
+        <div class="feature-card c-teal" onclick="openModal('termsModal')">
+          <div class="f-icon">⚖️</div>
+          <h3>اصطلاحات حقوقی</h3>
+          <p>راهنمای سریع</p>
         </div>
-        <div class="feature-card card-cyan" onclick="openModal('settingsModal')">
-          <div style="font-size:24px;">⚙️</div>
-          <div class="feature-title">تنظیمات</div>
-          <div class="feature-sub">سفارشی‌سازی برنامه</div>
+        <div class="feature-card c-cyan" onclick="openModal('settingsModal')">
+          <div class="f-icon">⚙️</div>
+          <h3>تنظیمات</h3>
+          <p>سفارشی‌سازی برنامه</p>
         </div>
-      </section>
+      </div>
 
-      <!-- Recent Documents -->
       <div class="section-head">
-        <div class="section-title">🕒 آخرین متون شما</div>
-        <button class="link-btn" onclick="openHistoryModal()">مشاهده همه ›</button>
+        <strong>🕒 آخرین متون شما</strong>
+        <button class="pill-btn" onclick="openModal('historyModal')">مشاهده همه</button>
       </div>
-      <div id="recentDocsList" class="doc-list"></div>
-    </main>
+      <div id="recentList"></div>
+    </div>
 
-    <!-- PROFILE TAB -->
-    <section id="tab-profile" class="tab-view">
-      <div class="glass" style="border-radius:20px;padding:18px;">
-        <h3 style="color:var(--gold-bright);margin-bottom:12px;">پروفایل وکیل / کاربر</h3>
-        <div class="field-group">
-          <label>نام و نام خانوادگی</label>
-          <input id="profName" class="input-ctrl" placeholder="مثلاً: دکتر جلال زرگانی" />
-        </div>
-        <div class="field-group">
-          <label>شماره پروانه وکالت (جهت درج در سربرگ اسناد)</label>
-          <input id="profLicense" class="input-ctrl" placeholder="مثلاً: ۱۲۳۴۵" />
-        </div>
-        <div class="field-group">
-          <label>نشانی دفتر</label>
-          <input id="profAddress" class="input-ctrl" placeholder="تهران، خیابان..." />
-        </div>
-        <button class="btn-gold" style="width:100%;" onclick="saveProfile()">ذخیره اطلاعات پروفایل</button>
-      </div>
-    </section>
-
-    <!-- FAVORITES TAB -->
-    <section id="tab-favorites" class="tab-view">
-      <div class="section-head">
-        <div class="section-title">⭐ اسناد برگزیده (علاقه‌مندی‌ها)</div>
-      </div>
-      <div id="favoriteDocsList" class="doc-list"></div>
-    </section>
-
-    <!-- REPORTS TAB -->
-    <section id="tab-reports" class="tab-view">
-      <div class="glass" style="border-radius:20px;padding:18px;">
-        <h3 style="color:var(--gold-bright);margin-bottom:14px;">📊 گزارش‌های عملکرد نگارش</h3>
-        <div id="reportsContainer" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"></div>
-      </div>
-    </section>
+    <div id="view-sub" style="display:none"></div>
+    <div id="printArea"></div>
   </div>
 
-  <!-- Bottom Curved Navigation -->
-  <nav class="bottom-nav-wrap">
-    <svg class="bottom-nav-svg" viewBox="0 0 460 70" preserveAspectRatio="none">
-      <path d="M0,18 Q115,0 180,10 Q202,15 230,32 Q258,15 280,10 Q345,0 460,18 L460,70 L0,70 Z" fill="rgba(11,19,36,0.95)" />
-      <path d="M0,18 Q115,0 180,10 Q202,15 230,32 Q258,15 280,10 Q345,0 460,18" fill="none" stroke="rgba(212,175,55,0.72)" stroke-width="1.5" />
+  <div class="bottom-nav-wrap">
+    <svg class="nav-svg" viewBox="0 0 400 70" preserveAspectRatio="none">
+      <path d="M0,18 Q100,0 156,10 Q176,15 200,32 Q224,15 244,10 Q300,0 400,18 L400,70 L0,70 Z" fill="#0b1324" fill-opacity="0.95"/>
+      <path d="M0,18 Q100,0 156,10 Q176,15 200,32 Q224,15 244,10 Q300,0 400,18" fill="none" stroke="#d4af37" stroke-width="1.6"/>
     </svg>
-    <button id="floatingMicBtn" class="floating-mic" onclick="toggleRecording()" title="ضبط سریع">
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z"/>
-      </svg>
-    </button>
+    <button class="fab-mic" id="fabMicBtn" onclick="toggleRecording()">🎙️</button>
     <div class="nav-items">
-      <button class="nav-tab" data-tab="profile" onclick="switchTab('profile')"><span>👤</span><span>پروفایل</span></button>
-      <button class="nav-tab active" data-tab="home" onclick="switchTab('home')"><span>🏠</span><span>خانه</span></button>
-      <div class="nav-spacer"></div>
-      <button class="nav-tab" data-tab="favorites" onclick="switchTab('favorites')"><span>⭐</span><span>علاقه‌مندی‌ها</span></button>
-      <button class="nav-tab" data-tab="reports" onclick="switchTab('reports')"><span>📊</span><span>گزارش‌ها</span></button>
-    </div>
-  </nav>
-
-  <!-- Side Drawer -->
-  <div id="drawerBackdrop" class="drawer-backdrop" onclick="if(event.target===this) toggleDrawer(false)">
-    <div class="drawer-panel">
-      <h3 style="color:var(--gold-bright);margin-bottom:16px;">⚖️ ابزارهای تخصصی قلمیار</h3>
-      <button class="btn-outline" style="width:100%;margin-bottom:10px;justify-content:flex-start;" onclick="toggleDrawer(false);openEditorWithCurrent()">📝 ویرایشگر هوشمند و ثنا</button>
-      <button class="btn-outline" style="width:100%;margin-bottom:10px;justify-content:flex-start;" onclick="toggleDrawer(false);openModal('calcModal')">🧮 محاسبه‌گر هزینه دادرسی و مواعد</button>
-      <button class="btn-outline" style="width:100%;margin-bottom:10px;justify-content:flex-start;" onclick="toggleDrawer(false);openTemplatesModal()">📑 بانک قالب‌های آماده</button>
-      <button class="btn-outline" style="width:100%;margin-bottom:10px;justify-content:flex-start;" onclick="toggleDrawer(false);openTermsModal()">📖 فرهنگ اصطلاحات حقوقی</button>
-      <button class="btn-outline" style="width:100%;margin-bottom:10px;justify-content:flex-start;" onclick="toggleDrawer(false);openHistoryModal()">🗂️ بایگانی کامل اسناد</button>
-      <hr style="border-color:rgba(255,255,255,0.1);margin:14px 0;" />
-      <p style="font-size:11px;color:var(--text-muted);line-height:1.7;">
-        تمامی پیش‌نویس‌های شما به صورت محلی در حافظه مرورگر (LocalStorage) ذخیره می‌شوند و بدون ارسال به سرورهای ناآشنا قابل خروجی‌گیری در قالب Word و PDF هستند.
-      </p>
+      <button class="nav-btn" onclick="switchTab('profile', this)"><span>👤</span>پروفایل</button>
+      <button class="nav-btn active" onclick="switchTab('home', this)"><span>🏠</span>خانه</button>
+      <div style="width:64px"></div>
+      <button class="nav-btn" onclick="switchTab('favs', this)"><span>⭐</span>علاقه‌مندی‌ها</button>
+      <button class="nav-btn" onclick="switchTab('reports', this)"><span>📊</span>گزارش‌ها</button>
     </div>
   </div>
 
-  <!-- Smart Editor Modal -->
-  <div id="editorModal" class="modal-backdrop">
-    <div class="modal-box glass">
-      <div class="modal-header">
-        <span class="modal-title">ویرایش هوشمند و خروجی حرفه‌ای</span>
-        <button class="circle-btn" style="width:32px;height:32px;" onclick="closeModal('editorModal')">✕</button>
-      </div>
-      <div class="field-group">
-        <label>عنوان سند</label>
-        <input id="edTitle" class="input-ctrl" value="لایحه دفاعیه جدید" />
-      </div>
-      <div class="field-group">
-        <label>قالب و سبک نگارش</label>
-        <select id="edCategory" class="input-ctrl">
-          <option value="brief">لایحه دفاعیه</option>
-          <option value="petition">دادخواست حقوقی</option>
-          <option value="complaint">شکواییه کیفری</option>
-          <option value="poa">وکالت‌نامه رسمی</option>
-          <option value="declaration">اظهارنامه رسمی (ماده ۱۵۶ ق.آ.د.م)</option>
-          <option value="contract">قرارداد حقوقی</option>
-        </select>
-      </div>
-      <div class="field-group">
-        <label>متن سند (امکان دیکته یا تایپ مستقیم)</label>
-        <textarea id="edBody" class="input-ctrl" placeholder="متن خام یا گفتار خود را وارد کنید..."></textarea>
-      </div>
-      <div id="edNotes" style="margin-bottom:10px;"></div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
-        <button class="btn-gold" style="flex:1;" onclick="runSmartTransform()">✨ بهینه‌سازی حقوقی و نیم‌فاصله</button>
-        <button class="btn-outline" onclick="saveCurrentDoc()">💾 ذخیره</button>
-      </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <button class="btn-outline" style="flex:1;" onclick="downloadDocx()">📘 دانلود Word</button>
-        <button class="btn-outline" style="flex:1;" onclick="downloadPdf()">📕 دانلود PDF</button>
-        <button class="btn-outline" style="flex:1;" onclick="copyForSana()">🏛️ کپی پاک ثنا</button>
-      </div>
-    </div>
-  </div>
+  <!-- مودال محاسبه‌گر هزینه دادرسی و مواعد -->
+  <dialog id="toolsModal">
+    <h3 style="margin-top:0;color:var(--gold-bright)">محاسبه‌گر هزینه دادرسی و مواعد</h3>
+    <label>ارزش خواسته / محکوم‌به (ریال):</label>
+    <input class="field" id="feeAmount" type="number" value="500000000" />
+    <label>مرحله رسیدگی:</label>
+    <select class="field" id="feeStage">
+      <option value="first">بدوی (۲.۵٪ تا ۲۰۰ میلیون / ۳.۵٪ مازاد)</option>
+      <option value="appeal">تجدیدنظر و واخواهی (۴.۵٪)</option>
+      <option value="cassation">فرجام و اعاده دادرسی (۵.۵٪)</option>
+    </select>
+    <button class="gold-btn" style="width:100%" onclick="calcFee()">محاسبه هزینه دادرسی</button>
+    <p id="feeResult" style="color:var(--gold-bright);font-size:13px"></p>
+    <hr style="border-color:rgba(255,255,255,0.12)" />
+    <label>تاریخ ابلاغ (میلادی جهت محاسبه خودکار تقویم، یا پیش‌فرض امروز):</label>
+    <input class="field" id="notifyDate" type="date" />
+    <select class="field" id="deadlineDays">
+      <option value="20">مهلت ۲۰ روزه (تجدیدنظر / واخواهی)</option>
+      <option value="10">مهلت ۱۰ روزه (رفع نقص / اعتراض قرار دادسرا)</option>
+      <option value="60">مقیم خارج از کشور (ماده ۴۴۶: ۲ ماه / ۶۰ روز)</option>
+    </select>
+    <button class="gold-btn" style="width:100%" onclick="calcDeadline()">محاسبه آخرین روز اقدام (مواد ۴۴۴ و ۴۴۵)</button>
+    <p id="deadlineResult" style="color:var(--gold-bright);font-size:13px"></p>
+    <button class="pill-btn" style="width:100%;margin-top:8px" onclick="closeModal('toolsModal')">بستن</button>
+  </dialog>
 
-  <!-- Calculators Modal -->
-  <div id="calcModal" class="modal-backdrop">
-    <div class="modal-box glass">
-      <div class="modal-header">
-        <span class="modal-title">محاسبه‌گر قضایی (هزینه دادرسی و مواعد)</span>
-        <button class="circle-btn" style="width:32px;height:32px;" onclick="closeModal('calcModal')">✕</button>
-      </div>
+  <dialog id="templatesModal">
+    <h3 style="margin-top:0;color:var(--gold-bright)">قالب‌های آماده حقوقی</h3>
+    <div id="templatesList"></div>
+    <button class="pill-btn" style="width:100%;margin-top:8px" onclick="closeModal('templatesModal')">بستن</button>
+  </dialog>
 
-      <h4 style="font-size:13px;color:var(--gold-bright);margin-bottom:8px;">۱. محاسبه هزینه دادرسی (تعرفه‌های ۱۴۰۴–۱۴۰۵)</h4>
-      <div class="field-group">
-        <label>مرحله و نوع دعوا</label>
-        <select id="feeStage" class="input-ctrl">
-          <option value="first">دعوای مالی — مرحله بدوی (۲.۵٪ تا ۲۰۰م / ۳.۵٪ مازاد)</option>
-          <option value="appeal">دعوای مالی — تجدیدنظر و واخواهی (۴.۵٪)</option>
-          <option value="cassation">دعوای مالی — فرجام‌خواهی و اعاده دادرسی (۵.۵٪)</option>
-          <option value="enforcement">اجرای احکام دعاوی مالی (۵٪ محکوم‌به)</option>
-          <option value="non_financial">دعاوی غیرمالی / تأمین خواسته (تا ۱.۸ میلیون ریال)</option>
-          <option value="criminal">تقدیم شکواییه کیفری (۱۰۰ هزار ریال)</option>
-        </select>
-      </div>
-      <div class="field-group">
-        <label>ارزش خواسته یا محکوم‌به (به ریال)</label>
-        <input id="feeAmount" type="number" class="input-ctrl" value="500000000" />
-      </div>
-      <button class="btn-gold" style="width:100%;margin-bottom:8px;" onclick="calcCourtFee()">محاسبه هزینه دادرسی</button>
-      <div id="feeOutput" style="font-size:12px;line-height:1.8;color:#e2e8f0;margin-bottom:16px;"></div>
+  <dialog id="termsModal">
+    <h3 style="margin-top:0;color:var(--gold-bright)">فرهنگ اصطلاحات حقوقی</h3>
+    <input class="field" id="termSearch" placeholder="جستجوی اصطلاح (مثلاً: اعسار، واخواهی)..." oninput="renderTerms()" />
+    <div id="termsList" style="max-height:260px;overflow:auto"></div>
+    <button class="pill-btn" style="width:100%;margin-top:8px" onclick="closeModal('termsModal')">بستن</button>
+  </dialog>
 
-      <hr style="border-color:rgba(255,255,255,0.12);margin:12px 0;" />
+  <dialog id="historyModal">
+    <h3 style="margin-top:0;color:var(--gold-bright)">آرشیو و تاریخچه متون</h3>
+    <div id="fullHistoryList" style="max-height:300px;overflow:auto"></div>
+    <button class="pill-btn" style="width:100%;margin-top:8px" onclick="closeModal('historyModal')">بستن</button>
+  </dialog>
 
-      <h4 style="font-size:13px;color:var(--gold-bright);margin-bottom:8px;">۲. محاسبه مواعد قانونی (مواد ۴۴۳ تا ۴۴۶ ق.آ.د.م)</h4>
-      <div class="field-group">
-        <label>تاریخ ابلاغ شمسی (مثال: 1405/08/15)</label>
-        <input id="notifyDateInput" class="input-ctrl" />
-      </div>
-      <div class="field-group">
-        <label>نوع مهلت قانونی</label>
-        <select id="deadlineType" class="input-ctrl">
-          <option value="20">تجدیدنظر / واخواهی / فرجام (۲۰ روز)</option>
-          <option value="10">رفع نقص یا اعتراض قرار دادسرا (۱۰ روز)</option>
-          <option value="60">مقیمان خارج از کشور — ماده ۴۴۶ (۲ ماه = ۶۰ روز)</option>
-        </select>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:12px;">
-        <input type="checkbox" id="thursdayClosed" checked />
-        <label for="thursdayClosed">احتساب پنجشنبه به‌عنوان روز تعطیل قضایی</label>
-      </div>
-      <button class="btn-gold" style="width:100%;margin-bottom:8px;" onclick="calcDeadline()">محاسبه آخرین روز اقدام</button>
-      <div id="deadlineOutput" style="font-size:12px;line-height:1.8;color:#e2e8f0;"></div>
-    </div>
-  </div>
-
-  <!-- Templates Modal -->
-  <div id="templatesModal" class="modal-backdrop">
-    <div class="modal-box glass">
-      <div class="modal-header">
-        <span class="modal-title">قالب‌های آماده حقوقی</span>
-        <button class="circle-btn" style="width:32px;height:32px;" onclick="closeModal('templatesModal')">✕</button>
-      </div>
-      <div id="templatesList" class="doc-list"></div>
-    </div>
-  </div>
-
-  <!-- Legal Terms Modal -->
-  <div id="termsModal" class="modal-backdrop">
-    <div class="modal-box glass">
-      <div class="modal-header">
-        <span class="modal-title">فرهنگ اصطلاحات حقوقی</span>
-        <button class="circle-btn" style="width:32px;height:32px;" onclick="closeModal('termsModal')">✕</button>
-      </div>
-      <div class="field-group">
-        <input id="termSearch" class="input-ctrl" placeholder="جستجوی اصطلاح (مثلاً: واخواهی، اعسار، ثمن...)" oninput="renderTerms()" />
-      </div>
-      <div id="termsList" class="doc-list"></div>
-    </div>
-  </div>
-
-  <!-- History Modal -->
-  <div id="historyModal" class="modal-backdrop">
-    <div class="modal-box glass">
-      <div class="modal-header">
-        <span class="modal-title">تاریخچه متون و اسناد</span>
-        <button class="circle-btn" style="width:32px;height:32px;" onclick="closeModal('historyModal')">✕</button>
-      </div>
-      <div class="field-group">
-        <input id="historySearch" class="input-ctrl" placeholder="جستجو در عنوان یا متن..." oninput="renderHistory()" />
-      </div>
-      <div id="historyList" class="doc-list"></div>
-    </div>
-  </div>
-
-  <!-- Settings Modal -->
-  <div id="settingsModal" class="modal-backdrop">
-    <div class="modal-box glass">
-      <div class="modal-header">
-        <span class="modal-title">تنظیمات و اتصال اختیاری هوش مصنوعی</span>
-        <button class="circle-btn" style="width:32px;height:32px;" onclick="closeModal('settingsModal')">✕</button>
-      </div>
-      <div class="field-group">
-        <label>آدرس API هوش مصنوعی (اختیاری - سازگار با OpenAI)</label>
-        <input id="setApiBase" class="input-ctrl" placeholder="https://api.openai.com/v1" />
-      </div>
-      <div class="field-group">
-        <label>کلید API (در مرورگر خودتان ذخیره می‌شود)</label>
-        <input id="setApiKey" type="password" class="input-ctrl" placeholder="sk-..." />
-      </div>
-      <div class="field-group">
-        <label>مدل زبانی</label>
-        <input id="setApiModel" class="input-ctrl" value="gpt-4o-mini" />
-      </div>
-      <button class="btn-gold" style="width:100%;margin-bottom:8px;" onclick="saveSettings()">ذخیره تنظیمات</button>
-      <button class="btn-outline" style="width:100%;" onclick="resetDemoData()">بازنشانی داده‌های نمونه اولیه</button>
-    </div>
-  </div>
+  <dialog id="settingsModal">
+    <h3 style="margin-top:0;color:var(--gold-bright)">تنظیمات و مشخصات وکیل</h3>
+    <label>نام و نام خانوادگی (در سربرگ Word/PDF):</label>
+    <input class="field" id="lawyerNameInput" placeholder="مثلاً: جلال زرگانی — وکیل پایه یک دادگستری" />
+    <label>شماره پروانه وکالت:</label>
+    <input class="field" id="lawyerLicenseInput" placeholder="مثلاً: ۱۲۳۴۵" />
+    <button class="gold-btn" style="width:100%" onclick="saveSettings()">ذخیره مشخصات</button>
+    <button class="pill-btn" style="width:100%;margin-top:8px" onclick="closeModal('settingsModal')">بستن</button>
+  </dialog>
 
   <script>
-    // ---------- Jalali Calendar & Persian Digits ----------
-    const faDigits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
-    function toFa(str) {
-      return String(str).replace(/\d/g, d => faDigits[Number(d)]);
-    }
-    function toEn(str) {
-      return String(str).replace(/[۰-۹]/g, d => faDigits.indexOf(d));
-    }
-
-    function gregorianToJalali(gy, gm, gd) {
-      const g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
-      let gy2 = (gm > 2) ? (gy + 1) : gy;
-      let days = 355666 + (365 * gy) + Math.floor((gy2 + 3) / 4) - Math.floor((gy2 + 99) / 100) + Math.floor((gy2 + 399) / 400) + gd + g_d_m[gm - 1];
-      let jy = -1595 + (33 * Math.floor(days / 12053));
-      days %= 12053;
-      jy += 4 * Math.floor(days / 1461);
-      days %= 1461;
-      if (days > 365) {
-        jy += Math.floor((days - 1) / 365);
-        days = (days - 1) % 365;
-      }
-      const jm = (days < 186) ? 1 + Math.floor(days / 31) : 7 + Math.floor((days - 186) / 30);
-      const jd = 1 + ((days < 186) ? (days % 31) : ((days - 186) % 30));
-      return { jy, jm, jd };
-    }
-
-    function jalaliToGregorian(jy, jm, jd) {
-      jy += 1595;
-      let days = -355668 + (365 * jy) + (Math.floor(jy / 33) * 8) + Math.floor(((jy % 33) + 3) / 4) + jd + ((jm < 7) ? (jm - 1) * 31 : ((jm - 7) * 30) + 186);
-      let gy = 400 * Math.floor(days / 146097);
-      days %= 146097;
-      if (days > 36524) {
-        gy += 100 * Math.floor(--days / 36524);
-        days %= 36524;
-        if (days >= 365) days++;
-      }
-      gy += 4 * Math.floor(days / 1461);
-      days %= 1461;
-      if (days > 365) {
-        gy += Math.floor((days - 1) / 365);
-        days = (days - 1) % 365;
-      }
-      let gd = days + 1;
-      const sal_a = [0, 31, ((gy % 4 === 0 && gy % 100 !== 0) |
-
-| (gy % 400 === 0)) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-      let gm = 0;
-      for (gm = 1; gm <= 12 && gd > sal_a[gm]; gm++) gd -= sal_a[gm];
-      return new Date(gy, gm - 1, gd);
-    }
-
-    function nowJalaliFormatted() {
-      const d = new Date();
-      const j = gregorianToJalali(d.getFullYear(), d.getMonth() + 1, d.getDate());
-      const p2 = n => String(n).padStart(2, '0');
-      return toFa(`${j.jy}/${p2(j.jm)}/${p2(j.jd)} • ${p2(d.getHours())}:${p2(d.getMinutes())}`);
-    }
-
-    function todayJalaliInput() {
-      const d = new Date();
-      const j = gregorianToJalali(d.getFullYear(), d.getMonth() + 1, d.getDate());
-      const p2 = n => String(n).padStart(2, '0');
-      return `${j.jy}/${p2(j.jm)}/${p2(j.jd)}`;
-    }
-
-    // ---------- Data & Storage ----------
-    const STORAGE_DOCS = 'qalamyar_docs_v1';
-    const STORAGE_PROFILE = 'qalamyar_profile_v1';
-    const STORAGE_SETTINGS = 'qalamyar_settings_v1';
-
-    const DEFAULT_DOCS = [
-      {
-        id: 'doc-1',
-        title: 'وکالت‌نامه رسمی',
-        category: 'poa',
-        format: 'docx',
-        isFavorite: true,
-        dateLabel: '۱۴۰۴/۰۹/۲۶ • ۱۵:۳۰',
-        content: 'موکل: ...\nوکیل: وکیل پایه یک دادگستری\nموضوع وکالت: پیگیری کلیه امور حقوقی و قضایی در مراجع بدوی، تجدیدنظر، دیوان عالی کشور و اجرای احکام مدنی با حق توکیل به غیر و صلح و سازش.'
-      },
-      {
-        id: 'doc-2',
-        title: 'دادخواست حقوقی',
-        category: 'petition',
-        format: 'pdf',
-        isFavorite: false,
-        dateLabel: '۱۴۰۴/۰۹/۲۵ • ۱۱:۲۰',
-        content: 'ریاست محترم دادگاه عمومی حقوقی\nبا سلام و احترام؛\nبه وکالت از خواهان، به استحضار می‌رساند خوانده بموجب قرارداد مورخ ... متعهد به پرداخت ثمن معامله گردیده و از ایفای تعهد استنکاف نموده است. مستنداً به مواد ۱۰، ۲۱۹ و ۲۲۰ قانون مدنی و ماده ۵۲۲ ق.آ.د.م صدور حکم بر محکومیت خوانده به پرداخت اصل خواسته و خسارت تأخیر تأدیه و هزینه‌های دادرسی مورد استدعاست.'
-      }
-    ];
+    const toFa = s => String(s).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+    const jalaliNow = (date = new Date()) => new Intl.DateTimeFormat('fa-IR-u-ca-persian', {
+      year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
+    }).format(date);
 
     const TEMPLATES = [
-      {
-        title: 'دادخواست مطالبه وجه و خسارت تأخیر تأدیه',
-        category: 'petition',
-        desc: 'مستند به مواد ۱۹۸، ۵۱۵ و ۵۲۲ قانون آیین دادرسی مدنی',
-        body: 'ریاست محترم دادگاه عمومی حقوقی\nموضوع: مطالبه وجه به انضمام خسارت تأخیر تأدیه و هزینه دادرسی\n\nبا سلام و احترام؛\nاینجانب به شرح دلایل و منضمات پیوست (مستند به فاکتور / قرارداد / چک شماره ...) مبلغ ... ریال از خوانده محترم طلبکار می‌باشم که علی‌رغم مراجعات مکرر و ارسال اظهارنامه رسمی، نامبرده از پرداخت آن استنکاف نموده است. لذا مستنداً به مواد ۱۰ و ۲۱۹ قانون مدنی و مواد ۱۹۸، ۵۱۵ و ۵۲۲ قانون آیین دادرسی مدنی، تقاضای رسیدگی و صدور حکم به محکومیت خوانده به پرداخت اصل خواسته به انضمام خسارت تأخیر تأدیه از تاریخ ... لغایت یوم‌الوصول و کلیه خسارات دادرسی را دارم.'
-      },
-      {
-        title: 'لایحه دفاعیه تجدیدنظرخواهی',
-        category: 'brief',
-        desc: 'پاسخ یا اعتراض به رأی بدوی در مهلت ۲۰ روزه ماده ۳۳۶ ق.آ.د.م',
-        body: 'ریاست و مستشاران محترم دادگاه تجدیدنظر استان\nموضوع: لایحه دفاعیه در پرونده کلاسه ...\n\nسلام علیکم؛\nاحتراماً در مقام دفاع در قبال دادنامه شماره ... صادره از شعبه محترم ...، به استحضار می‌رساند دادنامه معترض‌عنه بر خلاف مستندات ابرازی و مقررات قانونی اصدار یافته است؛ اولاً: ... ثانیاً: ... با عنایت به مراتب فوق و مستنداً به ماده ۳۴۸ قانون آیین دادرسی مدنی، نقض دادنامه بدوی و صدور حکم شایسته مورد استدعاست.'
-      },
-      {
-        title: 'شکواییه کیفری کلاهبرداری / خیانت در امانت',
-        category: 'complaint',
-        desc: 'تقدیمی به دادسرای عمومی و انقلاب محل وقوع جرم',
-        body: 'دادستان محترم عمومی و انقلاب\nبا سلام و احترام؛\nاینجانب شاکی به استحضار می‌رسانم مشتکی‌عنه در تاریخ ... با توسل به وسایل متقلبانه / سوءاستفاده از مال امانی اینجانب به شرح ... اقدام به بردن مال به ارزش ... ریال نموده است. لذا با استناد به دلایل پیوست (شهادت شهود، رسید بانکی و ...) تقاضای تعقیب، تحقیق و صدور کیفرخواست وفق موازین قانونی مورد استدعاست.'
-      },
-      {
-        title: 'اظهارنامه رسمی (موضوع ماده ۱۵۶ ق.آ.د.م)',
-        category: 'declaration',
-        desc: 'اخطار قانونی و ایجاد مبدأ محاسبه خسارت تأخیر',
-        body: 'مخاطب محترم اظهارنامه؛\nبا سلام؛ نظر به تعهدات ناشی از قرارداد مورخ ... و انقضای مهلت مقرر، بدین‌وسیله رسماً به جنابعالی ابلاغ و اخطار می‌گردد ظرف مدت ۱۰ روز از تاریخ ابلاغ این اظهارنامه نسبت به ایفای تعهد (پرداخت مبلغ / تحویل مبیع) اقدام فرمایید؛ در غیر این صورت بدون نیاز به اخطار مجدد، پیگیری قضایی و مطالبه کلیه خسارات قانونی از طریق مراجع ذی‌صلاح به عمل خواهد آمد.'
-      }
+      { title: 'دادخواست مطالبه وجه', cat: 'petition', text: 'ریاست محترم دادگاه عمومی حقوقی\nبا سلام و احترام؛\nاینجانب به وکالت از خواهان به استحضار می‌رساند که خوانده به موجب مدارک پیوست مبلغ ... ریال بدهکار بوده و علی‌رغم مراجعات مکرر از پرداخت آن امتناع نموده است. لذا به استناد مواد ۱۹۸ و ۵۱۹ قانون آیین دادرسی مدنی، صدور حکم به محکومیت خوانده به پرداخت اصل خواسته، خسارت تأخیر تأدیه و هزینه دادرسی مورد استدعاست.' },
+      { title: 'لایحه دفاعیه حقوقی', cat: 'brief', text: 'ریاست محترم شعبه ... دادگاه عمومی حقوقی\nبا سلام؛ احتراماً در خصوص پرونده کلاسه ... در مقام دفاع معروض می‌دارد:\n۱. ادعای مطرح‌شده فاقد مستند قانونی و دلیل مثبته است.\n۲. تقاضای رد دعوی خواهان و صدور حکم مقتضی مورد استدعاست.' },
+      { title: 'وکالت‌نامه رسمی', cat: 'poa', text: 'موکل: ...\nوکیل: ...\nموضوع وکالت: پیگیری کلیه امور اداری و قضایی در مراجع ذی‌صلاح با حق توکیل به غیر و اخذ مدارک قانونی.' }
     ];
 
     const LEGAL_TERMS = [
-      { term: 'واخواهی', source: 'ماده ۳۰۶ قانون آیین دادرسی مدنی', def: 'اعتراض محکوم‌علیه غایب به حکم غیابی نزد همان دادگاه صادرکننده رأی؛ مهلت آن ۲۰ روز از تاریخ ابلاغ واقعی (و ۲ ماه برای مقیمان خارج) است.' },
-      { term: 'تأمین خواسته', source: 'ماده ۱۰۸ قانون آیین دادرسی مدنی', def: 'توقیف موقت اموال خوانده پیش از صدور حکم قطعی جهت جلوگیری از نقل و انتقال مال و تضمین اجرای حکم آینده.' },
-      { term: 'اعسار', source: 'قانون نحوه اجرای محکومیت‌های مالی', def: 'ادعای ناتوانی مالی فرد در پرداخت یکجای هزینه دادرسی یا محکوم‌به با معرفی شهود و فهرست اموال.' },
-      { term: 'قرار منع تعقیب', source: 'ماده ۲۶۵ و ۲۷۰ قانون آیین دادرسی کیفری', def: 'قراری که بازپرس در صورت جرم نبودن عمل یا کافی نبودن دلیل صادر می‌کند؛ شاکی مقیم ایران ۱۰ روز مهلت اعتراض دارد.' },
-      { term: 'احتساب مواعد قانونی', source: 'مواد ۴۴۳ تا ۴۴۵ ق.آ.د.م', def: 'در محاسبه مواعد، ماه ۳۰ روز است، روز ابلاغ و روز اقدام محاسبه نمی‌شوند و اگر روز آخر تعطیل باشد به اولین روز کاری بعد منتقل می‌گردد.' },
-      { term: 'اظهارنامه', source: 'ماده ۱۵۶ قانون آیین دادرسی مدنی', def: 'مطالبه رسمی حق یا اخطار قانونی از طریق دفاتر خدمات الکترونیک قضایی پیش از طرح دعوا.' }
+      { term: 'واخواهی', source: 'ماده ۳۰۶ ق.آ.د.م', def: 'اعتراض محکوم‌علیه غایب به حکم غیابی ظرف ۲۰ روز از ابلاغ واقعی.' },
+      { term: 'اعسار', source: 'قانون نحوه اجرای محکومیت‌های مالی', def: 'ناتوانی موقت یا دائم مدیون از پرداخت یک‌جای محکوم‌به یا هزینه دادرسی.' },
+      { term: 'تأمین خواسته', source: 'ماده ۱۰۸ ق.آ.د.م', def: 'توقیف اموال خوانده پیش از صدور حکم قطعی برای تضمین وصول طلب.' },
+      { term: 'ماده ۴۴۴ و ۴۴۵ ق.آ.د.م', source: 'آیین دادرسی مدنی', def: 'روز ابلاغ و اقدام محاسبه نمی‌شود و اگر روز آخر تعطیل باشد به اولین روز کاری منتقل می‌شود.' }
     ];
 
-    let docs = JSON.parse(localStorage.getItem(STORAGE_DOCS) |
+    let docs = JSON.parse(localStorage.getItem('qalamyar_docs') || 'null') || [
+      { id: '1', title: 'وکالت‌نامه رسمی', type: 'docx', date: jalaliNow(new Date(2025, 11, 17, 15, 30)), fav: true, text: TEMPLATES[2].text },
+      { id: '2', title: 'دادخواست حقوقی', type: 'pdf', date: jalaliNow(new Date(2025, 11, 16, 11, 20)), fav: false, text: TEMPLATES[0].text }
+    ];
 
-| 'null') |
-| DEFAULT_DOCS;
-    let profile = JSON.parse(localStorage.getItem(STORAGE_PROFILE) |
+    let isRecording = false, recognition = null, audioCtx = null, analyser = null, animId = null;
 
-| '{"name":"وکیل پایه یک دادگستری","license":"","address":""}');
-    let appSettings = JSON.parse(localStorage.getItem(STORAGE_SETTINGS) |
-
-| '{"apiBase":"https://api.openai.com/v1","apiKey":"","model":"gpt-4o-mini"}');
-    let currentEditingId = null;
-
-    function persistDocs() {
-      localStorage.setItem(STORAGE_DOCS, JSON.stringify(docs));
-      renderRecentDocs();
-      renderFavorites();
-      renderReports();
-    }
-
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.style.display = 'block';
-      clearTimeout(t._timer);
-      t._timer = setTimeout(() => { t.style.display = 'none'; }, 2800);
-    }
-
-    // ---------- Navigation & Carousel ----------
-    let currentSlide = 0;
     function goSlide(idx) {
-      currentSlide = idx;
       document.getElementById('carouselTrack').style.transform = `translateX(${idx * 100}%)`;
       document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === idx));
     }
 
-    function switchTab(tab) {
-      document.querySelectorAll('.tab-view').forEach(el => el.classList.remove('active'));
-      document.getElementById(`tab-${tab}`).classList.add('active');
-      document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tab));
-      if (tab === 'favorites') renderFavorites();
-      if (tab === 'reports') renderReports();
-    }
-
-    function toggleDrawer(open) {
-      document.getElementById('drawerBackdrop').classList.toggle('open', open);
-    }
-
-    function openModal(id) {
-      document.getElementById(id).classList.add('open');
-    }
-
-    function closeModal(id) {
-      document.getElementById(id).classList.remove('open');
-    }
-
-    // ---------- Live Waveform & Speech Recognition ----------
-    let isRecording = false;
-    let recognition = null;
-    let audioCtx = null;
-    let analyser = null;
-    let micStream = null;
-    let waveBars = new Array(44).fill(0.12);
-    let animId = null;
-    let fullTranscript = '';
-
-    const canvas = document.getElementById('waveCanvas');
-    const ctx = canvas.getContext('2d');
-
-    function drawWaveform() {
+    function drawWave() {
+      const canvas = document.getElementById('waveCanvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const midY = canvas.height / 2;
-      const step = canvas.width / waveBars.length;
+      const bars = 46, gap = canvas.width / bars;
+      let data = analyser ? new Uint8Array(analyser.frequencyBinCount) : null;
+      if (analyser) analyser.getByteFrequencyData(data);
 
-      if (isRecording && analyser) {
-        const data = new Uint8Array(analyser.frequencyBinCount);
-        analyser.getByteTimeDomainData(data);
-        let sum = 0;
-        for (let i = 0; i < data.length; i++) {
-          const v = (data[i] - 128) / 128;
-          sum += v * v;
-        }
-        const rms = Math.min(1, Math.max(0.12, Math.sqrt(sum / data.length) * 4.2));
-        waveBars.shift();
-        waveBars.push(rms);
-      } else if (!isRecording) {
-        for (let i = 0; i < waveBars.length; i++) {
-          waveBars[i] += (0.14 - waveBars[i]) * 0.1;
-        }
-      }
-
-      for (let i = 0; i < waveBars.length; i++) {
-        const x = i * step + step / 2;
-        const centerFade = Math.max(0.25, 1 - Math.abs(i - waveBars.length / 2) / (waveBars.length / 2));
-        const h = Math.max(4, canvas.height * 0.85 * waveBars[i] * centerFade);
-        ctx.strokeStyle = isRecording ? 'rgba(245, 208, 97, 0.92)' : 'rgba(212, 175, 55, 0.42)';
-        ctx.lineWidth = 2.6;
-        ctx.lineCap = 'round';
+      for (let i = 0; i < bars; i++) {
+        const amp = isRecording && data ? (data[i % data.length] / 255) : (0.14 + 0.08 * Math.sin(Date.now() / 400 + i));
+        const dist = 1 - Math.abs(i - bars / 2) / (bars / 2);
+        const h = Math.max(4, amp * canvas.height * 0.85 * Math.max(0.25, dist));
+        ctx.strokeStyle = isRecording ? 'rgba(245,208,97,0.92)' : 'rgba(212,175,55,0.42)';
+        ctx.lineWidth = 2.5; ctx.lineCap = 'round';
         ctx.beginPath();
-        ctx.moveTo(x, midY - h / 2);
-        ctx.lineTo(x, midY + h / 2);
+        ctx.moveTo(i * gap + gap / 2, canvas.height / 2 - h / 2);
+        ctx.lineTo(i * gap + gap / 2, canvas.height / 2 + h / 2);
         ctx.stroke();
       }
-      animId = requestAnimationFrame(drawWaveform);
+      animId = requestAnimationFrame(drawWave);
     }
-    drawWaveform();
+    drawWave();
 
     async function toggleRecording() {
-      if (isRecording) stopRecording();
-      else await startRecording();
-    }
-
-    async function startRecording() {
-      goSlide(0);
-      switchTab('home');
+      if (isRecording) return stopRecording();
+      isRecording = true;
+      document.getElementById('mainMicBtn').classList.add('recording');
+      document.getElementById('recStatus').textContent = 'در حال گوش دادن...';
       try {
-        micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        audioCtx = new (window.AudioContext |
-
-| window.webkitAudioContext)();
-        const src = audioCtx.createMediaStreamSource(micStream);
-        analyser = audioCtx.createAnalyser();
-        analyser.fftSize = 256;
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const src = audioCtx.createMediaStreamSource(stream);
+        analyser = audioCtx.createAnalyser(); analyser.fftSize = 128;
         src.connect(analyser);
-      } catch (e) {
-        showToast('دسترسی میکروفون مسدود است یا در دسترس نیست');
-      }
+      } catch (e) {}
 
-      const SpeechRec = window.SpeechRecognition |
-
-| window.webkitSpeechRecognition;
-      if (SpeechRec) {
-        recognition = new SpeechRec();
-        recognition.lang = 'fa-IR';
-        recognition.continuous = true;
-        recognition.interimResults = true;
-        recognition.onresult = (event) => {
-          let interim = '';
-          let finalPart = '';
-          for (let i = event.resultIndex; i < event.results.length; i++) {
-            const txt = event.results[i][0].transcript;
-            if (event.results[i].isFinal) finalPart += txt + ' ';
-            else interim += txt;
-          }
-          if (finalPart) fullTranscript += finalPart;
-          updateTranscriptUI((fullTranscript + interim).trim());
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (SR) {
+        recognition = new SR();
+        recognition.lang = 'fa-IR'; recognition.continuous = true; recognition.interimResults = true;
+        const editor = document.getElementById('editorArea');
+        const base = editor.value;
+        recognition.onresult = (ev) => {
+          let spoken = '';
+          for (let i = 0; i < ev.results.length; i++) spoken += ev.results[i][0].transcript + ' ';
+          editor.value = (base ? base + '\n' : '') + spoken.trim();
         };
-        recognition.onerror = () => {};
         recognition.start();
       } else {
-        showToast('تایپ صوتی در این مرورگر پشتیبانی نمی‌شود؛ متن نمونه آماده شد');
-        if (!fullTranscript) {
-          fullTranscript = 'ریاست محترم دادگاه، موکل اینجانب مبلغ پانصد میلیون ریال بابت قرارداد خرید به خوانده پرداخت کرده اما خوانده به تعهد خود عمل نکرده است.';
-          updateTranscriptUI(fullTranscript);
-        }
+        document.getElementById('recStatus').textContent = 'مرورگر از تایپ صوتی پشتیبانی نمی‌کند؛ متن را تایپ کنید.';
       }
-
-      isRecording = true;
-      document.getElementById('centerRecBtn').classList.add('recording');
-      document.getElementById('recDot').classList.add('active');
-      document.getElementById('recStatus').textContent = 'در حال گوش دادن...';
     }
 
     function stopRecording() {
       isRecording = false;
-      if (recognition) { try { recognition.stop(); } catch (_) {} recognition = null; }
-      if (micStream) { micStream.getTracks().forEach(t => t.stop()); micStream = null; }
-      if (audioCtx) { try { audioCtx.close(); } catch (_) {} audioCtx = null; analyser = null; }
-      document.getElementById('centerRecBtn').classList.remove('recording');
-      document.getElementById('recDot').classList.remove('active');
-      document.getElementById('recStatus').textContent = fullTranscript ? 'توقف ضبط — آماده ویرایش' : 'آماده برای گوش دادن...';
+      document.getElementById('mainMicBtn').classList.remove('recording');
+      document.getElementById('recStatus').textContent = 'توقف ضبط — آماده برای ویرایش و خروجی';
+      if (recognition) { try { recognition.stop(); } catch(e){} recognition = null; }
+      if (audioCtx) { try { audioCtx.close(); } catch(e){} audioCtx = null; analyser = null; }
     }
 
-    function updateTranscriptUI(text) {
-      const box = document.getElementById('liveTranscriptBox');
-      document.getElementById('liveTranscriptText').textContent = text;
-      box.classList.toggle('visible', text.length > 0);
-    }
-
-    function clearTranscript() {
-      fullTranscript = '';
-      updateTranscriptUI('');
-    }
-
-    function onModeChanged() {
-      document.getElementById('edCategory').value = document.getElementById('proModeSelect').value;
-    }
-
-    // ---------- Smart Editor & Legal Formalizer ----------
-    function openEditorWithCurrent(docObj = null) {
-      if (docObj) {
-        currentEditingId = docObj.id;
-        document.getElementById('edTitle').value = docObj.title;
-        document.getElementById('edCategory').value = docObj.category |
-
-| 'brief';
-        document.getElementById('edBody').value = docObj.content;
-      } else {
-        currentEditingId = null;
+    function smartPolishText() {
+      const editor = document.getElementById('editorArea');
+      let t = editor.value.trim().replace(/ي/g, 'ی').replace(/ك/g, 'ک').replace(/ +/g, ' ');
+      if (!t) t = 'لطفاً ابتدا متن خود را ضبط یا تایپ کنید.';
+      else {
         const mode = document.getElementById('proModeSelect').value;
-        const modeTitles = {
-          brief: 'لایحه دفاعیه',
-          petition: 'دادخواست حقوقی',
-          complaint: 'شکواییه کیفری',
-          poa: 'وکالت‌نامه رسمی',
-          declaration: 'اظهارنامه قضایی',
-          contract: 'قرارداد حقوقی'
+        const headerMap = {
+          brief: 'ریاست محترم شعبه رسیدگی‌کننده\nبا سلام و احترام؛ در مقام دفاع معروض می‌دارد:\n',
+          petition: 'ریاست محترم دادگاه عمومی حقوقی\nبا سلام و احترام؛ به استحضار می‌رساند:\n',
+          complaint: 'دادستان محترم عمومی و انقلاب\nبا سلام؛ احتراماً اعلام جرم و شکواییه ذیل تقدیم می‌گردد:\n',
+          poa: 'متن وکالت‌نامه رسمی:\n',
+          declaration: 'مخاطب محترم اظهارنامه موضوع ماده ۱۵۶ ق.آ.د.م:\n',
+          contract: 'متن قرارداد حقوقی فی‌مابین:\n'
         };
-        document.getElementById('edTitle').value = modeTitles[mode] |
-
-| 'سند جدید';
-        document.getElementById('edCategory').value = mode;
-        document.getElementById('edBody').value = fullTranscript.trim();
+        if (!t.startsWith('ریاست') && !t.startsWith('دادستان')) t = headerMap[mode] + t;
+        if (!t.endsWith('.')) t += '.';
       }
-      document.getElementById('edNotes').innerHTML = '';
-      openModal('editorModal');
+      editor.value = toFa(t);
     }
 
-    function normalizePersian(txt) {
-      return txt
-        .replace(/ي/g, 'ی')
-        .replace(/ك/g, 'ک')
-        .replace(/\bمی\s+/g, 'می‌')
-        .replace(/\bنمی\s+/g, 'نمی‌')
-        .replace(/\s+ها\b/g, '‌ها')
-        .replace(/[ \t]{2,}/g, ' ')
-        .trim();
+    function saveCurrentDoc(format = 'docx') {
+      const title = document.getElementById('docTitle').value.trim() || 'سند حقوقی جدید';
+      const text = document.getElementById('editorArea').value.trim();
+      if (!text) return alert('متن سند خالی است.');
+      docs.unshift({ id: Date.now().toString(), title, type: format, date: jalaliNow(), fav: false, text });
+      localStorage.setItem('qalamyar_docs', JSON.stringify(docs));
+      renderRecent();
     }
 
-    async function runSmartTransform() {
-      const raw = document.getElementById('edBody').value.trim();
-      const cat = document.getElementById('edCategory').value;
-      if (!raw) {
-        showToast('ابتدا متنی را تایپ یا ضبط کنید');
-        return;
-      }
+    const escXml = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-      if (appSettings.apiKey) {
-        showToast('در حال پردازش هوشمند با مدل زبانی...');
-        try {
-          const resp = await fetch(`${appSettings.apiBase.replace(/\/$/, '')}/chat/completions`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${appSettings.apiKey}`
-            },
-            body: JSON.stringify({
-              model: appSettings.model |
+    async function exportDocx() {
+      const title = document.getElementById('docTitle').value.trim() || 'لایحه حقوقی';
+      const body = document.getElementById('editorArea').value.trim() || 'متن نمونه سند حقوقی';
+      const lawyer = localStorage.getItem('qalamyar_lawyer') || 'وکیل پایه یک دادگستری';
+      const license = localStorage.getItem('qalamyar_license') || '—';
+      const jDate = jalaliNow();
 
-| 'gpt-4o-mini',
-              temperature: 0.2,
-              messages: [
-                {
-                  role: 'system',
-                  content: `شما دستیار حقوقی ایران هستید. متن زیر را به قالب رسمی «${cat}» با رعایت نیم‌فاصله فارسی و لحن محترمانه قضایی تبدیل کنید.`
-                },
-                { role: 'user', content: raw }
-              ]
-            })
-          });
-          const data = await resp.json();
-          const aiText = data?.choices?.[0]?.message?.content;
-          if (aiText) {
-            document.getElementById('edBody').value = normalizePersian(aiText);
-            document.getElementById('edNotes').innerHTML = '<span class="chip">✓ بازنویسی هوشمند ابری انجام شد</span>';
-            return;
-          }
-        } catch (err) {
-          showToast('خطا در API؛ تبدیل آفلاین اعمال شد');
-        }
-      }
+      const parasXml = body.split(/\n+/).filter(Boolean).map(line => `
+        <w:p>
+          <w:pPr><w:bidi w:val="1"/><w:jc w:val="start"/><w:spacing w:line="312" w:lineRule="auto" w:after="120"/></w:pPr>
+          <w:r>
+            <w:rPr><w:rFonts w:ascii="Vazirmatn" w:hAnsi="Vazirmatn" w:cs="Vazirmatn"/><w:rtl/><w:sz w:val="22"/><w:szCs w:val="22"/></w:rPr>
+            <w:t xml:space="preserve">${escXml(toFa(line))}</w:t>
+          </w:r>
+        </w:p>`).join('');
 
-      // Offline rule-based Persian legal formalizer
-      let clean = normalizePersian(raw)
-        .replace(/پولو نداد|پولمو نداد|پول را نداد/g, 'از پرداخت وجه و ایفای تعهد استنکاف نمود')
-        .replace(/قرارداد بستیم/g, 'مباینه‌نامه / قرارداد قانونی منعقد گردید')
-        .replace(/خسارت میخوام|خسارت می‌خوام/g, 'مطالبه خسارت قانونی و تأخیر تأدیه مورد استدعاست');
+      const zip = new JSZip();
+      zip.file('[Content_Types].xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+          <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+          <Default Extension="xml" ContentType="application/xml"/>
+          <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
+          <Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/>
+          <Override PartName="/word/settings.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml"/>
+        </Types>`);
+      zip.file('_rels/.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+          <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
+        </Relationships>`);
+      zip.file('word/_rels/document.xml.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+          <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
+          <Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings" Target="settings.xml"/>
+        </Relationships>`);
+      zip.file('word/settings.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <w:settings xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+          <w:themeFontLang w:val="en-US" w:bidi="fa-IR"/>
+        </w:settings>`);
+      zip.file('word/styles.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+          <w:docDefaults>
+            <w:rPrDefault><w:rPr>
+              <w:rFonts w:ascii="Vazirmatn" w:hAnsi="Vazirmatn" w:cs="Vazirmatn"/>
+              <w:rtl/><w:sz w:val="22"/><w:szCs w:val="22"/><w:lang w:bidi="fa-IR"/>
+            </w:rPr></w:rPrDefault>
+            <w:pPrDefault><w:pPr>
+              <w:bidi/><w:jc w:val="start"/><w:spacing w:line="312" w:lineRule="auto"/>
+            </w:pPr></w:pPrDefault>
+          </w:docDefaults>
+        </w:styles>`);
+      zip.file('word/document.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+          <w:body>
+            <w:p><w:pPr><w:bidi w:val="1"/><w:jc w:val="center"/></w:pPr>
+              <w:r><w:rPr><w:rFonts w:ascii="Vazirmatn" w:hAnsi="Vazirmatn" w:cs="Vazirmatn"/><w:rtl/><w:b/><w:sz w:val="28"/><w:szCs w:val="28"/></w:rPr>
+              <w:t>${escXml(toFa(title))}</w:t></w:r></w:p>
+            <w:tbl><w:tblPr><w:bidiVisual/></w:tblPr>
+              <w:tr>
+                <w:tc><w:p><w:pPr><w:bidi w:val="1"/><w:jc w:val="start"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>تنظیم‌کننده: ${escXml(lawyer)} | پروانه: ${escXml(toFa(license))}</w:t></w:r></w:p></w:tc>
+                <w:tc><w:p><w:pPr><w:bidi w:val="1"/><w:jc w:val="end"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>تاریخ: ${escXml(jDate)}</w:t></w:r></w:p></w:tc>
+              </w:tr>
+            </w:tbl>
+            ${parasXml}
+            <w:sectPr><w:bidi/><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1134" w:right="1417" w:bottom="1134" w:left="1134"/></w:sectPr>
+          </w:body>
+        </w:document>`);
 
-      const wrappers = {
-        petition: {
-          head: 'بسمه تعالی\nریاست محترم دادگاه عمومی حقوقی\nموضوع: دادخواست مطالبه و احقاق حق\n\nبا سلام و احترام؛\nبه استحضار می‌رساند:\n',
-          tail: '\n\nلذا مستنداً به اصول و مواد قانونی حاکم بر دعوا، رسیدگی و صدور حکم مقتضی به انضمام کلیه خسارات دادرسی مورد استدعاست.',
-          cite: 'ماده ۱۹۸ و ۵۱۵ ق.آ.د.م'
-        },
-        brief: {
-          head: 'بسمه تعالی\nریاست محترم شعبه رسیدگی‌کننده\nموضوع: لایحه دفاعیه\n\nسلام علیکم؛\nاحتراماً در مقام دفاع معروض می‌دارد:\n',
-          tail: '\n\nبنا بر مراتب معنونه و مستندات پیوست، صدور رأی شایسته وفق موازین قانونی استدعا می‌شود.',
-          cite: 'اصول دادرسی و ادله اثبات'
-        },
-        complaint: {
-          head: 'بسمه تعالی\nدادستان محترم عمومی و انقلاب\nموضوع: شکواییه\n\nبا سلام و احترام؛\nاینجانب شاکی به استحضار می‌رسانم:\n',
-          tail: '\n\nلذا تقاضای تعقیب کیفری مشتکی‌عنه و انجام تحقیقات مقدماتی مورد استدعاست.',
-          cite: 'ماده ۶۸ ق.آ.د.ک'
-        },
-        declaration: {
-          head: 'بسمه تعالی\nمخاطب محترم اظهارنامه؛\n\nبا سلام؛ بدین‌وسیله رسماً به جنابعالی اخطار و ابلاغ می‌گردد:\n',
-          tail: '\n\nمقتضی است ظرف ۱۰ روز از تاریخ ابلاغ اقدام فرمایید؛ در غیر این صورت پیگیری قضایی به عمل خواهد آمد.',
-          cite: 'ماده ۱۵۶ ق.آ.د.م'
-        },
-        poa: {
-          head: 'بسمه تعالی\nمتن وکالت‌نامه رسمی\n\nموکل به وکیل اختیار تام می‌دهد:\n',
-          tail: '\n\nحدود اختیارات شامل حق توکیل به غیر و پیگیری در تمامی مراحل قضایی است.',
-          cite: 'ماده ۳۵ ق.آ.د.م'
-        },
-        contract: {
-          head: 'بسمه تعالی\nماده ۱ — موضوع و تعهدات قرارداد\n\n',
-          tail: '\n\nماده ۲ — حل اختلاف: در صورت بروز اختلاف، مراجع قضایی صالح رسیدگی خواهند نمود.',
-          cite: 'مواد ۱۰ و ۲۱۹ قانون مدنی'
-        }
-      };
-
-      const w = wrappers[cat] |
-
-| wrappers.brief;
-      if (!clean.startsWith('بسمه تعالی')) {
-        clean = w.head + clean + w.tail;
-      }
-      document.getElementById('edBody').value = toFa(clean);
-      document.getElementById('edNotes').innerHTML = `<span class="chip">✓ نیم‌فاصله و رسم‌الخط اصلاح شد</span><span class="chip">استناد پیشنهادی: ${w.cite}</span>`;
-      showToast('متن با موفقیت به لحن رسمی قضایی تبدیل شد');
-    }
-
-    function saveCurrentDoc(fmt = 'docx') {
-      const title = document.getElementById('edTitle').value.trim() |
-
-| 'سند بدون عنوان';
-      const category = document.getElementById('edCategory').value;
-      const content = document.getElementById('edBody').value.trim();
-      if (!content) { showToast('متن خالی است'); return; }
-
-      if (currentEditingId) {
-        const idx = docs.findIndex(d => d.id === currentEditingId);
-        if (idx >= 0) {
-          docs[idx] = { ...docs[idx], title, category, content, format: fmt, dateLabel: nowJalaliFormatted() };
-        }
-      } else {
-        const id = 'doc-' + Date.now();
-        currentEditingId = id;
-        docs.unshift({ id, title, category, content, format: fmt, isFavorite: false, dateLabel: nowJalaliFormatted() });
-      }
-      persistDocs();
-      showToast('سند در بایگانی ذخیره شد');
-    }
-
-    // ---------- Export Word (.docx) & PDF & Sana ----------
-    async function downloadDocx() {
-      const title = document.getElementById('edTitle').value.trim() |
-
-| 'سند حقوقی';
-      const content = document.getElementById('edBody').value.trim();
-      if (!content) { showToast('متنی برای خروجی وجود ندارد'); return; }
-      saveCurrentDoc('docx');
-
-      if (!window.docx) { showToast('کتابخانه Word بارگذاری نشد'); return; }
-      const { Document, Packer, Paragraph, TextRun, AlignmentType, Header } = window.docx;
-
-      const lines = content.split('\n').filter(l => l.trim().length > 0);
-      const children = [
-        new Paragraph({
-          bidirectional: true,
-          alignment: AlignmentType.CENTER,
-          spacing: { after: 220 },
-          children: [
-            new TextRun({ text: toFa(title), rightToLeft: true, bold: true, size: 30, font: 'Vazirmatn', color: '142346' })
-          ]
-        }),
-        new Paragraph({
-          bidirectional: true,
-          alignment: AlignmentType.START,
-          spacing: { after: 200 },
-          children: [
-            new TextRun({
-              text: toFa(`تنظیم‌کننده: ${profile.name |
-
-| 'وکیل'} | پروانه: ${profile.license |
-| '—'} | تاریخ: ${todayJalaliInput()}`),
-              rightToLeft: true,
-              size: 20,
-              font: 'Vazirmatn',
-              color: '555555'
-            })
-          ]
-        }),
-        ...lines.map(line => new Paragraph({
-          bidirectional: true,
-          alignment: AlignmentType.START,
-          spacing: { line: 340, after: 140 },
-          children: [
-            new TextRun({
-              text: toFa(line.trim()),
-              rightToLeft: true,
-              size: 23,
-              bold: line.trim().endsWith(':'),
-              font: 'Vazirmatn'
-            })
-          ]
-        }))
-      ];
-
-      const doc = new Document({
-        sections: [{
-          headers: {
-            default: new Header({
-              children: [
-                new Paragraph({
-                  bidirectional: true,
-                  alignment: AlignmentType.CENTER,
-                  children: [new TextRun({ text: 'بسمه تعالی — تنظیم‌شده توسط قلمیار حقوقی', rightToLeft: true, size: 18, font: 'Vazirmatn', color: '777777' })]
-                })
-              ]
-            })
-          },
-          children
-        }]
-      });
-
-      const blob = await Packer.toBlob(doc);
-      const url = URL.createObjectURL(blob);
+      const blob = await zip.generateAsync({ type: 'blob' });
       const a = document.createElement('a');
-      a.href = url;
-      a.download = `${title.replace(/\s+/g, '_')}.docx`;
+      a.href = URL.createObjectURL(blob);
+      a.download = `${title}.docx`;
       a.click();
-      URL.revokeObjectURL(url);
-      showToast('فایل Word راست‌به‌چپ دانلود شد');
     }
 
-    async function downloadPdf() {
-      const title = document.getElementById('edTitle').value.trim() |
-
-| 'سند حقوقی';
-      const content = document.getElementById('edBody').value.trim();
-      if (!content) { showToast('متنی برای خروجی وجود ندارد'); return; }
-      saveCurrentDoc('pdf');
-
-      if (!window.html2pdf) { showToast('کتابخانه PDF بارگذاری نشد'); return; }
-      await document.fonts.ready;
-
-      const wrapper = document.createElement('div');
-      wrapper.style.cssText = 'position:fixed;left:-9999px;top:0;width:740px;background:#fff;color:#111;padding:32px;direction:rtl;font-family:Vazirmatn,sans-serif;line-height:1.9;';
-      wrapper.innerHTML = `
-        <div style="display:flex;justify-content:space-between;border-bottom:2px solid #b48a1e;padding-bottom:8px;margin-bottom:16px;font-size:11px;color:#444;">
-          <span>تنظیم‌کننده: ${profile.name |
-
-| '—'} (پروانه: ${toFa(profile.license |
-| '—')})</span>
-          <span>تاریخ: ${toFa(todayJalaliInput())}</span>
+    function exportPdf() {
+      const title = document.getElementById('docTitle').value.trim() || 'لایحه حقوقی';
+      const body = document.getElementById('editorArea').value.trim() || 'متن نمونه سند حقوقی';
+      document.getElementById('printArea').innerHTML = `
+        <div style="border-bottom:2px solid #b48a1e;padding-bottom:8px;margin-bottom:16px;display:flex;justify-content:space-between;font-size:12px">
+          <span>بسمه تعالی — قلمیار حقوقی</span>
+          <span>${jalaliNow()}</span>
         </div>
-        <h2 style="text-align:center;color:#0f172a;margin-bottom:16px;font-size:18px;">${toFa(title)}</h2>
-        <div style="font-size:13px;text-align:justify;white-space:pre-line;">${toFa(content)}</div>
-      `;
-      document.body.appendChild(wrapper);
-
-      await html2pdf().set({
-        margin: 12,
-        filename: `${title.replace(/\s+/g, '_')}.pdf`,
-        image: { type: 'jpeg', quality: 0.96 },
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      }).from(wrapper).save();
-
-      wrapper.remove();
-      showToast('فایل PDF استاندارد دانلود شد');
+        <h2 style="text-align:center">${toFa(title)}</h2>
+        <div style="line-height:2;white-space:pre-wrap;text-align:justify">${toFa(body)}</div>`;
+      window.print();
     }
 
-    function copyForSana() {
-      const raw = document.getElementById('edBody').value.trim();
-      const sanaText = toFa(normalizePersian(raw).replace(/[#*_`]/g, ''));
-      navigator.clipboard.writeText(sanaText);
-      showToast('متن پاک آماده درج در سامانه ثنا کپی شد');
+    function copySanaText() {
+      const text = toFa(document.getElementById('editorArea').value.replace(/[*#_]/g, '').trim());
+      navigator.clipboard.writeText(text);
+      alert('متن پاک و سازگار با سامانه ثنا در حافظه کپی شد.');
     }
 
-    // ---------- Calculators ----------
-    function calcCourtFee() {
-      const stage = document.getElementById('feeStage').value;
-      const amount = Number(document.getElementById('feeAmount').value |
-
-| 0);
-      let fee = 0, office = 0, note = '';
-
-      if (stage === 'first') {
-        fee = amount <= 200000000 ? Math.round(amount * 0.025) : Math.round(amount * 0.035);
-        office = 1264000;
-        note = amount <= 200000000 ? 'نرخ ۲.۵٪ (تا ۲۰۰ میلیون ریال)' : 'نرخ ۳.۵٪ (بیش از ۲۰۰ میلیون ریال)';
-      } else if (stage === 'appeal') {
-        fee = Math.round(amount * 0.045);
-        office = 980000;
-        note = 'نرخ ۴.۵٪ محکوم‌به';
-      } else if (stage === 'cassation') {
-        fee = Math.round(amount * 0.055);
-        office = 980000;
-        note = 'نرخ ۵.۵٪ محکوم‌به';
-      } else if (stage === 'enforcement') {
-        fee = Math.round(amount * 0.05);
-        office = 0;
-        note = 'حق اجرا ۵٪ محکوم‌به';
-      } else if (stage === 'non_financial') {
-        fee = 1800000;
-        office = 1264000;
-        note = 'سقف تعرفه دعاوی غیرمالی (۴۰۰ هزار تا ۱.۸ میلیون ریال)';
-      } else {
-        fee = 100000;
-        office = 1264000;
-        note = 'هزینه ثابت شکایت کیفری';
-      }
-
-      const fmt = n => toFa(n.toLocaleString('en-US'));
-      document.getElementById('feeOutput').innerHTML = `
-        <div class="glass" style="padding:10px;border-radius:12px;">
-          <div>هزینه دادرسی (${note}): <strong style="color:var(--gold-bright)">${fmt(fee)} ریال</strong></div>
-          <div>برآورد کارمزد دفتر خدمات قضایی: <strong>${fmt(office)} ریال</strong></div>
-          <div style="border-top:1px solid rgba(255,255,255,0.12);margin-top:6px;padding-top:6px;">
-            جمع کل تقریبی: <strong style="color:var(--gold-bright)">${fmt(fee + office)} ریال</strong>
-          </div>
-        </div>`;
+    function calcFee() {
+      const amount = Number(document.getElementById('feeAmount').value || 0);
+      const st = document.getElementById('feeStage').value;
+      let fee = st === 'first' ? (amount <= 2e8 ? amount * 0.025 : amount * 0.035) : st === 'appeal' ? amount * 0.045 : amount * 0.055;
+      document.getElementById('feeResult').textContent = toFa(`هزینه دادرسی برآوردی: ${Math.round(fee).toLocaleString()} ریال (به‌علاوه کارمزد دفتر خدمات قضایی)`);
     }
 
     function calcDeadline() {
-      const val = toEn(document.getElementById('notifyDateInput').value.trim());
-      const parts = val.split(/[\/\-]/).map(Number);
-      if (parts.length !== 3 |
-
-| parts.some(isNaN)) {
-        showToast('فرمت تاریخ صحیح نیست (مثال: 1405/08/15)');
-        return;
-      }
-      const duration = Number(document.getElementById('deadlineType').value);
-      const thursdayClosed = document.getElementById('thursdayClosed').checked;
-
-      const baseGreg = jalaliToGregorian(parts[0], parts[1], parts[2]);
-      // ماده ۴۴۵: روز ابلاغ و روز اقدام محاسبه نمی‌شوند -> + duration + 1
-      const candidate = new Date(baseGreg.getTime());
-      candidate.setDate(candidate.getDate() + duration + 1);
-
+      const val = document.getElementById('notifyDate').value;
+      const base = val ? new Date(val) : new Date();
+      const days = Number(document.getElementById('deadlineDays').value);
+      const target = new Date(base.getTime() + (days + 1) * 86400000);
       let extended = false;
-      while (true) {
-        const day = candidate.getDay(); // 5 = Friday, 4 = Thursday
-        if (day === 5 |
-
-| (thursdayClosed && day === 4)) {
-          candidate.setDate(candidate.getDate() + 1);
-          extended = true;
-        } else break;
+      while (target.getDay() === 5 || target.getDay() === 4) {
+        target.setDate(target.getDate() + 1);
+        extended = true;
       }
+      const j = new Intl.DateTimeFormat('fa-IR-u-ca-persian', { year:'numeric', month:'2-digit', day:'2-digit' }).format(target);
+      document.getElementById('deadlineResult').textContent = toFa(`آخرین مهلت اقدام: ${j}`) + (extended ? ' (تمدید به علت تعطیلی آخر هفته)' : '');
+    }
 
-      const jRes = gregorianToJalali(candidate.getFullYear(), candidate.getMonth() + 1, candidate.getDate());
-      const p2 = n => String(n).padStart(2, '0');
-      const finalStr = toFa(`${jRes.jy}/${p2(jRes.jm)}/${p2(jRes.jd)}`);
-      const weekNames = ['یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه','شنبه'];
-
-      document.getElementById('deadlineOutput').innerHTML = `
-        <div class="glass" style="padding:10px;border-radius:12px;">
-          <div>آخرین روز مجاز اقدام: <strong style="color:var(--gold-bright)">${weekNames[candidate.getDay()]} ${finalStr}</strong></div>
-          <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">
-            محاسبه‌شده با کسر روز ابلاغ و اقدام (ماده ۴۴۵)${extended ? ' و انتقال از روز تعطیل به اولین روز کاری بعد (ماده ۴۴۴).' : '.'}
+    function renderRecent() {
+      const box = document.getElementById('recentList');
+      box.innerHTML = docs.slice(0, 3).map(d => `
+        <div class="glass doc-item">
+          <div class="badge ${d.type === 'pdf' ? 'badge-pdf' : 'badge-w'}">${d.type === 'pdf' ? 'PDF' : 'W'}</div>
+          <div class="doc-meta" onclick="loadDoc('${d.id}')" style="cursor:pointer">
+            <h4>${d.title}</h4><span>${d.date}</span>
           </div>
-        </div>`;
+          <button class="pill-btn" onclick="toggleFav('${d.id}')">${d.fav ? '⭐' : '☆'}</button>
+          <button class="pill-btn" onclick="shareDoc('${d.id}')">🔗</button>
+        </div>`).join('');
     }
 
-    // ---------- Lists Rendering ----------
-    function createDocCard(d) {
-      const div = document.createElement('div');
-      div.className = 'doc-item glass';
-      div.innerHTML = `
-        <div class="badge-fmt ${d.format === 'pdf' ? 'fmt-pdf' : 'fmt-w'}">${d.format === 'pdf' ? 'PDF' : 'W'}</div>
-        <div class="doc-meta" onclick='openEditorById("${d.id}")'>
-          <div class="doc-name">${d.title}</div>
-          <div class="doc-date">${d.dateLabel}</div>
-        </div>
-        <button class="icon-action ${d.isFavorite ? 'fav-on' : ''}" onclick='toggleFav("${d.id}")' title="علاقه‌مندی">★</button>
-        <button class="icon-action" onclick='shareDoc("${d.id}")' title="اشتراک‌گذاری">🔗</button>
-        <button class="icon-action" onclick='deleteDoc("${d.id}")' title="حذف">🗑️</button>
-      `;
-      return div;
-    }
-
-    function openEditorById(id) {
-      const found = docs.find(d => d.id === id);
-      if (found) {
-        closeModal('historyModal');
-        openEditorWithCurrent(found);
-      }
+    function loadDoc(id) {
+      const d = docs.find(x => x.id === id);
+      if (!d) return;
+      document.getElementById('docTitle').value = d.title;
+      document.getElementById('editorArea').value = d.text;
+      closeModal('historyModal');
     }
 
     function toggleFav(id) {
+      docs = docs.map(d => d.id === id ? { ...d, fav: !d.fav } : d);
+      localStorage.setItem('qalamyar_docs', JSON.stringify(docs));
+      renderRecent();
+    }
+
+    function shareDoc(id) {
       const d = docs.find(x => x.id === id);
-      if (d) { d.isFavorite = !d.isFavorite; persistDocs(); }
-    }
-
-    function deleteDoc(id) {
-      docs = docs.filter(x => x.id !== id);
-      persistDocs();
-      renderHistory();
-      showToast('سند حذف شد');
-    }
-
-    async function shareDoc(id) {
-      const d = docs.find(x => x.id === id);
-      if (!d) return;
-      if (navigator.share) {
-        try { await navigator.share({ title: d.title, text: d.content }); return; } catch (_) {}
-      }
-      navigator.clipboard.writeText(`${d.title}\n\n${d.content}`);
-      showToast('متن سند در کلیپ‌بورد کپی شد');
-    }
-
-    function renderRecentDocs() {
-      const el = document.getElementById('recentDocsList');
-      el.innerHTML = '';
-      docs.slice(0, 4).forEach(d => el.appendChild(createDocCard(d)));
-    }
-
-    function renderFavorites() {
-      const el = document.getElementById('favoriteDocsList');
-      el.innerHTML = '';
-      const favs = docs.filter(d => d.isFavorite);
-      if (!favs.length) {
-        el.innerHTML = '<div class="glass" style="padding:16px;border-radius:14px;text-align:center;color:var(--text-muted);font-size:12px;">هنوز سندی ستاره‌دار نشده است.</div>';
-        return;
-      }
-      favs.forEach(d => el.appendChild(createDocCard(d)));
-    }
-
-    function renderHistory() {
-      const q = (document.getElementById('historySearch').value |
-
-| '').trim();
-      const el = document.getElementById('historyList');
-      el.innerHTML = '';
-      docs
-        .filter(d => !q |
-
-| d.title.includes(q) |
-| d.content.includes(q))
-        .forEach(d => el.appendChild(createDocCard(d)));
-    }
-
-    function openHistoryModal() {
-      renderHistory();
-      openModal('historyModal');
-    }
-
-    function openTemplatesModal() {
-      const el = document.getElementById('templatesList');
-      el.innerHTML = '';
-      TEMPLATES.forEach(t => {
-        const div = document.createElement('div');
-        div.className = 'glass';
-        div.style.cssText = 'padding:12px;border-radius:14px;cursor:pointer;';
-        div.innerHTML = `<div style="font-weight:700;font-size:13px;color:var(--gold-bright);">${t.title}</div><div style="font-size:11px;color:var(--text-muted);margin-top:4px;">${t.desc}</div>`;
-        div.onclick = () => {
-          closeModal('templatesModal');
-          openEditorWithCurrent({ id: null, title: t.title, category: t.category, content: t.body });
-        };
-        el.appendChild(div);
-      });
-      openModal('templatesModal');
+      if (navigator.share && d) navigator.share({ title: d.title, text: d.text });
+      else if (d) { navigator.clipboard.writeText(d.text); alert('متن سند کپی شد.'); }
     }
 
     function renderTerms() {
-      const q = (document.getElementById('termSearch').value |
-
-| '').trim();
-      const el = document.getElementById('termsList');
-      el.innerHTML = '';
-      LEGAL_TERMS
-        .filter(t => !q |
-
-| t.term.includes(q) |
-| t.def.includes(q))
-        .forEach(t => {
-          const div = document.createElement('div');
-          div.className = 'glass';
-          div.style.cssText = 'padding:12px;border-radius:14px;';
-          div.innerHTML = `
-            <div style="font-weight:700;font-size:13px;color:var(--gold-bright);">${t.term}</div>
-            <div style="font-size:10.5px;color:#cbd5e1;margin:3px 0;">${t.source}</div>
-            <div style="font-size:12px;line-height:1.7;color:var(--text-white);">${t.def}</div>`;
-          el.appendChild(div);
-        });
+      const q = (document.getElementById('termSearch').value || '').trim();
+      document.getElementById('termsList').innerHTML = LEGAL_TERMS
+        .filter(t => !q || t.term.includes(q) || t.def.includes(q))
+        .map(t => `<div class="glass" style="padding:10px;margin-bottom:8px;border-radius:12px">
+          <strong style="color:var(--gold-bright)">${t.term}</strong> <small style="color:var(--text-muted)">(${t.source})</small>
+          <p style="margin:4px 0 0;font-size:12px">${t.def}</p></div>`).join('');
     }
 
-    function openTermsModal() {
-      renderTerms();
-      openModal('termsModal');
-    }
-
-    function renderReports() {
-      const totalDocs = docs.length;
-      const totalWords = docs.reduce((s, d) => s + (d.content ? d.content.split(/\s+/).length : 0), 0);
-      const hoursSaved = (totalWords / 1500).toFixed(1);
-      const favCount = docs.filter(d => d.isFavorite).length;
-
-      document.getElementById('reportsContainer').innerHTML = `
-        <div class="glass" style="padding:12px;border-radius:14px;text-align:center;">
-          <div style="font-size:22px;font-weight:800;color:var(--gold-bright);">${toFa(totalDocs)}</div>
-          <div style="font-size:11px;color:var(--text-muted);">تعداد کل اسناد</div>
-        </div>
-        <div class="glass" style="padding:12px;border-radius:14px;text-align:center;">
-          <div style="font-size:22px;font-weight:800;color:var(--gold-bright);">${toFa(totalWords)}</div>
-          <div style="font-size:11px;color:var(--text-muted);">مجموع واژگان حقوقی</div>
-        </div>
-        <div class="glass" style="padding:12px;border-radius:14px;text-align:center;">
-          <div style="font-size:22px;font-weight:800;color:var(--gold-bright);">${toFa(hoursSaved)} ساعت</div>
-          <div style="font-size:11px;color:var(--text-muted);">صرفه‌جویی زمانی</div>
-        </div>
-        <div class="glass" style="padding:12px;border-radius:14px;text-align:center;">
-          <div style="font-size:22px;font-weight:800;color:var(--gold-bright);">${toFa(favCount)}</div>
-          <div style="font-size:11px;color:var(--text-muted);">اسناد برگزیده</div>
-        </div>
-      `;
-    }
-
-    // ---------- Profile & Settings ----------
-    function loadProfileAndSettings() {
-      document.getElementById('profName').value = profile.name |
-
-| '';
-      document.getElementById('profLicense').value = profile.license |
-
-| '';
-      document.getElementById('profAddress').value = profile.address |
-
-| '';
-      document.getElementById('setApiBase').value = appSettings.apiBase |
-
-| '';
-      document.getElementById('setApiKey').value = appSettings.apiKey |
-
-| '';
-      document.getElementById('setApiModel').value = appSettings.model |
-
-| 'gpt-4o-mini';
-      document.getElementById('notifyDateInput').value = todayJalaliInput();
-    }
-
-    function saveProfile() {
-      profile = {
-        name: document.getElementById('profName').value.trim(),
-        license: document.getElementById('profLicense').value.trim(),
-        address: document.getElementById('profAddress').value.trim()
-      };
-      localStorage.setItem(STORAGE_PROFILE, JSON.stringify(profile));
-      showToast('اطلاعات پروفایل ذخیره شد');
+    function switchTab(tab, btn) {
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const home = document.getElementById('view-home');
+      const sub = document.getElementById('view-sub');
+      if (tab === 'home') { home.style.display = 'block'; sub.style.display = 'none'; return; }
+      home.style.display = 'none'; sub.style.display = 'block';
+      if (tab === 'favs') {
+        const favs = docs.filter(d => d.fav);
+        sub.innerHTML = `<div class="glass" style="padding:16px"><h3>⭐ علاقه‌مندی‌ها</h3>${favs.length ? favs.map(d => `<p onclick="loadDoc('${d.id}');switchTab('home', document.querySelectorAll('.nav-btn')[1])" style="cursor:pointer;color:var(--gold-bright)">• ${d.title} (${d.date})</p>`).join('') : '<p>سندی نشانه‌گذاری نشده است.</p>'}</div>`;
+      } else if (tab === 'reports') {
+        const words = docs.reduce((a, b) => a + b.text.split(/\s+/).length, 0);
+        sub.innerHTML = `<div class="glass" style="padding:16px"><h3>📊 گزارش‌های عملکرد</h3><p>تعداد اسناد ذخیره‌شده: ${toFa(docs.length)}</p><p>مجموع واژگان نگارش‌شده: ${toFa(words)}</p></div>`;
+      } else {
+        sub.innerHTML = `<div class="glass" style="padding:16px"><h3>👤 پروفایل وکیل</h3><p>نام: ${localStorage.getItem('qalamyar_lawyer') || 'ثبت‌نشده'}</p><p>شماره پروانه: ${toFa(localStorage.getItem('qalamyar_license') || '—')}</p><button class="gold-btn" onclick="openModal('settingsModal')">ویرایش پروفایل</button></div>`;
+      }
     }
 
     function saveSettings() {
-      appSettings = {
-        apiBase: document.getElementById('setApiBase').value.trim() |
-
-| 'https://api.openai.com/v1',
-        apiKey: document.getElementById('setApiKey').value.trim(),
-        model: document.getElementById('setApiModel').value.trim() |
-
-| 'gpt-4o-mini'
-      };
-      localStorage.setItem(STORAGE_SETTINGS, JSON.stringify(appSettings));
+      localStorage.setItem('qalamyar_lawyer', document.getElementById('lawyerNameInput').value);
+      localStorage.setItem('qalamyar_license', document.getElementById('lawyerLicenseInput').value);
       closeModal('settingsModal');
-      showToast('تنظیمات ذخیره شد');
     }
 
-    function resetDemoData() {
-      docs = [...DEFAULT_DOCS];
-      persistDocs();
-      closeModal('settingsModal');
-      showToast('اسناد نمونه بازیابی شدند');
+    function openModal(id) {
+      if (id === 'templatesModal') {
+        document.getElementById('templatesList').innerHTML = TEMPLATES.map((t, i) => `
+          <div class="glass" style="padding:10px;margin-bottom:8px;border-radius:12px;cursor:pointer" onclick="document.getElementById('docTitle').value='${t.title}';document.getElementById('editorArea').value=TEMPLATES[${i}].text;closeModal('templatesModal')">
+            <strong style="color:var(--gold-bright)">${t.title}</strong>
+          </div>`).join('');
+      }
+      if (id === 'termsModal') renderTerms();
+      if (id === 'historyModal') {
+        document.getElementById('fullHistoryList').innerHTML = docs.map(d => `
+          <div class="glass doc-item"><div class="doc-meta" onclick="loadDoc('${d.id}')" style="cursor:pointer"><h4>${d.title}</h4><span>${d.date}</span></div></div>`).join('');
+      }
+      document.getElementById(id).showModal();
     }
-
-    // Init
-    loadProfileAndSettings();
-    renderRecentDocs();
-    renderReports();
+    const closeModal = id => document.getElementById(id).close();
+    renderRecent();
   </script>
 </body>
 </html>
-
-```
-Would you like me to do a more in-depth research instead and propose a research plan?
